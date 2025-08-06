@@ -30,3 +30,5 @@ This project is a deliberate step back to the fundamentals. It's an exploration 
 dependencies, celebrating the simplicity and power that modern JavaScript and Node.js provide out of the box. The goal
 is to build a robust, self-hosted poll system that is a testament to the core capabilities of the platform, proving that
 you don't always need a heavy framework to create something useful and reliable.
+
+Made with Node.js 24.5.0

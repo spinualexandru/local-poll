@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Zero dependency self-hosted poll system",
   "homepage": "https://github.com/spinualexandru/local-poll#readme",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "bugs": {
     "url": "https://github.com/spinualexandru/local-poll/issues"
   },

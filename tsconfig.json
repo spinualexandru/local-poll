@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    // Optional - see note below
-    "target": "esnext",
-    "module": "nodenext",
+    "target": "ESNext",
+    "module": "NodeNext",
     "moduleResolution": "nodenext",
     "rewriteRelativeImportExtensions": true,
     "erasableSyntaxOnly": true,

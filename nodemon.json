@@ -1,0 +1,5 @@
+{
+  "ext": "ts",
+  "exec": "node src/index.ts",
+  "quiet": true
+}

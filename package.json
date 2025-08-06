@@ -1,0 +1,26 @@
+{
+  "name": "localpoll",
+  "version": "1.0.0",
+  "description": "Zero dependency self-hosted poll system",
+  "homepage": "https://github.com/spinualexandru/local-poll#readme",
+  "bugs": {
+    "url": "https://github.com/spinualexandru/local-poll/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spinualexandru/local-poll.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:server": "node src/server/index.ts",
+    "dev:client": "node src/client/index.ts",
+    "dev": "nodemon"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.0"
+  }
+}

@@ -2,8 +2,8 @@ import type {Http2SecureServer, IncomingHttpHeaders, ServerHttp2Stream} from 'no
 import {createSecureServer} from 'node:http2';
 import {readFileSync} from 'node:fs';
 import {join} from 'node:path';
-import {queryParams} from "../utils/url.ts";
 import type {Controller} from "../utils/controller.ts";
+import {queryParams} from "./url.ts";
 
 export class Application {
     private static instance: Application;
@@ -40,7 +40,7 @@ export class Application {
 
     public registerController(controller: Controller) {
         this.controllers.push(controller);
-        console.log(`[${this.getAppName()}] Registered controller: ${controller.name}`);
+        console.log(`[${this.getAppName()}] Registered controller: ${controller.getName()}`);
     }
 
     public sendJSON(stream: ServerHttp2Stream, data: any) {
@@ -53,12 +53,14 @@ export class Application {
     }
 
     public onStream(stream: ServerHttp2Stream, headers: IncomingHttpHeaders) {
-        const path = headers[':path'];
+        const rawPath = headers[':path'];
         const method = headers[':method'];
-        const query = queryParams(path);
+        // Remove query string for route matching
+        const pathname = rawPath ? new URL(rawPath, `http://localhost`).pathname : '';
+        const query = queryParams(rawPath);
 
         for (const controller of this.controllers) {
-            const handler = controller.getHandler(path, method);
+            const handler = controller.getHandler(pathname, method);
             if (handler) {
                 handler.call(controller, query, stream, headers)
                     .then((data: any) => {

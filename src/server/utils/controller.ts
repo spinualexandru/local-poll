@@ -1,41 +1,74 @@
-import type {IncomingHttpHeaders, ServerHttp2Stream} from "node:http2";
-import type {Route} from "../types/route";
+import type {Route} from "../types/route.ts";
 
+/**
+ * Base Controller class for registering and handling API routes.
+ */
 export class Controller {
-    private name: string;
-    private basePath: string;
-    private stream: ServerHttp2Stream;
-    private headers: IncomingHttpHeaders;
-    private routes: Route = [];
+    private readonly name: string;
+    private readonly basePath: string;
+    private readonly routes: Route[] = [];
+    private debug: boolean;
 
-    constructor(name: string, basePath: string) {
+    /**
+     * @param name Controller name for logging
+     * @param basePath Base path for all routes in this controller
+     * @param debug Enable debug logging
+     */
+    constructor(name: string, basePath: string, debug = false) {
         this.name = name;
         this.basePath = basePath;
+        this.debug = debug;
     }
 
+    /**
+     * Register a new route for this controller.
+     * @param path Route path (relative to basePath)
+     * @param method HTTP method (GET, POST, etc.)
+     * @param handler Async handler function
+     */
     public registerRoute(path: string, method: string, handler: (...args: any[]) => Promise<any>) {
+        const fullPath = `/api${this.basePath}${path}`.replace(/\/+/g, '/');
         this.routes.push({
-            path: `/api${this.basePath}${path}`,
-            method,
+            path: fullPath,
+            method: method.toUpperCase(),
             handler,
         });
-        console.log(`[${this.name}] Registered route: ${method.toUpperCase()} ${this.basePath}${path}`);
+        if (this.debug) {
+            console.log(`[${this.name}] Registered route: ${method.toUpperCase()} ${fullPath}`);
+        }
     }
 
+    /**
+     * Get all registered routes for this controller.
+     */
     public getRoutes(): Route[] {
-        return this.routes;
+        return [...this.routes];
     }
 
+    /**
+     * Find a handler for a given path and method.
+     * @param path Request path
+     * @param method HTTP method
+     */
     public getHandler(path: string, method: string): ((...args: any[]) => Promise<any>) | null {
-        console.log(`[${this.name}] Looking for handler for ${method.toUpperCase()} ${path}`);
-        path = `${path}`;
-        const route = this.routes.find(route => {
-                console.log(`[${this.name}] Checking route: ${route.method.toUpperCase()} ${route.path} against ${method.toUpperCase()} ${path}`);
-                return route.path === path && route.method.toLowerCase() === method.toLowerCase()
-            }
+        const methodUpper = method.toUpperCase();
+        const route = this.routes.find(route =>
+            route.path === path && route.method === methodUpper
         );
-        console.log(this.routes, method)
-        console.log(`[${this.name}] Found handler: ${route ? route.method.toUpperCase() : 'NOT FOUND'} ${route ? route.path : ''}`);
+        if (this.debug) {
+            if (route) {
+                console.log(`[${this.name}] Found handler: ${route.method} ${route.path}`);
+            } else {
+                console.log(`[${this.name}] Handler not found for ${methodUpper} ${path}`);
+            }
+        }
         return route ? route.handler : null;
+    }
+
+    /**
+     * Get the controller name.
+     */
+    public getName(): string {
+        return this.name;
     }
 }

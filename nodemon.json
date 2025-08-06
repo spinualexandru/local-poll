@@ -1,8 +1,13 @@
 {
   "ext": "ts",
-  "exec": "node src/index.ts",
+  "exec": "node src/index.ts --experimental-transform-types",
   "watch": [
     "src"
+  ],
+  "ignore": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "node_modules"
   ],
   "quiet": true
 }

@@ -1,8 +1,5 @@
-import * as querystring from "node:querystring";
-
 export const queryParams = <T = any>(path: string): T => {
-    if (!path.includes('?')) return {} as T;
-    if (path.split('?')[1] === '') return {} as T;
-
-    return querystring.parse(path.split('?')[1] || '') as T;
+    // Ensure path is a string and prepend a dummy base if needed
+    const url = new URL(path, path.startsWith('http') ? undefined : 'http://_/');
+    return Object.fromEntries(url.searchParams.entries()) as T;
 }

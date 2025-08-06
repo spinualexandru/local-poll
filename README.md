@@ -1,5 +1,7 @@
 <img src="assets/logo.png" width="256" alt="logo" />
 
+**WORK IN PROGRESS**
+
 Zero dependency self-hosted poll system
 
 # Running

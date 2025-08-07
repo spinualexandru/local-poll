@@ -13,7 +13,7 @@ export class VoteController extends Controller {
 
     public async castVote(query: any, stream: ServerHttp2Stream): Promise<any> {
         const body = await getBody(stream);
-        if (!body || !body.pollId || !body.optionId) {
+        if (!body || !body.pollId || typeof body.optionId !== 'number') {
             return {error: "Invalid vote data"};
         }
         const voteService = VoteService.getInstance();

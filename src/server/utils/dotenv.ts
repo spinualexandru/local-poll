@@ -22,8 +22,6 @@ export const checkMandatoryEnv = () => {
     for (const field of requiredFields) {
         if (!process.env[field]) {
             throw new Error(`Missing mandatory environment variable: ${field}`);
-            process.exit(1);
-            process.abort();
         }
     }
 }

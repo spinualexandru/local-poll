@@ -58,8 +58,8 @@ export class PollService extends Service {
 
         const optionsJson = JSON.stringify(pollData.options);
         const result = stmt.run(
-            pollData.question,
             optionsJson,
+            pollData.question,
             pollData.expires_at || null,
             pollData.is_public ? 1 : 0,
             pollData.is_anonymous ? 1 : 0,

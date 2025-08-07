@@ -51,6 +51,15 @@ export class PollService extends Service {
         };
     }
 
+    public async isExistingPoll(pollId: number): Promise<boolean> {
+        const db = Database.getInstance().db;
+        const stmt = db.prepare(`SELECT COUNT(*) as count
+                                 FROM polls
+                                 WHERE id = ?`);
+        const row = stmt.get(pollId);
+        return Number(row.count) > 0;
+    }
+
     public async getPolls(): Promise<any> {
         const db = Database.getInstance().db;
         const stmt = db.prepare(`SELECT *

@@ -16,7 +16,7 @@ Zero dependency self-hosted poll system
 
 Generate a SSL Certificate for the secure server
 ```sh
-openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj 'CN=localhost' -keyout src/certs/localhost-privkey.pem -out src/certs/localhost-cert.pem
+openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj /CN=localhost/ -keyout localhost-privkey.pem -out localhost-cert.pem
 ```
 
 Run the server

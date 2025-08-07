@@ -8,6 +8,7 @@ export class PollController extends Controller {
         super("PollController", "/poll", true);
         this.registerRoute("/create", "post", this.createPoll);
         this.registerRoute("/results", "get", this.getResults);
+        this.registerRoute('/fetchByUser', 'get', this.fetchPollsByUser);
         this.registerRoute("/get", "get", this.getPoll);
     }
 
@@ -41,5 +42,21 @@ export class PollController extends Controller {
         }
 
         return {data: poll};
+    }
+
+    public async fetchPollsByUser(query: any, stream: ServerHttp2Stream): Promise<any> {
+        const pollService = PollService.getInstance();
+        const userId = query.userId;
+
+        if (!userId) {
+            return {error: "User ID is required"};
+        }
+
+        const polls = await pollService.fetchPollsByUser(userId);
+        if (!polls || polls.data.length === 0) {
+            return {message: "No polls found for this user"};
+        }
+
+        return {data: polls};
     }
 }

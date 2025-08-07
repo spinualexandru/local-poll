@@ -7,6 +7,8 @@ export class VoteController extends Controller {
     constructor() {
         super("VoteController", "/vote", true);
         this.registerRoute("/cast", "post", this.castVote);
+        this.registerRoute("/results", "get", this.getVotesByPollId);
+        this.registerRoute('/resultsCount', 'get', this.getOptionsVotesCount);
     }
 
     public async castVote(query: any, stream: ServerHttp2Stream): Promise<any> {
@@ -16,9 +18,26 @@ export class VoteController extends Controller {
         }
         const voteService = VoteService.getInstance();
 
-        const result = await voteService.castVote(body.pollId, body.optionId, body.userId);
+        return await voteService.castVote(body.pollId, body.optionId, body.userId);
+    }
 
-        return result
+    public async getVotesByPollId(query: any): Promise<any> {
+        const pollId = query.id;
+        if (!pollId) {
+            return {error: "Poll ID is required"};
+        }
+        const voteService = VoteService.getInstance();
+        return await voteService.getVotesByPollId(pollId);
+    }
+
+    public async getOptionsVotesCount(query: any): Promise<any> {
+        const pollId = query.id;
+        if (!pollId) {
+            return {error: "Poll ID is required"};
+        }
+        const voteService = VoteService.getInstance();
+
+        return await voteService.getOptionsVotesCount(pollId);
     }
 
 }

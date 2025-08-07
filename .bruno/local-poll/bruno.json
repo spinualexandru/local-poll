@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "local-poll",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -1,5 +1,5 @@
-import {Controller} from "../utils/controller.ts";
-import type {ServerHttp2Stream} from 'node:http2';
+import { Controller } from "../utils/controller.ts";
+import type { ServerHttp2Stream } from 'node:http2';
 
 export class TestController extends Controller {
     constructor() {
@@ -15,3 +15,4 @@ export class TestController extends Controller {
         };
     }
 }
+

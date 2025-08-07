@@ -1,9 +1,9 @@
-import type {Http2SecureServer, IncomingHttpHeaders, ServerHttp2Stream} from 'node:http2';
-import {createSecureServer} from 'node:http2';
-import {readFileSync} from 'node:fs';
-import {join} from 'node:path';
-import type {Controller} from "../utils/controller.ts";
-import {queryParams} from "./url.ts";
+import type { Http2SecureServer, IncomingHttpHeaders, ServerHttp2Stream } from 'node:http2';
+import { createSecureServer } from 'node:http2';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import type { Controller } from "../utils/controller.ts";
+import { queryParams } from "./url.ts";
 
 export class Application {
     private static instance: Application;
@@ -15,6 +15,7 @@ export class Application {
         this.server = createSecureServer({
             key: readFileSync(join(process.cwd(), '/', process.env.HTTP2_PRIVATE_KEY)),
             cert: readFileSync(join(process.cwd(), '/', process.env.HTTP2_CERTIFICATE)),
+            allowHTTP1: true
         });
         this.port = parseInt(process.env.HTTP2_PORT || '3000', 10);
         this.controllers = [];
@@ -69,9 +70,9 @@ export class Application {
                     .catch((error: Error) => {
                         console.error(error);
                         if (!stream.headersSent) {
-                            stream.respond({':status': 500});
+                            stream.respond({ ':status': 500 });
                         }
-                        stream.end(JSON.stringify({error: error.message}));
+                        stream.end(JSON.stringify({ error: error.message }));
                     });
                 return;
             }

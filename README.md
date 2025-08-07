@@ -14,7 +14,15 @@ Zero dependency self-hosted poll system
 
 # Development
 
-`npm run dev`
+Generate a SSL Certificate for the secure server
+```sh
+openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj 'CN=localhost' -keyout src/certs/localhost-privkey.pem -out src/certs/localhost-cert.pem
+```
+
+Run the server
+```sh
+npm run dev
+```
 
 # Features
 

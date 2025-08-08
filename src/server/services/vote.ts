@@ -166,7 +166,36 @@ export class VoteService extends Service {
 
         return {
             message: "Options votes count fetched successfully",
-            data: rows
+            data: rows as unknown as { option_id: number, count: number }[],
+            success: true
+        };
+    }
+
+    /**
+     * Get all votes cast by a specific user.
+     * @method getVotesByUserId - Get all votes cast by a specific user.
+     * @description This method retrieves all votes cast by a specific user.
+     * It is useful for determining the votes cast by a specific user.
+     * @param {number} userId - The ID of the user for which to retrieve votes.
+     * @returns {Promise<any>} - A promise that resolves to an object containing the votes cast by the specified user.
+     * The object will have the structure: { poll_id: number, option_id: number, user_id: number } for each vote.
+     * @example
+     * const votes = await voteService.getVotesByUserId(1);
+     * @param userId
+     */
+    public async getVotesByUserId(userId: number): Promise<APIResponse<Vote[]>> {
+        const db = Database.getInstance().db;
+        const stmt = db.prepare(`
+            SELECT *
+            FROM votes
+            WHERE user_id = ?
+        `);
+        const rows = stmt.all(userId);
+
+        return {
+            message: "Votes fetched successfully",
+            data: rows as unknown as Vote[],
+            success: true
         };
     }
 }

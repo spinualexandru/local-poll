@@ -8,7 +8,6 @@ export class TestController extends Controller {
     }
 
     public async getData(query: any, stream: ServerHttp2Stream, headers: ServerHttp2Stream): Promise<any> {
-        console.log(query)
         return {
             message: "Hello from TestController",
             timestamp: new Date().toISOString(),

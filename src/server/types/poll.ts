@@ -1,3 +1,5 @@
+import type { APIResponse } from "./response.ts";
+
 export interface Poll {
     id?: number;
     question: string;
@@ -8,3 +10,10 @@ export interface Poll {
     is_anonymous?: boolean;
     is_multiple_choice?: boolean;
 }
+
+export interface CreatePollRequest extends Omit<Poll, 'id' | 'created_at'> {
+    userId?: string;
+}
+
+export type PollResponse = APIResponse<Poll>;
+export type PollListResponse = APIResponse<Poll[]>;

@@ -100,7 +100,11 @@ export class Application {
       }
     } else {
       const viewEngine = new ViewEngine(stream, headers);
-      viewEngine.render("index", {
+      // Remove leading slash and use the pathname for template resolution
+      const templatePath = pathname.startsWith("/")
+        ? pathname.substring(1)
+        : pathname;
+      viewEngine.render(templatePath, {
         title: "Home",
         message: "Welcome to LocalPoll!",
       });

@@ -2,6 +2,7 @@ import type { IncomingHttpHeaders, ServerHttp2Stream } from "node:http2";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { queryParams } from "./request.ts";
 
 export class ViewEngine {
   private static clientPath = path.join(process.cwd(), "src", "client");
@@ -96,9 +97,16 @@ export class ViewEngine {
    * // result: "Home - Welcome to the homepage!"
    */
   private parseVariables(template: string, data: Record<string, any>): string {
-    return template.replace(/\{\{(\w+)\}\}/g, (_, key) =>
-      data[key] !== undefined ? String(data[key]) : ""
-    );
+    return template.replace(/\{\{([\w.]+)\}\}/g, (_, key) => {
+      // Support dot notation for nested properties
+      const value = key
+        .split(".")
+        .reduce(
+          (acc, k) => (acc && acc[k] !== undefined ? acc[k] : undefined),
+          data
+        );
+      return value !== undefined ? String(value) : "";
+    });
   }
 
   /**
@@ -113,7 +121,10 @@ export class ViewEngine {
    */
   public render(template: string, data: Record<string, any> = {}): void {
     const rawTemplate = this.loadTemplate(template);
-    const parsedTemplate = this.parseVariables(rawTemplate, data);
+    const parsedTemplate = this.parseVariables(rawTemplate, {
+      ...data,
+      queryParams: queryParams(this.headers[":path"]),
+    });
 
     // Insert into layout
     const layout = ViewEngine.getLayout();

@@ -12,6 +12,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Quicksand", sans-serif;
+  background-color: #f3f3f3;
 }
 
 :root {
@@ -31,4 +32,25 @@ main {
   color: white;
   margin: 20px;
   border-radius: 24px;
+  box-shadow: 4px 4px 0px 0px #121e37;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.sidebar--top {
+  justify-self: flex-start;
+}
+
+.content {
+  flex: 1;
+  border: 16px solid #fcc435;
+  color: white;
+  margin: 20px;
+  border-radius: 48px;
+  box-shadow: 4px 4px 0px 0px #121e37;
+  background-color: white;
+  color: black;
+  padding: 24px;
 }

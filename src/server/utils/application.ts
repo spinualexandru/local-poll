@@ -58,6 +58,8 @@ export class Application {
     ".mov",
     ".wmv",
     ".flv",
+    ".ts",
+    ".mjs",
     ".html",
     ".htm",
   ]);
@@ -142,6 +144,9 @@ export class Application {
       ".otf": "font/otf",
       ".css": "text/css",
       ".js": "application/javascript",
+      ".mjs": "application/javascript",
+      ".cjs": "application/javascript",
+      ".ts": "application/javascript",
       ".map": "application/json",
       ".json": "application/json",
       ".xml": "application/xml",

@@ -54,3 +54,28 @@ main {
   color: black;
   padding: 24px;
 }
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 4px 4px 0px 0px #121e37;
+}
+
+.btn-primary:hover {
+  cursor: pointer;
+  box-shadow: 4px 4px 0px 0px #121e37;
+  background-color: var(--primary-color);
+  filter: brightness(1.1);
+}
+
+.btn-primary:active {
+  box-shadow: none;
+  background-color: var(--primary-color);
+  filter: brightness(1);
+}

@@ -1,40 +1,118 @@
 <div data-poll-id="{{dynamicParams.id}}">
-  Poll ID: {{dynamicParams.id}}
   <p id="pollName"></p>
-  <div id="voteResults"></div>
+  <div id="options"></div>
+  <button class="btn btn-primary" id="voteButton">Vote</button>
 </div>
+
 <script type="module">
   import { getPollById } from "/services/poll.mjs";
-  import { getVotesByPollId } from "/services/vote.mjs";
+  import { getVotesByPollId, castVote } from "/services/vote.mjs";
 
   const pollId = "{{dynamicParams.id}}";
 
-  // Fetch poll details
-  getPollById(pollId)
-    .then((pollResult) => {
-      const elem = document.getElementById("pollName");
-      elem.textContent = pollResult.data.question;
-      const poll = pollResult.data;
+  const fetchPollResults = () => {
+    // Fetch poll details
+    getPollById(pollId)
+      .then((pollResult) => {
+        const elem = document.getElementById("pollName");
+        elem.textContent = pollResult.data.question;
+        const poll = pollResult.data;
 
-      // Fetch votes for the poll
-      getVotesByPollId(pollId)
-        .then((data) => {
-          const voteResultsDiv = document.getElementById("voteResults");
-          voteResultsDiv.innerHTML = "";
+        const optionsDiv = document.getElementById("options");
+        optionsDiv.innerHTML = "";
+        poll.options.forEach((option, index) => {
+          const optionWrapper = document.createElement("div");
+          optionWrapper.className = "vote-option";
+          optionWrapper.style.display = "flex";
+          optionWrapper.style.alignItems = "center";
 
-          // Display vote counts
-          const voteCounts = data.data.reduce((acc, vote) => {
-            acc[vote.option_id] = (acc[vote.option_id] || 0) + 1;
-            return acc;
-          }, {});
-          // Display the vote counts
-          for (const [optionId, count] of Object.entries(voteCounts)) {
-            const resultElem = document.createElement("div");
-            resultElem.textContent = `${poll.options[optionId]}: ${count} votes`;
-            voteResultsDiv.appendChild(resultElem);
-          }
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = "pollOption";
+          radio.value = index;
+          radio.id = `option_${index}`;
+
+          const label = document.createElement("label");
+          label.htmlFor = radio.id;
+          label.textContent = option;
+          label.style.marginLeft = "8px";
+
+          optionWrapper.appendChild(radio);
+          optionWrapper.appendChild(label);
+          optionsDiv.appendChild(optionWrapper);
+        });
+
+        // Enable vote button if any radio is checked
+        optionsDiv.addEventListener("change", (event) => {
+          const anyChecked = Array.from(
+            optionsDiv.querySelectorAll('input[type="radio"]')
+          ).some((rb) => rb.checked);
+          voteButton.disabled = !anyChecked;
+        });
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const submitVote = () => {
+    const selectedOption = document.querySelector(
+      'input[name="pollOption"]:checked'
+    );
+    if (selectedOption) {
+      const voteData = {
+        pollId: pollId,
+        option: selectedOption.value,
+      };
+      // Submit the vote
+      return castVote(pollId, selectedOption.value)
+        .then(() => {
+          // Handle successful vote submission
+          alert("Vote submitted successfully!");
         })
-        .catch((error) => console.error(error));
-    })
-    .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error("Error submitting vote:", error);
+        });
+    }
+  };
+
+  fetchPollResults();
+
+  const voteButton = document.getElementById("voteButton");
+  voteButton.addEventListener("click", () => {
+    submitVote().then(() => {
+      window.location.href = `/poll/${pollId}/results`; // Redirect to results page after voting
+    });
+  });
 </script>
+
+<style>
+  #pollName {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--secondary-color);
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+
+  #options {
+    margin-bottom: 16px;
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .vote-option {
+    display: flex;
+    align-items: center;
+    color: var(--secondary-color);
+    font-size: 18px;
+  }
+
+  .vote-option input[type="radio"] {
+    margin-right: 4px;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+  }
+</style>

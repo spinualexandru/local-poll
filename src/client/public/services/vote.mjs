@@ -1,10 +1,10 @@
-export const getPollById = (id) => {
+export const getVotesByPollId = (pollId) => {
   const requestOptions = {
     method: "GET",
     redirect: "follow",
   };
 
-  return fetch(`/api/poll/get?id=${id}`, requestOptions)
+  return fetch(`/api/vote/votes?pollId=${pollId}`, requestOptions)
     .then((response) => response.text())
     .then((result) => JSON.parse(result))
     .catch((error) => console.error(error));

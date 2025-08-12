@@ -1,5 +1,40 @@
-<div>
+<div data-poll-id="{{dynamicParams.id}}">
   Poll ID: {{dynamicParams.id}}
   <p id="pollName"></p>
+  <div id="voteResults"></div>
 </div>
-<script src="/services/poll.mjs" type="module"></script>
+<script type="module">
+  import { getPollById } from "/services/poll.mjs";
+  import { getVotesByPollId } from "/services/vote.mjs";
+
+  const pollId = "{{dynamicParams.id}}";
+
+  // Fetch poll details
+  getPollById(pollId)
+    .then((pollResult) => {
+      const elem = document.getElementById("pollName");
+      elem.textContent = pollResult.data.question;
+      const poll = pollResult.data;
+
+      // Fetch votes for the poll
+      getVotesByPollId(pollId)
+        .then((data) => {
+          const voteResultsDiv = document.getElementById("voteResults");
+          voteResultsDiv.innerHTML = "";
+
+          // Display vote counts
+          const voteCounts = data.data.reduce((acc, vote) => {
+            acc[vote.option_id] = (acc[vote.option_id] || 0) + 1;
+            return acc;
+          }, {});
+          // Display the vote counts
+          for (const [optionId, count] of Object.entries(voteCounts)) {
+            const resultElem = document.createElement("div");
+            resultElem.textContent = `${poll.options[optionId]}: ${count} votes`;
+            voteResultsDiv.appendChild(resultElem);
+          }
+        })
+        .catch((error) => console.error(error));
+    })
+    .catch((error) => console.error(error));
+</script>

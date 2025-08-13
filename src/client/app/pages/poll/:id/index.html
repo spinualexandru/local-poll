@@ -1,7 +1,9 @@
-<div data-poll-id="{{dynamicParams.id}}">
-  <p id="pollName"></p>
-  <div id="options"></div>
-  <button class="btn btn-primary" id="voteButton">Vote</button>
+<div data-poll-id="{{dynamicParams.id}}" id="poll-container">
+  <div>
+    <p id="pollName"></p>
+    <div id="options"></div>
+    <button class="btn btn-primary" id="voteButton">Vote</button>
+  </div>
 </div>
 
 <script type="module">
@@ -9,6 +11,36 @@
   import { getVotesByPollId, castVote } from "/services/vote.mjs";
 
   const pollId = "{{dynamicParams.id}}";
+
+  const createVoteElement = (option, index) => {
+    const optionWrapper = document.createElement("div");
+    optionWrapper.className = "vote-option";
+    optionWrapper.style.display = "flex";
+    optionWrapper.style.alignItems = "center";
+
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "pollOption";
+    radio.value = index;
+    radio.id = `option_${index}`;
+
+    const label = document.createElement("label");
+    label.htmlFor = radio.id;
+    label.textContent = option;
+    label.style.marginLeft = "8px";
+
+    optionWrapper.appendChild(radio);
+    optionWrapper.appendChild(label);
+    return optionWrapper;
+  };
+
+  const onRadioChange = (event) => {
+    const optionsDiv = document.getElementById("options");
+    const anyChecked = Array.from(
+      optionsDiv.querySelectorAll('input[type="radio"]')
+    ).some((rb) => rb.checked);
+    document.getElementById("voteButton").disabled = !anyChecked;
+  };
 
   const fetchPollResults = () => {
     // Fetch poll details
@@ -20,35 +52,13 @@
 
         const optionsDiv = document.getElementById("options");
         optionsDiv.innerHTML = "";
+
         poll.options.forEach((option, index) => {
-          const optionWrapper = document.createElement("div");
-          optionWrapper.className = "vote-option";
-          optionWrapper.style.display = "flex";
-          optionWrapper.style.alignItems = "center";
-
-          const radio = document.createElement("input");
-          radio.type = "radio";
-          radio.name = "pollOption";
-          radio.value = index;
-          radio.id = `option_${index}`;
-
-          const label = document.createElement("label");
-          label.htmlFor = radio.id;
-          label.textContent = option;
-          label.style.marginLeft = "8px";
-
-          optionWrapper.appendChild(radio);
-          optionWrapper.appendChild(label);
-          optionsDiv.appendChild(optionWrapper);
+          const voteElement = createVoteElement(option, index);
+          optionsDiv.appendChild(voteElement);
         });
 
-        // Enable vote button if any radio is checked
-        optionsDiv.addEventListener("change", (event) => {
-          const anyChecked = Array.from(
-            optionsDiv.querySelectorAll('input[type="radio"]')
-          ).some((rb) => rb.checked);
-          voteButton.disabled = !anyChecked;
-        });
+        optionsDiv.addEventListener("change", onRadioChange);
       })
       .catch((error) => console.error(error));
   };
@@ -58,35 +68,35 @@
       'input[name="pollOption"]:checked'
     );
     if (selectedOption) {
-      const voteData = {
-        pollId: pollId,
-        option: selectedOption.value,
-      };
-      // Submit the vote
-      return castVote(pollId, selectedOption.value)
-        .then(() => {
-          // Handle successful vote submission
-          alert("Vote submitted successfully!");
-        })
-        .catch((error) => {
-          console.error("Error submitting vote:", error);
-        });
+      return castVote(pollId, selectedOption.value).catch((error) => {
+        console.error("Error submitting vote:", error);
+      });
     }
+  };
+
+  const handleVoteSuccess = () => {
+    window.location.href = `/poll/${pollId}/results`; // Redirect to results page after voting
   };
 
   fetchPollResults();
 
   const voteButton = document.getElementById("voteButton");
   voteButton.addEventListener("click", () => {
-    submitVote().then(() => {
-      window.location.href = `/poll/${pollId}/results`; // Redirect to results page after voting
-    });
+    submitVote().then(handleVoteSuccess);
   });
 </script>
 
 <style>
+  #poll-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
   #pollName {
-    font-size: 24px;
+    font-size: 50px;
     font-weight: 600;
     margin-bottom: 12px;
     color: var(--secondary-color);

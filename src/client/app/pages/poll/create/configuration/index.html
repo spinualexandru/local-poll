@@ -3,27 +3,85 @@
     <p>Preview</p>
     <div id="question-container">
       <h1 id="poll-question">{{queryParams.question}}</h1>
-
-      <button id="poll-submit" class="btn btn-primary">Next Question</button>
     </div>
   </div>
   <div id="configuration-container">
     <div id="question-container">
       <h1 id="poll-question">Configure the poll</h1>
-
+      <h4>Choose a poll type</h4>
+      <div id="poll-type"></div>
       <button id="poll-submit" class="btn btn-primary">Continue</button>
     </div>
   </div>
 </div>
 
 <script type="module">
+  const voteTypes = ["Single Option", "Multiple Choice"];
   const submitButton = document.getElementById("poll-submit");
+  const pollConfiguration = {
+    isMultipleChoice: null
+  } 
+  const renderVoteType = (type, index) => {
+    const optionWrapper = document.createElement("div");
+    optionWrapper.className = "vote-type-option";
+    optionWrapper.style.display = "flex";
+    optionWrapper.style.alignItems = "center";
+
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "pollOption";
+    radio.value = index;
+    radio.id = `option_${index}`;
+    radio.addEventListener("click", () => {
+      console.log("CLICKS")
+      if (type === "Single Option") {
+        pollConfiguration.isMultipleChoice = false;
+      }else if (type === "Multiple Choice") {
+        pollConfiguration.isMultipleChoice = true;
+      }
+    })
+
+    const label = document.createElement("label");
+    label.htmlFor = radio.id;
+    label.textContent = type;
+    label.style.marginLeft = "8px";
+    
+    if (index !== 0) {
+      label.style.marginTop = "4px";
+    }
+    
+    label.style.fontSize = "18px"
+
+    optionWrapper.appendChild(radio);
+    optionWrapper.appendChild(label);
+    return optionWrapper;
+  }
+
+  const onPollTypeChange = (event) => {
+    const pollTypeDiv = document.getElementById("poll-type");
+    const anyChecked = Array.from(
+      pollTypeDiv.querySelectorAll('input[type="radio"]')
+    )
+    .some(rb => rb.checked)
+    
+  }
+
+  voteTypes.forEach((voteType, index) => {
+    const pollTypesElements = document.getElementById("poll-type");
+    pollTypesElements.appendChild(renderVoteType(voteType, index))
+  });
+
+
   submitButton.addEventListener("click", () => {
-    const question = document.getElementById("poll-input").value;
+    if (typeof pollConfiguration.isMultipleChoice !== "boolean") {
+      alert("You must choose a poll type")
+      return;
+    }
+    const question = document.getElementById("poll-question").innerText;
     console.log("Question submitted:", question);
-    window.location.href = `/poll/create/questions?question=${encodeURIComponent(
-      question
-    )}`;
+    window.location.href = `/poll/create/options?question=${question}&isMultiple=${pollConfiguration.isMultipleChoice}`;
+
+
   });
 </script>
 

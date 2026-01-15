@@ -1,8 +1,8 @@
 <img src="assets/logo.png" width="256" alt="logo" />
-
-**WORK IN PROGRESS**
-
 Zero dependency self-hosted poll system
+
+![Demo](https://github.com/user-attachments/assets/49370821-dbf0-4818-a8fc-61709c372cf9)
+
 
 # Running
 

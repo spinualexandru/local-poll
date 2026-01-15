@@ -21,9 +21,9 @@
     "test": "node --test src/**/*.test.ts",
     "dev:server": "node src/server/index.ts",
     "dev:client": "node src/client/index.ts",
-    "dev": "nodemon"
+    "dev": "NODE_ENV=development nodemon"
   },
   "devDependencies": {
-    "@types/node": "^24.2.0"
+    "@types/node": "^24.10.9"
   }
 }

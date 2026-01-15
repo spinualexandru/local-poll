@@ -1,0 +1,246 @@
+<div id="poll-container">
+  <div id="preview-container">
+    <p>Preview</p>
+    <div id="question-container">
+      <h1 id="poll-question">{{queryParams.question}}</h1>
+    </div>
+  </div>
+  <div id="options-container">
+    <div id="options-form-container">
+      <h1>Add Poll Options</h1>
+      <h4>Enter at least 2 options for your poll</h4>
+      <div id="options-list"></div>
+      <button id="add-option-btn" class="btn btn-secondary">+ Add Option</button>
+      <button id="poll-submit" class="btn btn-primary">Finish</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { createPoll } from "/services/poll.mjs";
+
+  const MIN_OPTIONS = 2;
+  let optionCount = 0;
+
+  // Get query parameters
+  const question = "{{queryParams.question}}";
+  const isMultipleChoice = "{{queryParams.isMultiple}}" === "true";
+
+  // Create an option input row with delete button
+  const createOptionInput = (index) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "option-row";
+    wrapper.dataset.index = index;
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "option-input";
+    input.placeholder = `Option ${index + 1}`;
+    input.id = `option_${index}`;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "btn btn-delete";
+    deleteBtn.textContent = "X";
+    deleteBtn.addEventListener("click", () => removeOption(wrapper));
+
+    wrapper.appendChild(input);
+    wrapper.appendChild(deleteBtn);
+    return wrapper;
+  };
+
+  // Add a new option input
+  const addOption = () => {
+    const optionsList = document.getElementById("options-list");
+    const optionInput = createOptionInput(optionCount);
+    optionsList.appendChild(optionInput);
+    optionCount++;
+    updateDeleteButtons();
+  };
+
+  // Remove an option input
+  const removeOption = (wrapper) => {
+    const optionsList = document.getElementById("options-list");
+    const currentCount = optionsList.children.length;
+
+    if (currentCount > MIN_OPTIONS) {
+      wrapper.remove();
+      updatePlaceholders();
+      updateDeleteButtons();
+    }
+  };
+
+  // Update placeholders after removal
+  const updatePlaceholders = () => {
+    const optionsList = document.getElementById("options-list");
+    const rows = optionsList.querySelectorAll(".option-row");
+    rows.forEach((row, idx) => {
+      const input = row.querySelector("input");
+      input.placeholder = `Option ${idx + 1}`;
+    });
+  };
+
+  // Show/hide delete buttons based on option count
+  const updateDeleteButtons = () => {
+    const optionsList = document.getElementById("options-list");
+    const rows = optionsList.querySelectorAll(".option-row");
+    const deleteButtons = optionsList.querySelectorAll(".btn-delete");
+
+    deleteButtons.forEach((btn) => {
+      btn.style.display = rows.length > MIN_OPTIONS ? "block" : "none";
+    });
+  };
+
+  // Collect all non-empty options
+  const getOptions = () => {
+    const optionsList = document.getElementById("options-list");
+    const inputs = optionsList.querySelectorAll(".option-input");
+    return Array.from(inputs)
+      .map((input) => input.value.trim())
+      .filter((value) => value.length > 0);
+  };
+
+  // Validate and submit
+  const handleSubmit = async () => {
+    const options = getOptions();
+
+    if (options.length < MIN_OPTIONS) {
+      alert("Please enter at least 2 non-empty options");
+      return;
+    }
+
+    const pollData = {
+      question: question,
+      options: options,
+      is_multiple_choice: isMultipleChoice,
+      is_public: true,
+      is_anonymous: false,
+    };
+
+    try {
+      const result = await createPoll(pollData);
+
+      if (result.success && result.data?.id) {
+        window.location.href = `/poll/${result.data.id}/results`;
+      } else {
+        alert(result.error || "Failed to create poll. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error creating poll:", error);
+      alert("Failed to create poll. Please try again.");
+    }
+  };
+
+  // Initialize with 2 empty options
+  addOption();
+  addOption();
+
+  // Event listeners
+  document.getElementById("add-option-btn").addEventListener("click", addOption);
+  document.getElementById("poll-submit").addEventListener("click", handleSubmit);
+</script>
+
+<style>
+  #preview-container {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  #options-container {
+    padding-top: 58px;
+  }
+
+  #poll-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
+    padding-right: 24px;
+  }
+
+  #poll-question {
+    font-size: 50px;
+  }
+
+  #options-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  #options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .option-input {
+    flex: 1;
+    height: 48px;
+    padding: 0 12px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 12px;
+    outline: none;
+    font-size: 18px;
+    font-family: "Quicksand", sans-serif;
+    color: var(--secondary-color);
+  }
+
+  .option-input:focus {
+    border-width: 2px;
+    border-color: var(--primary-color);
+  }
+
+  .btn {
+    width: fit-content;
+    font-weight: normal;
+  }
+
+  .btn-secondary {
+    background-color: white;
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    background-color: #f0f0f0;
+  }
+
+  .btn-delete {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px 0px #121e37;
+  }
+
+  .btn-delete:hover {
+    background-color: #ff3333;
+  }
+
+  #poll-submit {
+    align-self: flex-end;
+    margin-top: 16px;
+  }
+
+  #add-option-btn {
+    align-self: flex-start;
+  }
+</style>

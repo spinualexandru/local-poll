@@ -20,6 +20,7 @@
   "scripts": {
     "test": "node --test src/**/*.test.ts",
     "typecheck": "tsc --noEmit",
+    "dev:components": "node src/client/component-fixture/server.ts",
     "dev:server": "node src/server/index.ts",
     "dev:client": "node src/client/index.ts",
     "dev": "NODE_ENV=development node --watch src/index.ts"

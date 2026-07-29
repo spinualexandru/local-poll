@@ -1,134 +1,47 @@
-<div id="poll-container">
-  <div id="preview-container">
+<section class="poll-builder-page">
+  <aside class="poll-preview" aria-label="Poll preview">
     <p>Preview</p>
-    <div id="question-container">
-      <h1 id="poll-question">{{queryParams.question}}</h1>
-    </div>
+    <h1>{{escapedQueryParams.question}}</h1>
+  </aside>
+
+  <div class="poll-builder-controls">
+    <lp-form layout="stack">
+      <form action="/poll/create/options" method="get">
+        <input
+          type="hidden"
+          name="question"
+          value="{{escapedQueryParams.question}}"
+        />
+        <h1>Configure the poll</h1>
+        <lp-choice-group>
+          <fieldset>
+            <legend>Choose a poll type</legend>
+            <lp-radio>
+              <input
+                type="radio"
+                name="isMultiple"
+                value="false"
+                id="poll-type-single"
+                required
+              />
+              <label for="poll-type-single">Single Option</label>
+            </lp-radio>
+            <lp-radio>
+              <input
+                type="radio"
+                name="isMultiple"
+                value="true"
+                id="poll-type-multiple"
+                required
+              />
+              <label for="poll-type-multiple">Multiple Choice</label>
+            </lp-radio>
+          </fieldset>
+        </lp-choice-group>
+        <lp-button variant="primary">
+          <button type="submit">Continue</button>
+        </lp-button>
+      </form>
+    </lp-form>
   </div>
-  <div id="configuration-container">
-    <div id="config-container">
-      <h1 id="config-title">Configure the poll</h1>
-      <h4>Choose a poll type</h4>
-      <div id="poll-type"></div>
-      <button id="poll-submit" class="btn btn-primary">Continue</button>
-    </div>
-  </div>
-</div>
-
-<script type="module">
-  const voteTypes = ["Single Option", "Multiple Choice"];
-  const submitButton = document.getElementById("poll-submit");
-  const pollConfiguration = {
-    isMultipleChoice: null
-  } 
-  const renderVoteType = (type, index) => {
-    const optionWrapper = document.createElement("div");
-    optionWrapper.className = "vote-type-option";
-    optionWrapper.style.display = "flex";
-    optionWrapper.style.alignItems = "center";
-
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "pollOption";
-    radio.value = index;
-    radio.id = `option_${index}`;
-    radio.addEventListener("click", () => {
-      console.log("CLICKS")
-      if (type === "Single Option") {
-        pollConfiguration.isMultipleChoice = false;
-      }else if (type === "Multiple Choice") {
-        pollConfiguration.isMultipleChoice = true;
-      }
-    })
-
-    const label = document.createElement("label");
-    label.htmlFor = radio.id;
-    label.textContent = type;
-    label.style.marginLeft = "8px";
-    
-    if (index !== 0) {
-      label.style.marginTop = "4px";
-    }
-    
-    label.style.fontSize = "18px"
-
-    optionWrapper.appendChild(radio);
-    optionWrapper.appendChild(label);
-    return optionWrapper;
-  }
-
-  const onPollTypeChange = (event) => {
-    const pollTypeDiv = document.getElementById("poll-type");
-    const anyChecked = Array.from(
-      pollTypeDiv.querySelectorAll('input[type="radio"]')
-    )
-    .some(rb => rb.checked)
-    
-  }
-
-  voteTypes.forEach((voteType, index) => {
-    const pollTypesElements = document.getElementById("poll-type");
-    pollTypesElements.appendChild(renderVoteType(voteType, index))
-  });
-
-
-  submitButton.addEventListener("click", () => {
-    if (typeof pollConfiguration.isMultipleChoice !== "boolean") {
-      alert("You must choose a poll type")
-      return;
-    }
-    const question = document.getElementById("poll-question").innerText;
-    console.log("Question submitted:", question);
-    window.location.href = `/poll/create/options?question=${question}&isMultiple=${pollConfiguration.isMultipleChoice}`;
-
-
-  });
-</script>
-
-<style>
-  #preview-container {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  #configuration-container {
-    padding-top: 58px;
-  }
-
-  #poll-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 48px;
-    padding-right: 24px;
-  }
-
-  #poll-question {
-    font-size: 50px;
-  }
-
-  #poll-input {
-    width: 100%;
-    height: 62px;
-    padding: 0 12px;
-    border: 1px solid var(--secondary-color);
-    border-radius: 12px;
-    outline: none;
-    font-size: 24px;
-    font-family: "Quicksand", sans-serif;
-    color: var(--secondary-color);
-  }
-
-  .btn {
-    width: fit-content;
-    align-self: flex-end;
-    font-weight: normal;
-  }
-
-  #question-container,
-  #config-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-</style>
+</section>

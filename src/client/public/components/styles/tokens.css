@@ -1,0 +1,92 @@
+@font-face {
+  font-family: "Quicksand";
+  src: url("/fonts/quicksand.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  --lp-color-primary: #fcc435;
+  --lp-color-ink: #121e37;
+  --lp-color-sky: #4db5ee;
+  --lp-color-heart: #fc4d88;
+  --lp-color-surface: #ffffff;
+  --lp-color-canvas: #f7f7f8;
+  --lp-color-muted: #5e6676;
+  --lp-color-danger: #a4293d;
+  --lp-color-danger-bright: #ff4d4d;
+  --lp-font-family: "Quicksand", sans-serif;
+  --lp-radius-small: 8px;
+  --lp-radius-control: 13px;
+  --lp-radius-raised: 20px;
+  --lp-radius-panel: 24px;
+  --lp-shadow-raised: 4px 4px 0 var(--lp-color-ink);
+  --lp-focus-ring: 0 0 0 4px rgb(252 196 53 / 45%);
+  --lp-motion-fast: 140ms ease;
+
+  /* Compatibility aliases for pre-component styles and instance themes. */
+  --primary-color: var(--lp-color-primary);
+  --secondary-color: var(--lp-color-ink);
+  --poll-sun: var(--lp-color-primary);
+  --poll-ink: var(--lp-color-ink);
+  --poll-sky: var(--lp-color-sky);
+  --poll-heart: var(--lp-color-heart);
+  --poll-paper: var(--lp-color-surface);
+  --poll-canvas: var(--lp-color-canvas);
+  --poll-muted: var(--lp-color-muted);
+  --poll-error: var(--lp-color-danger);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  font-family: var(--lp-font-family);
+  color: var(--lp-color-ink);
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

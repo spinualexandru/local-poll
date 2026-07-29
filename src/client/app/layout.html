@@ -4,30 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="/logo.png" />
+    <link rel="stylesheet" href="/components/index.css" />
     <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/components/index.mjs"></script>
     <title>LocalPoll</title>
   </head>
   <body>
-    <main>
-      <div class="sidebar">
-        <div class="sidebar--top">
-          <img src="/logo.png" alt="Logo" class="logo" width="48" />
-        </div>
-        <div class="sidebar--middle">
-          <a href="/" class="sidebar-icon" title="Home">
-            <img src="/icons/home.png" alt="Home" width="32" />
-          </a>
-          <a href="/poll/create" class="sidebar-icon" title="New Poll">
-            <img src="/icons/new.png" alt="New" width="32" />
-          </a>
-        </div>
-        <div class="sidebar--bottom">
-          <a href="https://github.com/spinualexandru/local-poll" target="_blank" rel="noopener noreferrer" class="sidebar-icon" title="GitHub">
-            <img src="/icons/git.png" alt="GitHub" width="32" />
-          </a>
-        </div>
-      </div>
-      <div class="content">{{content}}</div>
-    </main>
+    <lp-layout variant="{{layoutVariant}}">
+      <main>
+        <lp-sidebar variant="public">
+          <aside aria-label="LocalPoll sidebar">
+            <nav aria-label="Primary navigation">
+              <div class="sidebar-top">
+                <img src="/logo.png" alt="LocalPoll" width="48" />
+              </div>
+              <div class="sidebar-middle">
+                <lp-sidebar-item>
+                  <a href="/" title="Home">
+                    <img src="/icons/home.png" alt="Home" width="32" />
+                  </a>
+                </lp-sidebar-item>
+                <lp-sidebar-item>
+                  <a href="/poll/create" title="New Poll">
+                    <img src="/icons/new.png" alt="New" width="32" />
+                  </a>
+                </lp-sidebar-item>
+              </div>
+              <div class="sidebar-bottom">
+                <lp-sidebar-item>
+                  <a
+                    href="https://github.com/spinualexandru/local-poll"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="GitHub"
+                  >
+                    <img src="/icons/git.png" alt="GitHub" width="32" />
+                  </a>
+                </lp-sidebar-item>
+              </div>
+            </nav>
+          </aside>
+        </lp-sidebar>
+        <section class="public-content" aria-label="Page content">
+          {{content}}
+        </section>
+      </main>
+    </lp-layout>
   </body>
 </html>

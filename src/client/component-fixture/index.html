@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/components/index.css" />
+    <link rel="stylesheet" href="/fixture.css" />
+    <script type="module" src="/components/index.mjs"></script>
+    <script type="module" src="/fixture.mjs"></script>
+    <title>LocalPoll component fixture</title>
+  </head>
+  <body>
+    <header class="fixture-header">
+      <p>LocalPoll internal</p>
+      <h1>Component fixture</h1>
+      <p>Light-DOM states, native form behavior, and layout contexts.</p>
+    </header>
+
+    <main class="fixture-main">
+      <section class="fixture-section">
+        <h2>Buttons</h2>
+        <div class="fixture-row">
+          <lp-button variant="primary"><button>Primary</button></lp-button>
+          <lp-button variant="secondary"><button>Secondary</button></lp-button>
+          <lp-button variant="secondary" appearance="outline">
+            <button>Outline</button>
+          </lp-button>
+          <lp-button variant="danger"><button>×</button></lp-button>
+          <lp-button variant="ghost"><button>Ghost</button></lp-button>
+        </div>
+        <div class="fixture-row">
+          <lp-button variant="primary" size="small">
+            <button>Small</button>
+          </lp-button>
+          <lp-button variant="primary" size="large">
+            <button>Large</button>
+          </lp-button>
+          <lp-button variant="primary" busy>
+            <button>Busy</button>
+          </lp-button>
+          <lp-button variant="primary">
+            <button disabled>Disabled</button>
+          </lp-button>
+        </div>
+      </section>
+
+      <section class="fixture-section">
+        <h2>Native form controls</h2>
+        <lp-form layout="stack" id="fixture-form">
+          <form>
+            <lp-text-field>
+              <label for="fixture-email">Email</label>
+              <input
+                id="fixture-email"
+                name="email"
+                type="email"
+                required
+              />
+              <p data-hint>Native email validation remains active.</p>
+            </lp-text-field>
+            <lp-text-field invalid>
+              <label for="fixture-invalid">Invalid field</label>
+              <input id="fixture-invalid" name="invalidField" value="Example" />
+              <p data-error>Example field error.</p>
+            </lp-text-field>
+            <lp-text-field disabled>
+              <label for="fixture-disabled">Disabled field</label>
+              <input id="fixture-disabled" value="Unavailable" />
+            </lp-text-field>
+            <lp-choice-group>
+              <fieldset>
+                <legend>Choices</legend>
+                <lp-checkbox>
+                  <input
+                    id="fixture-checkbox"
+                    name="updates"
+                    type="checkbox"
+                    value="yes"
+                  />
+                  <label for="fixture-checkbox">Send updates</label>
+                </lp-checkbox>
+                <lp-radio>
+                  <input
+                    id="fixture-radio-a"
+                    name="choice"
+                    type="radio"
+                    value="a"
+                    required
+                  />
+                  <label for="fixture-radio-a">Choice A</label>
+                </lp-radio>
+                <lp-radio>
+                  <input
+                    id="fixture-radio-b"
+                    name="choice"
+                    type="radio"
+                    value="b"
+                    required
+                  />
+                  <label for="fixture-radio-b">Choice B</label>
+                </lp-radio>
+              </fieldset>
+            </lp-choice-group>
+            <lp-button variant="primary">
+              <button type="submit">Inspect FormData</button>
+            </lp-button>
+          </form>
+        </lp-form>
+        <output id="fixture-form-output" class="fixture-output"></output>
+      </section>
+
+      <section class="fixture-section">
+        <h2>Pickers</h2>
+        <div class="fixture-grid">
+          <lp-color-picker>
+            <label class="fixture-field">
+              <span>Primary color</span>
+              <span class="lp-color-picker-control">
+                <input
+                  data-color-input
+                  type="color"
+                  value="#fcc435"
+                  aria-label="Choose primary color"
+                />
+                <input
+                  data-color-text
+                  type="text"
+                  value="#fcc435"
+                  aria-label="Primary color value"
+                />
+              </span>
+            </label>
+          </lp-color-picker>
+          <lp-color-picker inherit-label="Inherit Font Color" inherited>
+            <label class="fixture-field">
+              <span>Inherited color</span>
+              <span class="lp-color-picker-control">
+                <input
+                  data-color-input
+                  type="color"
+                  value="#121e37"
+                  aria-label="Choose inherited color"
+                />
+                <input
+                  data-color-text
+                  type="text"
+                  value="Inherit Font Color"
+                  aria-label="Inherited color value"
+                />
+              </span>
+            </label>
+          </lp-color-picker>
+        </div>
+        <lp-file-picker>
+          <label>
+            <input type="file" accept="image/*" />
+            <img data-file-preview src="/logo.png" alt="" />
+            <span data-file-label>Choose an image</span>
+          </label>
+        </lp-file-picker>
+      </section>
+
+      <section class="fixture-section">
+        <h2>Layout contexts</h2>
+        <div class="fixture-layout-grid">
+          <lp-layout variant="public">
+            <main><div class="fixture-layout-card">Public</div></main>
+          </lp-layout>
+          <lp-layout variant="landing">
+            <main><div class="fixture-layout-card">Landing</div></main>
+          </lp-layout>
+          <lp-layout variant="admin">
+            <main><div class="fixture-layout-card">Admin</div></main>
+          </lp-layout>
+          <lp-layout variant="auth">
+            <main><div class="fixture-layout-card">Auth</div></main>
+          </lp-layout>
+        </div>
+      </section>
+
+      <section class="fixture-section">
+        <h2>Sidebar variants</h2>
+        <div class="fixture-sidebar-grid">
+          <lp-sidebar variant="public">
+            <aside>
+              <nav aria-label="Public fixture navigation">
+                <div class="sidebar-middle">
+                  <lp-sidebar-item><a href="#public">Public</a></lp-sidebar-item>
+                </div>
+              </nav>
+            </aside>
+          </lp-sidebar>
+          <lp-sidebar variant="admin">
+            <aside>
+              <nav class="admin-navigation" aria-label="Admin fixture navigation">
+                <lp-sidebar-item>
+                  <a class="admin-nav-item" href="#admin">
+                    <span class="admin-nav-label">Admin item</span>
+                  </a>
+                </lp-sidebar-item>
+                <div class="admin-subnavigation">
+                  <lp-sidebar-subitem>
+                    <a href="#subitem">Subitem</a>
+                  </lp-sidebar-subitem>
+                </div>
+              </nav>
+            </aside>
+          </lp-sidebar>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

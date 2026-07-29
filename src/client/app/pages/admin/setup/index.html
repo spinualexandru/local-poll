@@ -8,38 +8,41 @@
     </p>
   </div>
 
-  <form class="auth-form" action="/admin/setup" method="post">
-    <div class="form-field">
-      <label for="email">Email</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        value="{{email}}"
-        autocomplete="email"
-        maxlength="254"
-        required
-        autofocus
-      />
-    </div>
+  <lp-form layout="stack">
+    <form class="auth-form" action="/admin/setup" method="post">
+      <lp-text-field>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value="{{email}}"
+          autocomplete="email"
+          maxlength="254"
+          required
+          autofocus
+        />
+      </lp-text-field>
 
-    <div class="form-field">
-      <label for="password">Password</label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        autocomplete="new-password"
-        minlength="11"
-        aria-describedby="password-requirements"
-        required
-      />
-      <p class="field-hint" id="password-requirements">
-        Use at least 11 characters with one special character.
-      </p>
-    </div>
+      <lp-text-field>
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="new-password"
+          minlength="11"
+          required
+        />
+        <p data-hint>
+          Use at least 11 characters with one special character.
+        </p>
+      </lp-text-field>
 
-    <p class="form-error" role="alert">{{error}}</p>
-    <button class="auth-submit" type="submit">Complete</button>
-  </form>
+      <p class="form-error" role="alert">{{error}}</p>
+      <lp-button variant="primary" size="large" block>
+        <button type="submit">Complete</button>
+      </lp-button>
+    </form>
+  </lp-form>
 </div>

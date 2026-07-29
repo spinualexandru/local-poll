@@ -1,0 +1,108 @@
+body {
+  color: var(--lp-color-ink);
+  background: var(--lp-color-canvas);
+}
+
+.fixture-header,
+.fixture-main {
+  width: min(100% - 32px, 1080px);
+  margin-inline: auto;
+}
+
+.fixture-header {
+  padding: 48px 0 24px;
+}
+
+.fixture-header p {
+  margin: 0 0 8px;
+}
+
+.fixture-header h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+}
+
+.fixture-main {
+  display: grid;
+  gap: 24px;
+  padding-bottom: 64px;
+}
+
+.fixture-section {
+  padding: 24px;
+  border: 1px solid var(--lp-color-ink);
+  border-radius: 18px;
+  background: var(--lp-color-surface);
+  box-shadow: 3px 3px 0 var(--lp-color-ink);
+}
+
+.fixture-section h2 {
+  margin: 0 0 20px;
+}
+
+.fixture-row,
+.fixture-grid,
+.fixture-layout-grid,
+.fixture-sidebar-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.fixture-row + .fixture-row {
+  margin-top: 20px;
+}
+
+.fixture-grid > * {
+  width: min(100%, 320px);
+}
+
+.fixture-field {
+  display: grid;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.fixture-output {
+  display: block;
+  min-height: 42px;
+  margin-top: 18px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--lp-color-canvas);
+  white-space: pre-wrap;
+}
+
+.fixture-layout-grid > lp-layout {
+  width: min(100%, 230px);
+  min-height: 120px;
+  overflow: hidden;
+  border: 1px solid var(--lp-color-ink);
+  border-radius: 12px;
+}
+
+.fixture-layout-grid > lp-layout > main {
+  display: block;
+  min-height: 120px;
+  padding: 12px;
+}
+
+.fixture-layout-card {
+  padding: 20px;
+  border-radius: 8px;
+  background: rgb(255 255 255 / 85%);
+  font-weight: 700;
+}
+
+.fixture-sidebar-grid {
+  align-items: flex-start;
+}
+
+.fixture-sidebar-grid lp-sidebar[variant="public"] > aside,
+.fixture-sidebar-grid lp-sidebar[variant="admin"] > aside {
+  min-height: 240px;
+}
+
+.fixture-sidebar-grid lp-sidebar[variant="public"] a {
+  color: var(--lp-color-ink);
+}

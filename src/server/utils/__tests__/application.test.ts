@@ -29,9 +29,8 @@ test("Application serves requests over regular HTTP", async (context) => {
   );
 
   const address = server.address() as AddressInfo;
-  const response = await fetch(
-    `http://127.0.0.1:${address.port}/api/data/test`,
-  );
+  const baseUrl = `http://127.0.0.1:${address.port}`;
+  const response = await fetch(`${baseUrl}/api/data/test`);
 
   assert.strictEqual(response.status, 200);
   assert.match(
@@ -42,4 +41,33 @@ test("Application serves requests over regular HTTP", async (context) => {
     Object.keys((await response.json()) as Record<string, unknown>).sort(),
     ["message", "timestamp"],
   );
+
+  const componentModule = await fetch(`${baseUrl}/components/index.mjs`);
+  assert.strictEqual(componentModule.status, 200);
+  assert.match(
+    componentModule.headers.get("content-type") || "",
+    /^application\/javascript/,
+  );
+
+  const componentStyles = await fetch(`${baseUrl}/components/index.css`);
+  assert.strictEqual(componentStyles.status, 200);
+  assert.match(
+    componentStyles.headers.get("content-type") || "",
+    /^text\/css/,
+  );
+
+  const home = await fetch(baseUrl);
+  assert.strictEqual(home.status, 200);
+  assert.match(await home.text(), /<lp-layout variant="landing">/);
+
+  const configuration = await fetch(
+    `${baseUrl}/poll/create/configuration?question=${encodeURIComponent("<script>alert(1)</script>")}`,
+  );
+  const configurationHtml = await configuration.text();
+  assert.strictEqual(configuration.status, 200);
+  assert.match(
+    configurationHtml,
+    /&lt;script&gt;alert\(1\)&lt;\/script&gt;/,
+  );
+  assert.doesNotMatch(configurationHtml, /<script>alert\(1\)<\/script>/);
 });

@@ -5,126 +5,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
     <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="stylesheet" href="/components/index.css" />
     <link rel="stylesheet" href="/admin.css" />
+    <script type="module" src="/components/index.mjs"></script>
     <title>{{pageTitle}} · LocalPoll</title>
   </head>
   <body class="admin-body">
-    <main class="admin-shell">
-      <aside class="admin-sidebar" aria-label="Admin sidebar">
-        <a class="admin-brand" href="/admin" aria-label="LocalPoll admin home">
-          <img src="/logo.png" width="46" height="60" alt="" />
-          <span class="admin-brand-name">Local Poll</span>
-        </a>
-
-        <nav class="admin-navigation" aria-label="Admin navigation">
-          <a class="admin-nav-item" href="/admin" {{dashboardCurrent}}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="admin-nav-icon"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
-              <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-            </svg>
-            <span class="admin-nav-label">Dashboard</span>
-          </a>
-
-          <span class="admin-nav-item admin-nav-item-static">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="admin-nav-icon"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <path d="M16 3.128a4 4 0 0 1 0 7.744" />
-              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-              <circle cx="9" cy="7" r="4" />
-            </svg>
-            <span class="admin-nav-label">Users</span>
-          </span>
-
-          <details class="admin-settings" open>
-            <summary class="admin-nav-item">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="admin-nav-icon"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
+    <lp-layout variant="admin">
+      <main>
+        <lp-sidebar variant="admin">
+          <aside class="admin-sidebar" aria-label="Admin sidebar">
+            <lp-sidebar-item>
+              <a
+                class="admin-brand"
+                href="/admin"
+                aria-label="LocalPoll admin home"
               >
-                <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-              <span class="admin-nav-label">Settings</span>
-              <svg
-                class="admin-settings-chevron"
-                viewBox="0 0 16 16"
-                aria-hidden="true"
-              >
-                <path d="m4 6 4 4 4-4" />
-              </svg>
-            </summary>
-            <div class="admin-subnavigation">
-              <span>Authentication</span>
-              <span>Database</span>
-              <span>Voting</span>
-              <span>DNS</span>
-              <a href="/admin/branding" {{brandingCurrent}}>Branding</a>
-            </div>
-          </details>
-        </nav>
+                <img src="/logo.png" width="46" height="60" alt="" />
+                <span class="admin-brand-name">Local Poll</span>
+              </a>
+            </lp-sidebar-item>
 
-        <details class="admin-account">
-          <summary title="{{adminEmail}}">
-            <svg
-              class="admin-account-icon"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
-            </svg>
-            <span class="admin-account-email">{{adminEmail}}</span>
-            <svg
-              class="admin-account-chevron"
-              viewBox="0 0 16 16"
-              aria-hidden="true"
-            >
-              <path d="m5 6 3-3 3 3M5 10l3 3 3-3" />
-            </svg>
-          </summary>
-          <div class="admin-account-menu">
-            <form action="/admin/logout" method="post">
-              <button type="submit">Sign out</button>
-            </form>
-          </div>
-        </details>
-      </aside>
-      <section class="admin-content" aria-label="Admin content">
-        {{content}}
-      </section>
-    </main>
+            <nav class="admin-navigation" aria-label="Admin navigation">
+              <lp-sidebar-item>
+                <a
+                  class="admin-nav-item"
+                  href="/admin"
+                  {{dashboardCurrent}}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="admin-nav-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                    <path
+                      d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                    />
+                  </svg>
+                  <span class="admin-nav-label">Dashboard</span>
+                </a>
+              </lp-sidebar-item>
+
+              <lp-sidebar-item>
+                <span class="admin-nav-item admin-nav-item-static">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="admin-nav-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <circle cx="9" cy="7" r="4" />
+                  </svg>
+                  <span class="admin-nav-label">Users</span>
+                </span>
+              </lp-sidebar-item>
+
+              <details class="admin-settings" open>
+                <summary class="admin-nav-item">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="admin-nav-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  <span class="admin-nav-label">Settings</span>
+                  <svg
+                    class="admin-settings-chevron"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="m4 6 4 4 4-4" />
+                  </svg>
+                </summary>
+                <div class="admin-subnavigation">
+                  <lp-sidebar-subitem><span>Authentication</span></lp-sidebar-subitem>
+                  <lp-sidebar-subitem><span>Database</span></lp-sidebar-subitem>
+                  <lp-sidebar-subitem><span>Voting</span></lp-sidebar-subitem>
+                  <lp-sidebar-subitem><span>DNS</span></lp-sidebar-subitem>
+                  <lp-sidebar-subitem>
+                    <a href="/admin/branding" {{brandingCurrent}}>Branding</a>
+                  </lp-sidebar-subitem>
+                </div>
+              </details>
+            </nav>
+
+            <details class="admin-account">
+              <summary title="{{adminEmail}}">
+                <svg
+                  class="admin-account-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
+                </svg>
+                <span class="admin-account-email">{{adminEmail}}</span>
+                <svg
+                  class="admin-account-chevron"
+                  viewBox="0 0 16 16"
+                  aria-hidden="true"
+                >
+                  <path d="m5 6 3-3 3 3M5 10l3 3 3-3" />
+                </svg>
+              </summary>
+              <div class="admin-account-menu">
+                <lp-form>
+                  <form action="/admin/logout" method="post">
+                    <lp-button variant="ghost" block>
+                      <button type="submit">Sign out</button>
+                    </lp-button>
+                  </form>
+                </lp-form>
+              </div>
+            </details>
+          </aside>
+        </lp-sidebar>
+        <section class="admin-content" aria-label="Admin content">
+          {{content}}
+        </section>
+      </main>
+    </lp-layout>
   </body>
 </html>

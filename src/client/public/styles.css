@@ -1,136 +1,5 @@
-@font-face {
-  font-family: "Quicksand";
-  src: url("/fonts/quicksand.ttf") format("truetype");
-}
-
-html,
 body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Quicksand", sans-serif;
-  background-color: #f3f3f3;
-}
-
-:root {
-  --primary-color: #fcc435;
-  --secondary-color: #121e37;
-}
-
-main {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
-
-.sidebar {
-  width: 76px;
-  background-color: var(--primary-color);
-  color: white;
-  margin: 12px;
-  border-radius: 24px;
-  box-shadow: 4px 4px 0px 0px #121e37;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 0;
-}
-
-.sidebar--top {
-  justify-self: flex-start;
-}
-
-.sidebar-icon:first-of-type {
-    margin-top: 32px;
-}
-
-.sidebar--middle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-}
-
-.sidebar--bottom {
-  justify-self: flex-end;
-}
-
-.sidebar-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  border-radius: 12px;
-  transition: background-color 0.2s;
-}
-
-.sidebar-icon:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-.content {
-  flex: 1;
-  border: 16px solid #fcc435;
-  margin: 12px 12px 12px 0px;
-  border-radius: 48px;
-  box-shadow: 4px 4px 0px 0px #121e37;
-  background-color: white;
-  color: black;
-  padding: 24px;
-}
-
-.btn-primary {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-  border: none;
-  height: 48px;
-  padding: 0 24px;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 600;
-  box-shadow: 4px 4px 0px 0px #121e37;
-}
-
-.btn-primary:hover {
-  cursor: pointer;
-  box-shadow: 4px 4px 0px 0px #121e37;
-  background-color: var(--primary-color);
-  filter: brightness(1.1);
-}
-
-.btn-primary:active {
-  box-shadow: none;
-  background-color: var(--primary-color);
-  filter: brightness(1);
-}
-
-.btn-secondary {
-  background-color: var(--secondary-color);
-  color: white;
-  border: none;
-  height: 48px;
-  padding: 0 24px;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 600;
-  box-shadow: 4px 4px 0px 0px var(--primary-color);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-
-.btn-secondary:hover {
-  cursor: pointer;
-  filter: brightness(1.2);
-}
-
-.btn-secondary:active {
-  box-shadow: none;
-  filter: brightness(1);
+  background: #f3f3f3;
 }
 
 .landing {
@@ -138,7 +7,8 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
   text-align: center;
 }
 
@@ -147,16 +17,16 @@ main {
 }
 
 .landing-title {
+  margin: 0;
+  color: var(--lp-color-ink);
   font-size: 64px;
   font-weight: 700;
-  color: var(--secondary-color);
-  margin: 0;
 }
 
 .landing-subtitle {
+  margin: 16px 0 48px;
+  color: #666666;
   font-size: 24px;
-  color: #666;
-  margin: 16px 0 48px 0;
 }
 
 .landing-ctas {
@@ -164,21 +34,304 @@ main {
   gap: 16px;
 }
 
-.landing-ctas .btn-primary {
-  text-decoration: none;
-  display: inline-flex;
+.poll-question-page,
+.vote-page {
+  display: flex;
   align-items: center;
+  justify-content: center;
+  min-height: 100%;
 }
 
-.landing-page .sidebar {
-  display: none;
+.poll-question-form {
+  width: min(100%, 680px);
 }
 
-.landing-page .content {
-  border: none;
-  padding: 0;
+.poll-question-form h1,
+.poll-preview h1,
+.vote-page h1 {
   margin: 0;
-  box-shadow: none;
+  color: var(--lp-color-ink);
+  font-size: clamp(2.6rem, 5vw, 3.125rem);
+  line-height: 1.1;
+}
 
-  border-radius: 0;
+.poll-question-form lp-text-field > input {
+  min-height: 62px;
+  font-size: 1.5rem;
+}
+
+.poll-question-form lp-button,
+.poll-builder-controls form > lp-button {
+  align-self: flex-end;
+}
+
+.poll-builder-page {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
+  min-height: 100%;
+  gap: 48px;
+  padding-right: 24px;
+}
+
+.poll-preview {
+  padding-top: 4px;
+  text-align: center;
+}
+
+.poll-preview > p {
+  margin: 0 0 18px;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.poll-builder-controls {
+  padding-top: 58px;
+}
+
+.poll-builder-controls form > h1 {
+  margin: 0;
+  color: var(--lp-color-ink);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.poll-builder-help {
+  margin: -8px 0 0;
+  color: var(--lp-color-muted);
+  font-weight: 600;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.option-row lp-text-field {
+  flex: 1;
+}
+
+.option-row lp-text-field input {
+  font-size: 1.125rem;
+}
+
+.poll-options-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.poll-form-error {
+  min-height: 1.3em;
+  margin: 0;
+  color: var(--lp-color-danger);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.poll-form-error:empty {
+  min-height: 0;
+}
+
+.vote-page lp-form {
+  width: min(100%, 660px);
+}
+
+.vote-page form {
+  align-items: stretch;
+}
+
+.vote-page lp-choice-group {
+  margin: 4px 0;
+  padding-left: 12px;
+}
+
+.vote-page #poll-options-list {
+  display: grid;
+  gap: 8px;
+}
+
+.vote-page form > lp-button {
+  align-self: flex-end;
+}
+
+.results-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 648px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.results-page > h1 {
+  margin: 0 0 8px;
+  color: var(--lp-color-ink);
+  font-size: clamp(2.4rem, 5vw, 2.625rem);
+  text-align: center;
+}
+
+.results-page #total-votes {
+  margin: 0 0 32px;
+  color: #666666;
+  text-align: center;
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.result-row {
+  padding: 16px 20px;
+  border: 2px solid var(--lp-color-ink);
+  border-radius: 16px;
+  background: var(--lp-color-surface);
+  box-shadow: var(--lp-shadow-raised);
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.option-name {
+  color: var(--lp-color-ink);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.vote-count {
+  flex: 0 0 auto;
+  color: #666666;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.result-progress {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 6px;
+  background: #e0e0e0;
+  appearance: none;
+}
+
+.result-progress::-webkit-progress-bar {
+  border-radius: 6px;
+  background: #e0e0e0;
+}
+
+.result-progress::-webkit-progress-value {
+  border-radius: 6px;
+  background: var(--lp-color-primary);
+  transition: width 300ms ease;
+}
+
+.result-progress::-moz-progress-bar {
+  border-radius: 6px;
+  background: var(--lp-color-primary);
+}
+
+.results-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.results-status {
+  min-height: 1.3em;
+  margin: 12px 0 0;
+  color: var(--lp-color-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .poll-builder-page {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-right: 0;
+  }
+
+  .poll-builder-controls {
+    padding-top: 0;
+  }
+
+  .poll-preview {
+    text-align: left;
+  }
+
+  .poll-preview > p {
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .landing {
+    padding: 32px 20px;
+  }
+
+  .landing-title {
+    font-size: 3rem;
+  }
+
+  .landing-subtitle {
+    margin-bottom: 32px;
+    font-size: 1.125rem;
+  }
+
+  .landing-ctas,
+  .results-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .landing-ctas lp-button,
+  .landing-ctas a,
+  .results-actions lp-button,
+  .results-actions button {
+    width: 100%;
+  }
+
+  .poll-question-form h1,
+  .poll-preview h1,
+  .vote-page h1 {
+    font-size: 2.35rem;
+  }
+
+  .poll-options-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .poll-options-actions lp-button,
+  .poll-options-actions button {
+    width: 100%;
+  }
+
+  .results-page {
+    padding: 8px;
+  }
+
+  .result-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
 }

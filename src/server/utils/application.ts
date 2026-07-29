@@ -253,10 +253,21 @@ export class Application {
     const templatePath = pathname.startsWith("/")
       ? pathname.substring(1)
       : pathname;
-    viewEngine.render(templatePath, {
-      title: "Home",
-      message: "Welcome to LocalPoll!",
-    });
+    viewEngine.render(
+      templatePath,
+      {
+        title: "Home",
+        message: "Welcome to LocalPoll!",
+      },
+      {
+        layoutVariant:
+          templatePath === "" ||
+          templatePath === "home" ||
+          templatePath === "index"
+            ? "landing"
+            : "public",
+      },
+    );
   }
 
   public handleEvents() {

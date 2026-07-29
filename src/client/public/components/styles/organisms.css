@@ -1,0 +1,375 @@
+lp-sidebar,
+lp-sidebar-item,
+lp-sidebar-subitem {
+  display: block;
+}
+
+lp-sidebar[variant="public"] {
+  flex: 0 0 auto;
+}
+
+lp-sidebar[variant="public"] > aside {
+  width: 76px;
+  height: calc(100vh - 24px);
+  height: calc(100svh - 24px);
+  margin: 12px;
+  padding: 12px 0;
+  border-radius: var(--lp-radius-panel);
+  color: var(--lp-color-surface);
+  background: var(--lp-color-primary);
+  box-shadow: var(--lp-shadow-raised);
+}
+
+lp-sidebar[variant="public"] nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+lp-sidebar[variant="public"] .sidebar-top {
+  flex: 0 0 auto;
+}
+
+lp-sidebar[variant="public"] .sidebar-middle {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+lp-sidebar[variant="public"] .sidebar-middle lp-sidebar-item:first-child {
+  margin-top: 32px;
+}
+
+lp-sidebar[variant="public"] .sidebar-bottom {
+  flex: 0 0 auto;
+}
+
+lp-sidebar[variant="public"] lp-sidebar-item > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 12px;
+  transition: background-color var(--lp-motion-fast);
+}
+
+lp-sidebar[variant="public"] lp-sidebar-item > a:hover {
+  background: rgb(0 0 0 / 10%);
+}
+
+lp-sidebar[variant="public"] lp-sidebar-item > a:focus-visible {
+  outline: 3px solid var(--lp-color-ink);
+  outline-offset: 2px;
+}
+
+lp-sidebar[variant="admin"] > aside {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 40px);
+  min-height: calc(100svh - 40px);
+  padding: 10px 18px 12px;
+  border-radius: 22px;
+  background: var(--lp-color-primary);
+  box-shadow: var(--lp-shadow-raised);
+}
+
+lp-sidebar[variant="admin"] .admin-brand {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 10px;
+  color: var(--lp-color-ink);
+  text-decoration: none;
+}
+
+lp-sidebar[variant="admin"] .admin-brand img {
+  display: block;
+  width: 46px;
+  height: auto;
+}
+
+lp-sidebar[variant="admin"] .admin-brand-name {
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+
+lp-sidebar[variant="admin"] .admin-navigation {
+  flex: 1;
+  margin-top: 51px;
+}
+
+lp-sidebar[variant="admin"] .admin-nav-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 36px;
+  gap: 8px;
+  padding: 4px 0;
+  border: 0;
+  color: var(--lp-color-ink);
+  background: transparent;
+  font-size: 1.04rem;
+  font-weight: 550;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+lp-sidebar[variant="admin"] a.admin-nav-item,
+lp-sidebar[variant="admin"] summary.admin-nav-item {
+  cursor: pointer;
+}
+
+lp-sidebar[variant="admin"]
+  :where(a.admin-nav-item, summary.admin-nav-item):hover
+  .admin-nav-label {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+lp-sidebar[variant="admin"] .admin-nav-icon {
+  width: 23px;
+  height: 23px;
+  flex: 0 0 23px;
+}
+
+lp-sidebar[variant="admin"]
+  :where(.admin-nav-item, .admin-brand, .admin-account > summary):focus-visible {
+  border-radius: 5px;
+  outline: 3px solid var(--lp-color-ink);
+  outline-offset: 3px;
+}
+
+lp-sidebar[variant="admin"] .admin-settings {
+  margin-top: 5px;
+}
+
+lp-sidebar[variant="admin"] :where(.admin-settings, .admin-account) > summary {
+  list-style: none;
+}
+
+lp-sidebar[variant="admin"]
+  :where(.admin-settings, .admin-account)
+  > summary::-webkit-details-marker {
+  display: none;
+}
+
+lp-sidebar[variant="admin"] .admin-settings-chevron {
+  width: 15px;
+  height: 15px;
+  margin-left: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+lp-sidebar[variant="admin"] .admin-subnavigation {
+  display: grid;
+  gap: 4px;
+  margin: 1px 0 0 10px;
+  padding: 0 0 0 20px;
+  border-left: 1px solid var(--lp-color-ink);
+  color: var(--lp-color-ink);
+  font-size: 0.86rem;
+  font-weight: 550;
+  line-height: 1.35;
+}
+
+lp-sidebar[variant="admin"] lp-sidebar-subitem > :where(a, span) {
+  display: block;
+  width: fit-content;
+  border-radius: 3px;
+  color: inherit;
+  text-decoration: none;
+}
+
+lp-sidebar[variant="admin"]
+  lp-sidebar-subitem
+  > :where(a:hover, a[aria-current="page"]) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+lp-sidebar[variant="admin"] lp-sidebar-subitem > a:focus-visible {
+  outline: 2px solid var(--lp-color-ink);
+  outline-offset: 2px;
+}
+
+lp-sidebar[variant="admin"] .admin-account {
+  position: relative;
+}
+
+lp-sidebar[variant="admin"] .admin-account > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  color: var(--lp-color-ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+lp-sidebar[variant="admin"] .admin-account-email {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+lp-sidebar[variant="admin"] .admin-account-icon {
+  display: none;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+lp-sidebar[variant="admin"] .admin-account-chevron {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+  margin-left: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.25;
+}
+
+lp-sidebar[variant="admin"] .admin-account-menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 7px);
+  left: 0;
+  z-index: 1;
+  padding: 7px;
+  border: 1px solid var(--lp-color-ink);
+  border-radius: 10px;
+  background: var(--lp-color-surface);
+  box-shadow: 3px 3px 0 var(--lp-color-ink);
+}
+
+lp-sidebar[variant="admin"] .admin-account-menu lp-button {
+  width: 100%;
+}
+
+lp-sidebar[variant="admin"] .admin-account-menu button {
+  width: 100%;
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-align: left;
+}
+
+@media (max-width: 880px) {
+  lp-sidebar[variant="admin"] > aside {
+    align-items: center;
+    min-height: calc(100vh - 24px);
+    min-height: calc(100svh - 24px);
+    padding: 14px 10px 12px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-navigation {
+    width: 100%;
+    margin-top: 48px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-nav-item {
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px;
+  }
+
+  lp-sidebar[variant="admin"]
+    :where(
+      .admin-nav-label,
+      .admin-brand-name,
+      .admin-settings-chevron,
+      .admin-subnavigation,
+      .admin-account-email
+    ) {
+    display: none;
+  }
+
+  lp-sidebar[variant="admin"] .admin-settings {
+    margin-top: 3px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account {
+    width: 100%;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account > summary {
+    justify-content: center;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account-icon {
+    display: block;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account-chevron {
+    display: none;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account-menu {
+    right: auto;
+    bottom: 0;
+    left: calc(100% + 10px);
+    width: 112px;
+  }
+}
+
+@media (max-width: 560px) {
+  lp-sidebar[variant="admin"] > aside {
+    flex-direction: row;
+    min-height: 76px;
+    padding: 8px 15px;
+    border-radius: 20px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-navigation {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    width: auto;
+    margin: 0;
+  }
+
+  lp-sidebar[variant="admin"] .admin-nav-item {
+    width: 42px;
+    min-height: 42px;
+    padding: 9px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-settings {
+    margin: 0;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account {
+    width: 42px;
+    margin-left: auto;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account > summary {
+    min-height: 42px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account-menu {
+    top: calc(100% + 12px);
+    right: 0;
+    bottom: auto;
+    left: auto;
+  }
+}

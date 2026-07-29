@@ -1,13 +1,19 @@
-<div class="landing">
+<section class="landing">
   <img src="/logo.png" alt="Local Poll" class="landing-logo" width="128" />
   <h1 class="landing-title">Local Poll</h1>
   <p class="landing-subtitle">Zero Dependency self-hosted poll system</p>
   <div class="landing-ctas">
-    <a href="/poll/create" class="btn-primary">Create a poll</a>
-    <a href="https://github.com/spinualexandru/local-poll" target="_blank" rel="noopener noreferrer" class="btn-secondary">Github</a>
+    <lp-button variant="primary">
+      <a href="/poll/create">Create a poll</a>
+    </lp-button>
+    <lp-button variant="secondary">
+      <a
+        href="https://github.com/spinualexandru/local-poll"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Github
+      </a>
+    </lp-button>
   </div>
-</div>
-
-<script>
-  document.body.classList.add('landing-page');
-</script>
+</section>

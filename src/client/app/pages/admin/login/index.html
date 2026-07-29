@@ -5,33 +5,37 @@
     <p>Sign in to customize and manage your LocalPoll instance.</p>
   </div>
 
-  <form class="auth-form" action="/admin/login" method="post">
-    <div class="form-field">
-      <label for="email">Email</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        value="{{email}}"
-        autocomplete="email"
-        maxlength="254"
-        required
-        autofocus
-      />
-    </div>
+  <lp-form layout="stack">
+    <form class="auth-form" action="/admin/login" method="post">
+      <lp-text-field>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value="{{email}}"
+          autocomplete="email"
+          maxlength="254"
+          required
+          autofocus
+        />
+      </lp-text-field>
 
-    <div class="form-field">
-      <label for="password">Password</label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        autocomplete="current-password"
-        required
-      />
-    </div>
+      <lp-text-field>
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
+      </lp-text-field>
 
-    <p class="form-error" role="alert">{{error}}</p>
-    <button class="auth-submit" type="submit">Sign in</button>
-  </form>
+      <p class="form-error" role="alert">{{error}}</p>
+      <lp-button variant="primary" size="large" block>
+        <button type="submit">Sign in</button>
+      </lp-button>
+    </form>
+  </lp-form>
 </div>

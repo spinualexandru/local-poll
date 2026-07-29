@@ -1,0 +1,235 @@
+lp-button {
+  display: inline-flex;
+  width: fit-content;
+}
+
+lp-button[block] {
+  display: flex;
+  width: 100%;
+}
+
+lp-button > :where(button, a) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: var(--lp-radius-raised);
+  font-family: var(--lp-font-family);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    filter var(--lp-motion-fast),
+    transform var(--lp-motion-fast),
+    box-shadow var(--lp-motion-fast);
+}
+
+lp-button[block] > :where(button, a) {
+  width: 100%;
+}
+
+lp-button[size="small"] > :where(button, a) {
+  min-height: 36px;
+  padding-inline: 14px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+}
+
+lp-button[size="large"] > :where(button, a) {
+  min-height: 62px;
+  padding-inline: 22px;
+}
+
+lp-button[variant="primary"] > :where(button, a) {
+  color: var(--lp-color-ink);
+  background: var(--lp-color-primary);
+  box-shadow: var(--lp-shadow-raised);
+}
+
+lp-button[variant="secondary"] > :where(button, a) {
+  color: var(--lp-color-surface);
+  background: var(--lp-color-ink);
+  box-shadow: 4px 4px 0 var(--lp-color-primary);
+}
+
+lp-button[variant="secondary"][appearance="outline"] > :where(button, a) {
+  border: 2px solid var(--lp-color-ink);
+  color: var(--lp-color-ink);
+  background: var(--lp-color-surface);
+  box-shadow: var(--lp-shadow-raised);
+}
+
+lp-button[variant="danger"] > :where(button, a) {
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: var(--lp-radius-small);
+  color: var(--lp-color-surface);
+  background: var(--lp-color-danger-bright);
+  box-shadow: 2px 2px 0 var(--lp-color-ink);
+}
+
+lp-button[variant="ghost"] > :where(button, a) {
+  justify-content: flex-start;
+  min-height: 32px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  color: var(--lp-color-ink);
+  background: transparent;
+  box-shadow: none;
+}
+
+lp-button > :where(button, a):hover {
+  filter: brightness(1.08);
+}
+
+lp-button[variant="secondary"][appearance="outline"]
+  > :where(button, a):hover {
+  background: #f0f0f0;
+  filter: none;
+}
+
+lp-button[variant="ghost"] > :where(button, a):hover {
+  background: rgb(252 196 53 / 28%);
+  filter: none;
+}
+
+lp-button > :where(button, a):active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+  filter: none;
+}
+
+lp-button > :where(button, a):focus-visible {
+  outline: 3px solid var(--lp-color-ink);
+  outline-offset: 3px;
+}
+
+lp-button > button:disabled,
+lp-button[busy] > button {
+  cursor: wait;
+  filter: grayscale(0.2);
+  opacity: 0.7;
+  transform: none;
+}
+
+lp-text-field {
+  display: grid;
+  gap: 7px;
+  color: var(--lp-color-ink);
+}
+
+lp-text-field > label {
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+lp-text-field > :where(input:not([type="hidden"]), textarea) {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1.5px solid var(--lp-color-ink);
+  border-radius: var(--lp-radius-control);
+  outline: none;
+  color: var(--lp-color-ink);
+  background: var(--lp-color-surface);
+  font-weight: 600;
+  transition:
+    border-color var(--lp-motion-fast),
+    box-shadow var(--lp-motion-fast);
+}
+
+lp-text-field > textarea {
+  min-height: 112px;
+  padding-block: 12px;
+  resize: vertical;
+}
+
+lp-text-field > :where(input, textarea):hover {
+  border-color: #273958;
+}
+
+lp-text-field > :where(input, textarea):focus-visible {
+  border-color: var(--lp-color-ink);
+  box-shadow: var(--lp-focus-ring);
+}
+
+lp-text-field[invalid] > :where(input, textarea),
+lp-text-field > :where(input, textarea)[aria-invalid="true"] {
+  border-color: var(--lp-color-danger);
+}
+
+lp-text-field > :where(input, textarea):disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+lp-text-field [data-hint] {
+  margin: 2px 2px 0;
+  color: var(--lp-color-muted);
+  font-size: 0.82rem;
+  font-weight: 550;
+  line-height: 1.35;
+}
+
+lp-text-field [data-error] {
+  margin: 2px 2px 0;
+  color: var(--lp-color-danger);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+lp-checkbox,
+lp-radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  color: var(--lp-color-ink);
+  font-size: 1.125rem;
+}
+
+lp-checkbox > input,
+lp-radio > input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--lp-color-primary);
+  cursor: pointer;
+}
+
+lp-checkbox > label,
+lp-radio > label {
+  cursor: pointer;
+}
+
+lp-checkbox > input:focus-visible,
+lp-radio > input:focus-visible {
+  outline: 3px solid var(--lp-color-primary);
+  outline-offset: 2px;
+}
+
+lp-layout[variant="auth"] lp-button[variant="primary"] > :where(button, a) {
+  border-radius: var(--lp-radius-control);
+  box-shadow: none;
+}
+
+lp-layout[variant="auth"]
+  lp-button[variant="primary"]
+  > :where(button, a):hover {
+  filter: brightness(1.035);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgb(18 30 55 / 14%);
+}
+
+lp-layout[variant="auth"]
+  lp-button[variant="primary"]
+  > :where(button, a):active {
+  transform: translateY(1px);
+  box-shadow: none;
+}

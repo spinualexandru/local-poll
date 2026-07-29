@@ -5,26 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
     <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="stylesheet" href="/components/index.css" />
     <link rel="stylesheet" href="/admin.css" />
+    <script type="module" src="/components/index.mjs"></script>
     <title>LocalPoll admin</title>
   </head>
   <body class="auth-body">
-    <main class="auth-shell">
-      <aside class="auth-brand" aria-label="LocalPoll">
-        <div class="brand-lockup">
-          <img
-            class="brand-mascot"
-            src="/logo.png"
-            width="176"
-            height="229"
-            alt=""
-          />
-          <p class="brand-name">localpoll</p>
-        </div>
-        <p class="brand-tagline">Zero dependency<br />poll platform.</p>
-        <p class="brand-footer">Built with love using Node</p>
-      </aside>
-      <section class="auth-content">{{content}}</section>
-    </main>
+    <lp-layout variant="auth">
+      <main>
+        <aside class="auth-brand" aria-label="LocalPoll">
+          <div class="brand-lockup">
+            <img
+              class="brand-mascot"
+              src="/logo.png"
+              width="176"
+              height="229"
+              alt=""
+            />
+            <p class="brand-name">localpoll</p>
+          </div>
+          <p class="brand-tagline">Zero dependency<br />poll platform.</p>
+          <p class="brand-footer">Built with love using Node</p>
+        </aside>
+        <section class="auth-content">{{content}}</section>
+      </main>
+    </lp-layout>
   </body>
 </html>

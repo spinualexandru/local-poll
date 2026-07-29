@@ -1,128 +1,19 @@
-<div data-poll-id="{{dynamicParams.id}}" id="poll-container">
-  <div>
-    <p id="pollName"></p>
-    <div id="options"></div>
-    <button class="btn btn-primary" id="voteButton">Vote</button>
-  </div>
-</div>
+<section class="vote-page" data-poll-id="{{dynamicParams.id}}">
+  <lp-form layout="stack" id="vote-form">
+    <form>
+      <h1 id="poll-name">Loading poll…</h1>
+      <lp-choice-group id="poll-options">
+        <fieldset>
+          <legend class="visually-hidden">Poll options</legend>
+          <div id="poll-options-list"></div>
+        </fieldset>
+      </lp-choice-group>
+      <p class="poll-form-error" id="vote-error" role="alert"></p>
+      <lp-button variant="primary">
+        <button type="submit" disabled>Vote</button>
+      </lp-button>
+    </form>
+  </lp-form>
+</section>
 
-<script type="module">
-  import { getPollById } from "/services/poll.mjs";
-  import { getVotesByPollId, castVote } from "/services/vote.mjs";
-
-  const pollId = "{{dynamicParams.id}}";
-
-  const createVoteElement = (option, index) => {
-    const optionWrapper = document.createElement("div");
-    optionWrapper.className = "vote-option";
-    optionWrapper.style.display = "flex";
-    optionWrapper.style.alignItems = "center";
-
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "pollOption";
-    radio.value = index;
-    radio.id = `option_${index}`;
-
-    const label = document.createElement("label");
-    label.htmlFor = radio.id;
-    label.textContent = option;
-    label.style.marginLeft = "8px";
-
-    optionWrapper.appendChild(radio);
-    optionWrapper.appendChild(label);
-    return optionWrapper;
-  };
-
-  const onRadioChange = (event) => {
-    const optionsDiv = document.getElementById("options");
-    const anyChecked = Array.from(
-      optionsDiv.querySelectorAll('input[type="radio"]')
-    ).some((rb) => rb.checked);
-    document.getElementById("voteButton").disabled = !anyChecked;
-  };
-
-  const fetchPollResults = () => {
-    // Fetch poll details
-    getPollById(pollId)
-      .then((pollResult) => {
-        const elem = document.getElementById("pollName");
-        elem.textContent = pollResult.data.question;
-        const poll = pollResult.data;
-
-        const optionsDiv = document.getElementById("options");
-        optionsDiv.innerHTML = "";
-
-        poll.options.forEach((option, index) => {
-          const voteElement = createVoteElement(option, index);
-          optionsDiv.appendChild(voteElement);
-        });
-
-        optionsDiv.addEventListener("change", onRadioChange);
-      })
-      .catch((error) => console.error(error));
-  };
-
-  const submitVote = () => {
-    const selectedOption = document.querySelector(
-      'input[name="pollOption"]:checked'
-    );
-    if (selectedOption) {
-      return castVote(pollId, selectedOption.value).catch((error) => {
-        console.error("Error submitting vote:", error);
-      });
-    }
-  };
-
-  const handleVoteSuccess = () => {
-    window.location.href = `/poll/${pollId}/results`; // Redirect to results page after voting
-  };
-
-  fetchPollResults();
-
-  const voteButton = document.getElementById("voteButton");
-  voteButton.addEventListener("click", () => {
-    submitVote().then(handleVoteSuccess);
-  });
-</script>
-
-<style>
-  #poll-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-
-  #pollName {
-    font-size: 50px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: var(--secondary-color);
-    padding: 12px 16px;
-    border-radius: 8px;
-  }
-
-  #options {
-    margin-bottom: 16px;
-    margin-left: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .vote-option {
-    display: flex;
-    align-items: center;
-    color: var(--secondary-color);
-    font-size: 18px;
-  }
-
-  .vote-option input[type="radio"] {
-    margin-right: 4px;
-    cursor: pointer;
-    height: 20px;
-    width: 20px;
-  }
-</style>
+<script type="module" src="/pages/poll-vote.mjs"></script>

@@ -2,7 +2,16 @@ import type { ServerResponse } from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { escapeHtml } from "./html.ts";
 import { queryParams } from "./request.ts";
+
+export type LayoutVariant = "public" | "landing" | "admin" | "auth";
+
+export interface RenderOptions {
+  layout?: string;
+  layoutVariant?: LayoutVariant;
+  statusCode?: number;
+}
 
 export class ViewEngine {
   private static clientPath = path.join(process.cwd(), "src", "client");
@@ -304,21 +313,37 @@ export class ViewEngine {
   public render(
     template: string,
     data: Record<string, any> = {},
-    options: { layout?: string; statusCode?: number } = {},
+    options: RenderOptions = {},
   ): void {
     const { content: rawTemplate, dynamicParams } = this.loadTemplate(template);
+    const rawQueryParams = queryParams(this.requestUrl);
+    const escapedQueryParams = Object.fromEntries(
+      Object.entries(rawQueryParams).map(([key, value]) => [
+        key,
+        escapeHtml(value),
+      ]),
+    );
     const templateData = {
       ...data,
       dynamicParams,
-      queryParams: queryParams(this.requestUrl),
+      queryParams: rawQueryParams,
+      escapedQueryParams,
     };
     const parsedTemplate = this.parseVariables(rawTemplate, templateData);
 
     // Insert into layout
     const layout = ViewEngine.getLayout(options.layout);
+    const layoutVariant =
+      options.layoutVariant ||
+      (options.layout === "admin"
+        ? "admin"
+        : options.layout === "auth"
+          ? "auth"
+          : "public");
     const finalHtml = this.parseVariables(layout, {
       ...templateData,
       content: parsedTemplate,
+      layoutVariant,
     });
 
     if (!this.response.headersSent) {

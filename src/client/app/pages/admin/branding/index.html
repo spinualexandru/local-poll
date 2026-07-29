@@ -1,83 +1,107 @@
-<div class="branding-page">
+<section class="branding-page">
   <h1>Branding</h1>
 
-  <form class="branding-form" aria-label="Branding settings">
-    <div class="branding-controls">
-      <section class="branding-section" aria-labelledby="branding-general">
-        <h2 id="branding-general">General</h2>
-        <label class="branding-field branding-name-field">
-          <span>Brand Name</span>
-          <input type="text" name="brandName" value="Local Poll" />
-        </label>
+  <lp-form layout="branding">
+    <form class="branding-form" aria-label="Branding settings">
+      <div class="branding-controls">
+        <section class="branding-section" aria-labelledby="branding-general">
+          <h2 id="branding-general">General</h2>
+          <lp-text-field class="branding-name-field">
+            <label for="brand-name">Brand Name</label>
+            <input
+              id="brand-name"
+              type="text"
+              name="brandName"
+              value="Local Poll"
+            />
+          </lp-text-field>
+        </section>
+
+        <section class="branding-section" aria-labelledby="branding-theme">
+          <h2 id="branding-theme">Theme</h2>
+          <div class="branding-color-grid">
+            <lp-color-picker>
+              <label class="branding-field">
+                <span>Primary Color</span>
+                <span class="lp-color-picker-control">
+                  <input
+                    data-color-input
+                    type="color"
+                    name="primaryColor"
+                    value="#fcc435"
+                    aria-label="Choose primary color"
+                  />
+                  <input
+                    data-color-text
+                    type="text"
+                    name="primaryColorHex"
+                    value="#fcc435"
+                    aria-label="Primary color hex value"
+                  />
+                </span>
+              </label>
+            </lp-color-picker>
+
+            <lp-color-picker>
+              <label class="branding-field">
+                <span>Font Color</span>
+                <span class="lp-color-picker-control">
+                  <input
+                    data-color-input
+                    type="color"
+                    name="fontColor"
+                    value="#121e37"
+                    aria-label="Choose font color"
+                  />
+                  <input
+                    data-color-text
+                    type="text"
+                    name="fontColorHex"
+                    value="#121e37"
+                    aria-label="Font color hex value"
+                  />
+                </span>
+              </label>
+            </lp-color-picker>
+
+            <lp-color-picker inherit-label="Inherit Font Color" inherited>
+              <label class="branding-field">
+                <span>Shadow Color</span>
+                <span class="lp-color-picker-control">
+                  <input
+                    data-color-input
+                    type="color"
+                    name="shadowColor"
+                    value="#121e37"
+                    aria-label="Choose shadow color"
+                  />
+                  <input
+                    data-color-text
+                    type="text"
+                    name="shadowColorHex"
+                    value="Inherit Font Color"
+                    aria-label="Shadow color value"
+                  />
+                </span>
+              </label>
+            </lp-color-picker>
+          </div>
+        </section>
+      </div>
+
+      <section
+        class="branding-section branding-logo-section"
+        aria-labelledby="branding-logo"
+      >
+        <h2 id="branding-logo">Logo</h2>
+        <lp-file-picker>
+          <label>
+            <input type="file" name="logo" accept="image/*" />
+            <img data-file-preview src="/logo.png" alt="" />
+            <span data-file-label>Choose a new one</span>
+          </label>
+        </lp-file-picker>
       </section>
-
-      <section class="branding-section" aria-labelledby="branding-theme">
-        <h2 id="branding-theme">Theme</h2>
-        <div class="branding-color-grid">
-          <label class="branding-field">
-            <span>Primary Color</span>
-            <span class="branding-color-control">
-              <input
-                type="color"
-                name="primaryColor"
-                value="#fcc435"
-                aria-label="Choose primary color"
-              />
-              <input
-                type="text"
-                name="primaryColorHex"
-                value="#fcc435"
-                aria-label="Primary color hex value"
-              />
-            </span>
-          </label>
-
-          <label class="branding-field">
-            <span>Font Color</span>
-            <span class="branding-color-control">
-              <input
-                type="color"
-                name="fontColor"
-                value="#121e37"
-                aria-label="Choose font color"
-              />
-              <input
-                type="text"
-                name="fontColorHex"
-                value="#121e37"
-                aria-label="Font color hex value"
-              />
-            </span>
-          </label>
-
-          <label class="branding-field">
-            <span>Shadow Color</span>
-            <span class="branding-color-control">
-              <input
-                type="color"
-                name="shadowColor"
-                value="#121e37"
-                aria-label="Choose shadow color"
-              />
-              <input
-                type="text"
-                name="shadowColorHex"
-                value="Inherit Font Color"
-                aria-label="Shadow color value"
-              />
-            </span>
-          </label>
-        </div>
-      </section>
-    </div>
-
-    <section class="branding-section branding-logo-section" aria-labelledby="branding-logo">
-      <h2 id="branding-logo">Logo</h2>
-      <label class="branding-logo-upload">
-        <input type="file" name="logo" accept="image/*" />
-        <img src="/logo.png" alt="" />
-        <span>Choose a new one</span>
-      </label>
-    </section>
-  </form>
-</div>
+    </form>
+  </lp-form>
+</section>

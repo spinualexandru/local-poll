@@ -15,6 +15,11 @@ npm run dev
 LocalPoll listens on `http://127.0.0.1:3000` by default. Set `HOST` and `PORT`
 in `.env` to use a different address.
 
+To enable instance customization and the local admin area, set
+`LOCAL_POLL_ENABLE_CUSTOMIZATION=true`. On the next start, LocalPoll creates the
+`users` table and directs the instance to `/admin/setup` until the admin account
+is created.
+
 # Deployment
 
 ```sh

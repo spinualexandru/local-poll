@@ -97,8 +97,12 @@ function initializeEnvironment(): void {
       ? loadEnvFile(envPath)
       : loadEnvFile(commonEnvPath);
 
-    // Apply loaded environment variables
-    Object.assign(process.env, envVars);
+    // Apply file values without overriding variables supplied by the runtime.
+    for (const [name, value] of Object.entries(envVars)) {
+      if (process.env[name] === undefined) {
+        process.env[name] = value;
+      }
+    }
 
     // Validate environment variables
     const validator = new EnvValidator();

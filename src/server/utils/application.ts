@@ -62,7 +62,19 @@ export class Application {
   ]);
 
   private constructor() {
-    this.server = createServer(this.onRequest.bind(this));
+    this.server = createServer((request, response) => {
+      void this.onRequest(request, response).catch((error: unknown) => {
+        const requestError =
+          error instanceof Error ? error : new Error("Unknown request error");
+        this.onError(requestError);
+        if (!response.headersSent) {
+          response.writeHead(500, {
+            "content-type": "text/plain; charset=utf-8",
+          });
+        }
+        response.end("Internal server error");
+      });
+    });
     this.host = process.env.HOST || "127.0.0.1";
     this.port = parseInt(process.env.PORT || "3000", 10);
     this.controllers = [];
@@ -181,12 +193,28 @@ export class Application {
     }
   }
 
-  public onRequest(request: IncomingMessage, response: ServerResponse) {
+  public async onRequest(
+    request: IncomingMessage,
+    response: ServerResponse,
+  ): Promise<void> {
     const rawPath = request.url || "/";
     const method = request.method || "GET";
     // Remove query string for route matching
     const pathname = new URL(rawPath, "http://localhost").pathname;
     const query = queryParams(rawPath);
+
+    // Static assets stay available while first-time setup gates application routes.
+    if (this.isStaticFile(pathname)) {
+      this.serveStaticFile(response, pathname);
+      return;
+    }
+
+    // Give controllers an opportunity to handle browser routes and route guards.
+    for (const controller of this.controllers) {
+      if (await controller.handleWebRequest(request, response, pathname)) {
+        return;
+      }
+    }
 
     // Handle API requests
     const isAPIRequest = pathname.startsWith("/api");
@@ -216,12 +244,6 @@ export class Application {
         "content-type": "application/json; charset=utf-8",
       });
       response.end(JSON.stringify({ error: "API endpoint not found" }));
-      return;
-    }
-
-    // Handle static files
-    if (this.isStaticFile(pathname)) {
-      this.serveStaticFile(response, pathname);
       return;
     }
 

@@ -1,3 +1,4 @@
+import type { IncomingMessage, ServerResponse } from "node:http";
 import type {Route} from "../types/route.ts";
 
 /**
@@ -63,6 +64,17 @@ export class Controller {
             }
         }
         return route ? route.handler : null;
+    }
+
+    /**
+     * Handle non-API routes owned by this controller.
+     */
+    public async handleWebRequest(
+        request: IncomingMessage,
+        response: ServerResponse,
+        pathname: string,
+    ): Promise<boolean> {
+        return false;
     }
 
     /**

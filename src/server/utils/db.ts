@@ -2,6 +2,7 @@ import { DatabaseSync } from "node:sqlite";
 import { Table } from "./table.ts";
 import { join } from "node:path";
 import { cwd } from "node:process";
+import { isCustomizationEnabled } from "./customization.ts";
 
 export class Database {
   private static instance: Database;
@@ -9,11 +10,13 @@ export class Database {
   db: DatabaseSync;
   tables: Table[] = [];
 
-  private constructor() {
+  private constructor(location?: string | Buffer | URL) {
     this.location =
-      process.env.SQLITE_DATABASE_PATH || join(cwd(), "/", "localpoll.db");
+      location ||
+      process.env.SQLITE_DATABASE_PATH ||
+      join(cwd(), "/", "localpoll.db");
 
-    if (!process.env.SQLITE_DATABASE_PATH) {
+    if (!location && !process.env.SQLITE_DATABASE_PATH) {
       console.warn(
         "[LocalPoll]:db - No database location provided, defaulting to file-based SQLite database!"
       );
@@ -29,7 +32,11 @@ export class Database {
     return Database.instance;
   }
 
-  public setupTables() {
+  public static create(location: string | Buffer | URL): Database {
+    return new Database(location);
+  }
+
+  public setupTables(customizationEnabled = isCustomizationEnabled()) {
     const pollsTable = new Table("polls", this.db);
     const votesTable = new Table("votes", this.db);
     this.tables = [pollsTable, votesTable];
@@ -57,5 +64,25 @@ export class Database {
       ],
       ["FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE"]
     );
+
+    if (customizationEnabled) {
+      const usersTable = new Table("users", this.db);
+      this.tables.push(usersTable);
+      usersTable.checkOrCreate(
+        [
+          "email TEXT NOT NULL COLLATE NOCASE UNIQUE",
+          "password_hash TEXT NOT NULL",
+          "password_salt TEXT NOT NULL",
+          "role TEXT NOT NULL DEFAULT 'admin'",
+          "created_at DATETIME DEFAULT CURRENT_TIMESTAMP",
+        ],
+        ["id INTEGER PRIMARY KEY AUTOINCREMENT"],
+      );
+      this.db.exec(
+        `CREATE UNIQUE INDEX IF NOT EXISTS users_single_admin
+         ON users(role)
+         WHERE role = 'admin'`,
+      );
+    }
   }
 }

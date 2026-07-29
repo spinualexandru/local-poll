@@ -12,7 +12,7 @@ export class ViewEngine {
     "app",
     "layout.html"
   );
-  private static layoutCache: string | null = null;
+  private static layoutCache = new Map<string, string>();
 
   private response: ServerResponse;
   private requestUrl: string;
@@ -32,23 +32,30 @@ export class ViewEngine {
    * Gets the layout template.
    * @returns The layout.html template as a string.
    */
-  private static getLayout(): string {
+  private static getLayout(layoutName = "default"): string {
+    const layoutPath =
+      layoutName === "default"
+        ? this.layoutPath
+        : path.join(this.clientPath, "app", `${layoutName}-layout.html`);
     const isDev = process.env.NODE_ENV === "development";
     if (isDev) {
       try {
-        return fs.readFileSync(this.layoutPath, "utf-8");
+        return fs.readFileSync(layoutPath, "utf-8");
       } catch {
         return "<html><body>{{content}}</body></html>";
       }
     }
-    if (this.layoutCache === null) {
+    if (!this.layoutCache.has(layoutName)) {
       try {
-        this.layoutCache = fs.readFileSync(this.layoutPath, "utf-8");
+        this.layoutCache.set(layoutName, fs.readFileSync(layoutPath, "utf-8"));
       } catch {
-        this.layoutCache = "<html><body>{{content}}</body></html>";
+        this.layoutCache.set(
+          layoutName,
+          "<html><body>{{content}}</body></html>",
+        );
       }
     }
-    return this.layoutCache;
+    return this.layoutCache.get(layoutName) || "";
   }
 
   /**
@@ -294,21 +301,30 @@ export class ViewEngine {
    * // In the example above, if you pass "index" instead of "home", it will render the home template.
    * ```
    */
-  public render(template: string, data: Record<string, any> = {}): void {
+  public render(
+    template: string,
+    data: Record<string, any> = {},
+    options: { layout?: string; statusCode?: number } = {},
+  ): void {
     const { content: rawTemplate, dynamicParams } = this.loadTemplate(template);
-    const parsedTemplate = this.parseVariables(rawTemplate, {
+    const templateData = {
       ...data,
       dynamicParams,
       queryParams: queryParams(this.requestUrl),
-    });
+    };
+    const parsedTemplate = this.parseVariables(rawTemplate, templateData);
 
     // Insert into layout
-    const layout = ViewEngine.getLayout();
-    const finalHtml = layout.replace("{{content}}", parsedTemplate);
+    const layout = ViewEngine.getLayout(options.layout);
+    const finalHtml = this.parseVariables(layout, {
+      ...templateData,
+      content: parsedTemplate,
+    });
 
     if (!this.response.headersSent) {
-      this.response.writeHead(200, {
+      this.response.writeHead(options.statusCode || 200, {
         "content-type": "text/html; charset=utf-8",
+        "cache-control": "no-store",
       });
     }
     this.response.end(finalHtml);

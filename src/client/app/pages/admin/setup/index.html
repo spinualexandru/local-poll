@@ -1,0 +1,45 @@
+<div class="auth-form-wrap">
+  <div class="auth-intro">
+    <p class="auth-eyebrow">LocalPoll admin</p>
+    <h1>First-time<br />setup</h1>
+    <p>
+      Your localpoll instance needs an admin account, let’s go ahead and set it
+      up.
+    </p>
+  </div>
+
+  <form class="auth-form" action="/admin/setup" method="post">
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        value="{{email}}"
+        autocomplete="email"
+        maxlength="254"
+        required
+        autofocus
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        autocomplete="new-password"
+        minlength="11"
+        aria-describedby="password-requirements"
+        required
+      />
+      <p class="field-hint" id="password-requirements">
+        Use at least 11 characters with one special character.
+      </p>
+    </div>
+
+    <p class="form-error" role="alert">{{error}}</p>
+    <button class="auth-submit" type="submit">Complete</button>
+  </form>
+</div>

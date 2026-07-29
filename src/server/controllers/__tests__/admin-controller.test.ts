@@ -118,6 +118,19 @@ test("first-time setup gates the instance and establishes an admin session", asy
   assert.match(adminHtml, /class="admin-content"/);
   assert.match(adminHtml, />admin@example\.com</);
 
+  const brandingPage = await request("/admin/branding", {
+    headers: { cookie: loginCookie || "" },
+  });
+  assert.strictEqual(brandingPage.status, 200);
+  const brandingHtml = await brandingPage.text();
+  assert.match(brandingHtml, /<h1>Branding<\/h1>/);
+  assert.match(brandingHtml, /type="color"/);
+  assert.match(brandingHtml, /type="file"/);
+  assert.match(
+    brandingHtml,
+    /href="\/admin\/branding" aria-current="page"/,
+  );
+
   const logout = await request("/admin/logout", {
     method: "POST",
     headers: { cookie: loginCookie || "" },

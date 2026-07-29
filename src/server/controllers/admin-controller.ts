@@ -96,7 +96,7 @@ export class AdminController extends Controller {
       return true;
     }
 
-    if (pathname === "/admin") {
+    if (pathname === "/admin" || pathname === "/admin/branding") {
       const userId = this.sessionService.getUserId(request);
       if (!userId) {
         this.redirect(response, "/admin/login");
@@ -115,9 +115,15 @@ export class AdminController extends Controller {
         return true;
       }
 
+      const isBrandingPage = pathname === "/admin/branding";
       new ViewEngine(response, request.url || pathname).render(
-        "admin/index",
-        { adminEmail: escapeHtml(admin.email) },
+        isBrandingPage ? "admin/branding" : "admin/index",
+        {
+          adminEmail: escapeHtml(admin.email),
+          pageTitle: isBrandingPage ? "Branding" : "Admin",
+          dashboardCurrent: isBrandingPage ? "" : 'aria-current="page"',
+          brandingCurrent: isBrandingPage ? 'aria-current="page"' : "",
+        },
         { layout: "admin" },
       );
       return true;

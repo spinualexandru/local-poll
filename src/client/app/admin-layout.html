@@ -6,17 +6,18 @@
     <meta name="color-scheme" content="light" />
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="stylesheet" href="/admin.css" />
-    <title>Admin · LocalPoll</title>
+    <title>{{pageTitle}} · LocalPoll</title>
   </head>
   <body class="admin-body">
     <main class="admin-shell">
       <aside class="admin-sidebar" aria-label="Admin sidebar">
         <a class="admin-brand" href="/admin" aria-label="LocalPoll admin home">
           <img src="/logo.png" width="46" height="60" alt="" />
+          <span class="admin-brand-name">Local Poll</span>
         </a>
 
         <nav class="admin-navigation" aria-label="Admin navigation">
-          <a class="admin-nav-item" href="/admin" aria-current="page">
+          <a class="admin-nav-item" href="/admin" {{dashboardCurrent}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="admin-nav-icon"
@@ -90,7 +91,7 @@
               <span>Database</span>
               <span>Voting</span>
               <span>DNS</span>
-              <span>Branding</span>
+              <a href="/admin/branding" {{brandingCurrent}}>Branding</a>
             </div>
           </details>
         </nav>

@@ -38,8 +38,9 @@ export class Database {
 
   public setupTables(customizationEnabled = isCustomizationEnabled()) {
     const pollsTable = new Table("polls", this.db);
+    const ballotsTable = new Table("ballots", this.db);
     const votesTable = new Table("votes", this.db);
-    this.tables = [pollsTable, votesTable];
+    this.tables = [pollsTable, ballotsTable, votesTable];
 
     pollsTable.checkOrCreate(
       [
@@ -54,16 +55,35 @@ export class Database {
       ["id INTEGER PRIMARY KEY AUTOINCREMENT"]
     );
 
+    ballotsTable.checkOrCreate(
+      [
+        "poll_id INTEGER NOT NULL",
+        "user_id TEXT",
+        "voter_key TEXT",
+        "created_at DATETIME DEFAULT CURRENT_TIMESTAMP",
+      ],
+      [
+        "id INTEGER PRIMARY KEY AUTOINCREMENT",
+        "FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE",
+      ],
+    );
+
     votesTable.checkOrCreate(
       [
         "id INTEGER PRIMARY KEY AUTOINCREMENT",
+        "ballot_id INTEGER NOT NULL",
         "poll_id INTEGER NOT NULL",
         "option_id INTEGER NOT NULL",
         "user_id TEXT",
         "created_at DATETIME DEFAULT CURRENT_TIMESTAMP",
       ],
-      ["FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE"]
+      [
+        "FOREIGN KEY (ballot_id) REFERENCES ballots(id) ON DELETE CASCADE",
+        "FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE",
+      ],
     );
+
+    this.migrateVotesToBallots();
 
     if (customizationEnabled) {
       const usersTable = new Table("users", this.db);
@@ -84,5 +104,98 @@ export class Database {
          WHERE role = 'admin'`,
       );
     }
+  }
+
+  private migrateVotesToBallots(): void {
+    const pollColumns = this.db
+      .prepare("PRAGMA table_info(polls)")
+      .all() as { name: string }[];
+
+    if (!pollColumns.some((column) => column.name === "is_multiple_choice")) {
+      this.db.exec(
+        "ALTER TABLE polls ADD COLUMN is_multiple_choice BOOLEAN DEFAULT FALSE",
+      );
+    }
+
+    const ballotColumns = this.db
+      .prepare("PRAGMA table_info(ballots)")
+      .all() as { name: string }[];
+
+    if (!ballotColumns.some((column) => column.name === "voter_key")) {
+      this.db.exec("ALTER TABLE ballots ADD COLUMN voter_key TEXT");
+    }
+
+    const voteColumns = this.db
+      .prepare("PRAGMA table_info(votes)")
+      .all() as { name: string }[];
+
+    if (!voteColumns.some((column) => column.name === "ballot_id")) {
+      this.db.exec("ALTER TABLE votes ADD COLUMN ballot_id INTEGER");
+    }
+
+    const legacyVotes = this.db
+      .prepare(
+        `SELECT id, poll_id, user_id, created_at
+         FROM votes
+         WHERE ballot_id IS NULL`,
+      )
+      .all() as {
+        id: number;
+        poll_id: number;
+        user_id: string | null;
+        created_at: string;
+      }[];
+
+    if (legacyVotes.length > 0) {
+      const insertBallot = this.db.prepare(
+        `INSERT INTO ballots (poll_id, user_id, created_at)
+         VALUES (?, ?, ?)`,
+      );
+      const updateVote = this.db.prepare(
+        "UPDATE votes SET ballot_id = ? WHERE id = ?",
+      );
+
+      this.db.exec("BEGIN");
+      try {
+        for (const vote of legacyVotes) {
+          const result = insertBallot.run(
+            vote.poll_id,
+            vote.user_id,
+            vote.created_at,
+          );
+          updateVote.run(result.lastInsertRowid, vote.id);
+        }
+        this.db.exec("COMMIT");
+      } catch (error) {
+        this.db.exec("ROLLBACK");
+        throw error;
+      }
+    }
+
+    this.db.exec(
+      `CREATE INDEX IF NOT EXISTS ballots_poll_id_idx ON ballots(poll_id);
+       CREATE UNIQUE INDEX IF NOT EXISTS ballots_poll_voter_key_unique
+         ON ballots(poll_id, voter_key)
+         WHERE voter_key IS NOT NULL;
+       CREATE INDEX IF NOT EXISTS votes_ballot_id_idx ON votes(ballot_id);
+       CREATE UNIQUE INDEX IF NOT EXISTS votes_ballot_option_unique
+         ON votes(ballot_id, option_id)
+         WHERE ballot_id IS NOT NULL;
+       CREATE TRIGGER IF NOT EXISTS votes_single_choice_limit
+       BEFORE INSERT ON votes
+       WHEN (
+         SELECT COALESCE(is_multiple_choice, FALSE)
+         FROM polls
+         WHERE id = NEW.poll_id
+       ) = FALSE
+       AND EXISTS (
+         SELECT 1
+         FROM votes
+         WHERE ballot_id = NEW.ballot_id
+       )
+       BEGIN
+         SELECT RAISE(ABORT, 'single-choice ballot can only contain one selection');
+       END;`,
+    );
   }
 }

@@ -1,5 +1,6 @@
 import { getPollById } from "/services/poll.mjs";
-import { getVotesByPollId } from "/services/vote.mjs";
+import { getPollResults } from "/services/vote.mjs";
+import { createPollResultsViewModel } from "/pages/poll-results-state.mjs";
 
 const page = document.querySelector(".results-page");
 const pollId = page.dataset.pollId;
@@ -9,7 +10,7 @@ const resultsList = document.getElementById("results-list");
 const shareButton = document.getElementById("share-poll");
 const shareStatus = document.getElementById("share-status");
 
-const createResultRow = (optionName, voteCount, percentage) => {
+const createResultRow = (optionName, selectionLabel, percentage) => {
   const row = document.createElement("article");
   const header = document.createElement("div");
   const name = document.createElement("span");
@@ -23,7 +24,7 @@ const createResultRow = (optionName, voteCount, percentage) => {
   progress.className = "result-progress";
 
   name.textContent = optionName;
-  count.textContent = `${voteCount} vote${voteCount === 1 ? "" : "s"} (${percentage}%)`;
+  count.textContent = selectionLabel;
   progress.setAttribute("aria-label", `${optionName}: ${percentage}%`);
   progress.max = 100;
   progress.value = percentage;
@@ -40,24 +41,18 @@ const loadResults = async () => {
     return;
   }
 
-  const votesResult = await getVotesByPollId(pollId);
-  const votes = votesResult?.data || [];
-  const voteCounts = votes.reduce((counts, vote) => {
-    counts[vote.option_id] = (counts[vote.option_id] || 0) + 1;
-    return counts;
-  }, {});
+  const resultsResponse = await getPollResults(pollId);
+  const viewModel = createPollResultsViewModel(
+    pollResult.data.options,
+    resultsResponse?.success ? resultsResponse.data : undefined,
+  );
 
   pollQuestion.textContent = pollResult.data.question;
-  totalVotesElement.textContent = `${votes.length} total vote${
-    votes.length === 1 ? "" : "s"
-  }`;
+  totalVotesElement.textContent = viewModel.totalLabel;
   resultsList.replaceChildren(
-    ...pollResult.data.options.map((optionName, index) => {
-      const count = voteCounts[index] || 0;
-      const percentage =
-        votes.length > 0 ? Math.round((count / votes.length) * 100) : 0;
-      return createResultRow(optionName, count, percentage);
-    }),
+    ...viewModel.rows.map(({ optionName, selectionLabel, percentage }) =>
+      createResultRow(optionName, selectionLabel, percentage),
+    ),
   );
 };
 

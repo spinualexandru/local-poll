@@ -1,5 +1,9 @@
 import { getPollById } from "/services/poll.mjs";
 import { castVote } from "/services/vote.mjs";
+import {
+  createVoteOption,
+  getSelectedOptionIds,
+} from "/pages/poll-vote-option.mjs";
 
 const page = document.querySelector(".vote-page");
 const pollId = page.dataset.pollId;
@@ -9,25 +13,6 @@ const pollName = document.getElementById("poll-name");
 const optionsList = document.getElementById("poll-options-list");
 const errorElement = document.getElementById("vote-error");
 const submitButton = form.querySelector("button[type='submit']");
-
-const createVoteOption = (option, index) => {
-  const radio = document.createElement("lp-radio");
-  const input = document.createElement("input");
-  const label = document.createElement("label");
-  const id = `poll-option-${index}`;
-
-  input.type = "radio";
-  input.name = "pollOption";
-  input.value = String(index);
-  input.id = id;
-  input.required = true;
-
-  label.htmlFor = id;
-  label.textContent = option;
-
-  radio.append(input, label);
-  return radio;
-};
 
 const loadPoll = async () => {
   const result = await getPollById(pollId);
@@ -41,7 +26,12 @@ const loadPoll = async () => {
   pollName.textContent = result.data.question;
   optionsList.replaceChildren(
     ...result.data.options.map((option, index) =>
-      createVoteOption(option, index),
+      createVoteOption(
+        document,
+        option,
+        index,
+        result.data.is_multiple_choice,
+      ),
     ),
   );
   submitButton.disabled = false;
@@ -51,15 +41,15 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
   errorElement.textContent = "";
 
-  const pollOption = form.elements.namedItem("pollOption");
-  const selectedOption = pollOption?.value || "";
-  if (selectedOption === "") {
+  const selectedOptionIds = getSelectedOptionIds(form);
+  if (selectedOptionIds.length === 0) {
     form.reportValidity();
+    errorElement.textContent = "Select at least one option.";
     formComponent.removeAttribute("submitting");
     return;
   }
 
-  const result = await castVote(pollId, selectedOption);
+  const result = await castVote(pollId, selectedOptionIds);
   if (result?.success) {
     window.location.assign(`/poll/${pollId}/results`);
     return;

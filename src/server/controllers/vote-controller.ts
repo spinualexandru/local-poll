@@ -4,16 +4,39 @@ import { getBody } from "../utils/request.ts";
 import { VoteService } from "../services/vote.ts";
 import type {
   CastVoteBody,
+  PollResultsResponse,
   VoteCountResponse,
   VoteResponse,
   VotesResponse,
 } from "../types/vote.ts";
+
+const parseCanonicalInteger = (
+  value: unknown,
+  minimum: number,
+): number | null => {
+  if (
+    typeof value === "string" &&
+    !/^(0|[1-9]\d*)$/.test(value)
+  ) {
+    return null;
+  }
+
+  if (typeof value !== "number" && typeof value !== "string") {
+    return null;
+  }
+
+  const parsedValue = typeof value === "number" ? value : Number(value);
+  return Number.isSafeInteger(parsedValue) && parsedValue >= minimum
+    ? parsedValue
+    : null;
+};
 
 export class VoteController extends Controller {
   constructor() {
     super("VoteController", "/vote", true);
     this.registerRoute("/cast", "post", this.castVote.bind(this));
     this.registerRoute("/votes", "get", this.getVotesByPollId.bind(this));
+    this.registerRoute("/results", "get", this.getPollResults.bind(this));
     this.registerRoute(
       "/votesCount",
       "get",
@@ -30,30 +53,62 @@ export class VoteController extends Controller {
     try {
       const body = await getBody<CastVoteBody>(request, { headers });
 
-      if (!body?.pollId || !body?.optionId) {
+      const hasOptionIds = body?.optionIds !== undefined;
+      if (hasOptionIds && !Array.isArray(body.optionIds)) {
         return {
           success: false,
-          error: "pollId and optionId are required",
+          error: "optionIds must be an array",
         };
       }
 
-      const pollId = Number(body.pollId);
-      const optionId = Number(body.optionId);
-      const userId = body.userId ? Number(body.userId) : undefined;
+      const submittedOptionIds = hasOptionIds
+        ? body.optionIds!
+        : body?.optionId !== undefined
+          ? [body.optionId]
+          : [];
+
+      if (body?.pollId === undefined || submittedOptionIds.length === 0) {
+        return {
+          success: false,
+          error: "pollId and at least one optionId are required",
+        };
+      }
+
+      const pollId = parseCanonicalInteger(body.pollId, 1);
+      const parsedOptionIds = submittedOptionIds.map((optionId) =>
+        parseCanonicalInteger(optionId, 0)
+      );
+      const userId =
+        body.userId === undefined
+          ? undefined
+          : parseCanonicalInteger(body.userId, 1);
+      const voterToken =
+        typeof body.voterToken === "string" ? body.voterToken.trim() : undefined;
 
       if (
-        isNaN(pollId) ||
-        isNaN(optionId) ||
-        (userId !== undefined && isNaN(userId))
+        pollId === null ||
+        parsedOptionIds.some((optionId) => optionId === null) ||
+        userId === null ||
+        (voterToken !== undefined &&
+          (voterToken.length < 16 ||
+            voterToken.length > 200 ||
+            !/^[A-Za-z0-9._~-]+$/.test(voterToken)))
       ) {
         return {
           success: false,
-          error: "Invalid ID format. pollId and optionId must be numbers",
+          error:
+            "Invalid vote data. pollId and userId must be positive safe integers, option IDs must be non-negative safe integers, and voterToken must be a valid opaque token",
         };
       }
 
+      const optionIds = parsedOptionIds as number[];
       const voteService = VoteService.getInstance();
-      const response = await voteService.castVote(pollId, optionId, userId);
+      const response = await voteService.castVote(
+        pollId,
+        optionIds,
+        userId,
+        voterToken,
+      );
 
       if (!response.success) {
         return {
@@ -70,14 +125,48 @@ export class VoteController extends Controller {
     }
   }
 
+  public async getPollResults(
+    query: { pollId?: string },
+    request: IncomingMessage
+  ): Promise<PollResultsResponse> {
+    try {
+      const pollId = parseCanonicalInteger(query.pollId, 1);
+
+      if (pollId === null) {
+        return {
+          success: false,
+          error: "Valid poll ID is required",
+        };
+      }
+
+      const response = await VoteService.getInstance().getPollResults(pollId);
+
+      if (!response.success || !response.data) {
+        return {
+          success: false,
+          error: response.error || "Failed to fetch poll results",
+        };
+      }
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to fetch poll results";
+      return { success: false, error: errorMessage };
+    }
+  }
+
   public async getVotesByPollId(
     query: { pollId?: string },
     request: IncomingMessage
   ): Promise<VotesResponse> {
     try {
-      const pollId = query.pollId ? Number(query.pollId) : NaN;
+      const pollId = parseCanonicalInteger(query.pollId, 1);
 
-      if (isNaN(pollId)) {
+      if (pollId === null) {
         return {
           success: false,
           error: "Valid poll ID is required",
@@ -110,9 +199,9 @@ export class VoteController extends Controller {
     request: IncomingMessage
   ): Promise<VoteCountResponse> {
     try {
-      const pollId = query.id ? Number(query.id) : NaN;
+      const pollId = parseCanonicalInteger(query.id, 1);
 
-      if (isNaN(pollId)) {
+      if (pollId === null) {
         return {
           success: false,
           error: "Valid poll ID is required",
@@ -145,9 +234,9 @@ export class VoteController extends Controller {
     request: IncomingMessage
   ): Promise<VotesResponse> {
     try {
-      const userId = query.id ? Number(query.id) : NaN;
+      const userId = parseCanonicalInteger(query.id, 1);
 
-      if (isNaN(userId)) {
+      if (userId === null) {
         return {
           success: false,
           error: "Valid user ID is required",

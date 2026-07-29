@@ -42,4 +42,4 @@ dependencies, celebrating the simplicity and power that modern JavaScript and No
 is to build a robust, self-hosted poll system that is a testament to the core capabilities of the platform, proving that
 you don't always need a heavy framework to create something useful and reliable.
 
-Made with Node.js 24.15.0
+Made with Node.js 26

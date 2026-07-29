@@ -4,7 +4,7 @@
   "description": "Zero dependency self-hosted poll system",
   "homepage": "https://github.com/spinualexandru/local-poll#readme",
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=26.0.0"
   },
   "bugs": {
     "url": "https://github.com/spinualexandru/local-poll/issues"
@@ -21,9 +21,9 @@
     "test": "node --test src/**/*.test.ts",
     "dev:server": "node src/server/index.ts",
     "dev:client": "node src/client/index.ts",
-    "dev": "NODE_ENV=development nodemon"
+    "dev": "NODE_ENV=development node --watch src/index.ts"
   },
   "devDependencies": {
-    "@types/node": "^24.10.9"
+    "@types/node": "^26.1.2"
   }
 }

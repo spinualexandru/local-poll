@@ -1,4 +1,4 @@
-import type { IncomingHttpHeaders, ServerHttp2Stream } from "node:http2";
+import type { ServerResponse } from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
@@ -14,18 +14,18 @@ export class ViewEngine {
   );
   private static layoutCache: string | null = null;
 
-  private stream: ServerHttp2Stream;
-  private headers: IncomingHttpHeaders;
+  private response: ServerResponse;
+  private requestUrl: string;
 
   /**
    * Creates an instance of the ViewEngine.
-   * @description Initializes the ViewEngine with the provided HTTP/2 stream and headers.
-   * @param stream - The HTTP/2 stream.
-   * @param headers - The incoming HTTP headers.
+   * @description Initializes the ViewEngine with the HTTP response and request URL.
+   * @param response - The HTTP response.
+   * @param requestUrl - The incoming request URL.
    */
-  constructor(stream: ServerHttp2Stream, headers: IncomingHttpHeaders) {
-    this.stream = stream;
-    this.headers = headers;
+  constructor(response: ServerResponse, requestUrl: string) {
+    this.response = response;
+    this.requestUrl = requestUrl;
   }
 
   /**
@@ -267,13 +267,18 @@ export class ViewEngine {
    * // result: "Home - Welcome to the homepage!"
    */
   private parseVariables(template: string, data: Record<string, any>): string {
-    return template.replace(/\{\{([\w.]+)\}\}/g, (_, key) => {
+    return template.replace(/\{\{([\w.]+)\}\}/g, (_, key: string) => {
       // Support dot notation for nested properties
       const value = key
         .split(".")
-        .reduce(
-          (acc, k) => (acc && acc[k] !== undefined ? acc[k] : undefined),
-          data
+        .reduce<unknown>(
+          (accumulator, currentKey) =>
+            typeof accumulator === "object" &&
+            accumulator !== null &&
+            currentKey in accumulator
+              ? (accumulator as Record<string, unknown>)[currentKey]
+              : undefined,
+          data,
         );
       return value !== undefined ? String(value) : "";
     });
@@ -294,19 +299,18 @@ export class ViewEngine {
     const parsedTemplate = this.parseVariables(rawTemplate, {
       ...data,
       dynamicParams,
-      queryParams: queryParams(this.headers[":path"]),
+      queryParams: queryParams(this.requestUrl),
     });
 
     // Insert into layout
     const layout = ViewEngine.getLayout();
     const finalHtml = layout.replace("{{content}}", parsedTemplate);
 
-    if (!this.stream.headersSent) {
-      this.stream.respond({
-        ":status": 200,
+    if (!this.response.headersSent) {
+      this.response.writeHead(200, {
         "content-type": "text/html; charset=utf-8",
       });
     }
-    this.stream.end(finalHtml);
+    this.response.end(finalHtml);
   }
 }

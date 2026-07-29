@@ -19,11 +19,13 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "node --test src/**/*.test.ts",
+    "typecheck": "tsc --noEmit",
     "dev:server": "node src/server/index.ts",
     "dev:client": "node src/client/index.ts",
     "dev": "NODE_ENV=development node --watch src/index.ts"
   },
   "devDependencies": {
-    "@types/node": "^26.1.2"
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
   }
 }

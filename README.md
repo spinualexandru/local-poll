@@ -4,25 +4,25 @@ Zero dependency self-hosted poll system
 ![Demo](https://github.com/user-attachments/assets/49370821-dbf0-4818-a8fc-61709c372cf9)
 
 
-# Running
-
-`npm start`
-
-# Building
-
-`npm run build`
-
 # Development
 
-Generate a SSL Certificate for the secure server
 ```sh
-openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj /CN=localhost/ -keyout localhost-privkey.pem -out localhost-cert.pem
-```
-
-Run the server
-```sh
+npm install
+cp .env.example .env
 npm run dev
 ```
+
+LocalPoll listens on `http://127.0.0.1:3000` by default. Set `HOST` and `PORT`
+in `.env` to use a different address.
+
+# Deployment
+
+```sh
+NODE_ENV=production node src/index.ts
+```
+
+The application serves regular HTTP. Terminate HTTPS in the deployment layer
+with a reverse proxy or hosting platform.
 
 # Features
 

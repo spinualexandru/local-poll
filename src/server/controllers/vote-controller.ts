@@ -1,5 +1,5 @@
 import { Controller } from "../utils/controller.ts";
-import type { ServerHttp2Stream, IncomingHttpHeaders } from "node:http2";
+import type { IncomingHttpHeaders, IncomingMessage } from "node:http";
 import { getBody } from "../utils/request.ts";
 import { VoteService } from "../services/vote.ts";
 import type {
@@ -24,11 +24,11 @@ export class VoteController extends Controller {
 
   public async castVote(
     query: Record<string, string>,
-    stream: ServerHttp2Stream,
+    request: IncomingMessage,
     headers: IncomingHttpHeaders = {}
   ): Promise<VoteResponse> {
     try {
-      const body = await getBody<CastVoteBody>(stream, { headers });
+      const body = await getBody<CastVoteBody>(request, { headers });
 
       if (!body?.pollId || !body?.optionId) {
         return {
@@ -72,7 +72,7 @@ export class VoteController extends Controller {
 
   public async getVotesByPollId(
     query: { pollId?: string },
-    stream: ServerHttp2Stream
+    request: IncomingMessage
   ): Promise<VotesResponse> {
     try {
       const pollId = query.pollId ? Number(query.pollId) : NaN;
@@ -107,7 +107,7 @@ export class VoteController extends Controller {
 
   public async getOptionsVotesCount(
     query: { id?: string },
-    stream: ServerHttp2Stream
+    request: IncomingMessage
   ): Promise<VoteCountResponse> {
     try {
       const pollId = query.id ? Number(query.id) : NaN;
@@ -142,7 +142,7 @@ export class VoteController extends Controller {
 
   public async getVotesByUserId(
     query: { id?: string },
-    stream: ServerHttp2Stream
+    request: IncomingMessage
   ): Promise<VotesResponse> {
     try {
       const userId = query.id ? Number(query.id) : NaN;

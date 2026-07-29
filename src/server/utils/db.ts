@@ -7,7 +7,7 @@ export class Database {
   private static instance: Database;
   location: string | Buffer | URL;
   db: DatabaseSync;
-  tables: Table[];
+  tables: Table[] = [];
 
   private constructor() {
     this.location =

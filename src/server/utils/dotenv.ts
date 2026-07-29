@@ -29,16 +29,6 @@ class EnvValidator {
         ['development', 'production', 'test'].includes(value),
       message: 'NODE_ENV must be one of: development, production, test',
     },
-    {
-      name: 'HTTP2_PRIVATE_KEY',
-      validate: (value: string) => value.length > 0,
-      message: 'HTTP2_PRIVATE_KEY is required',
-    },
-    {
-      name: 'HTTP2_CERTIFICATE',
-      validate: (value: string) => value.length > 0,
-      message: 'HTTP2_CERTIFICATE is required',
-    },
   ];
 
   /**

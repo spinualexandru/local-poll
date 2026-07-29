@@ -1,5 +1,5 @@
 import { Controller } from "../utils/controller.ts";
-import type { ServerHttp2Stream, IncomingHttpHeaders } from 'node:http2';
+import type { IncomingHttpHeaders, IncomingMessage } from "node:http";
 import { getBody } from "../utils/request.ts";
 import { PollService } from "../services/polls.ts";
 import type { CreatePollRequest, PollListResponse, PollResponse } from "../types/poll.ts";
@@ -15,12 +15,12 @@ export class PollController extends Controller {
 
     public async createPoll(
         query: Record<string, string>,
-        stream: ServerHttp2Stream,
+        request: IncomingMessage,
         headers: IncomingHttpHeaders = {}
     ): Promise<PollResponse> {
         try {
             const pollService = PollService.getInstance();
-            const body = await getBody<CreatePollRequest>(stream, { headers });
+            const body = await getBody<CreatePollRequest>(request, { headers });
 
             // Validate required fields
             if (!body?.question?.trim()) {
@@ -71,7 +71,7 @@ export class PollController extends Controller {
 
     public async getResults(
         query: { id?: string },
-        stream: ServerHttp2Stream
+        request: IncomingMessage
     ): Promise<PollResponse> {
         try {
             const pollService = PollService.getInstance();
@@ -97,7 +97,7 @@ export class PollController extends Controller {
 
     public async getPoll(
         query: { id?: string },
-        stream: ServerHttp2Stream
+        request: IncomingMessage
     ): Promise<PollResponse> {
         try {
             const pollService = PollService.getInstance();
@@ -123,7 +123,7 @@ export class PollController extends Controller {
 
     public async fetchPollsByUser(
         query: { userId?: string },
-        stream: ServerHttp2Stream
+        request: IncomingMessage
     ): Promise<PollListResponse> {
         try {
             const pollService = PollService.getInstance();

@@ -1,4 +1,4 @@
-import type { ServerHttp2Stream, IncomingHttpHeaders } from "node:http2";
+import type { IncomingHttpHeaders, IncomingMessage } from "node:http";
 
 const MAX_BODY_SIZE = 1024 * 1024 * 5; // 5MB
 const JSON_CONTENT_TYPE = "application/json";
@@ -33,12 +33,12 @@ export const queryParams = <T = Record<string, string>>(path: string): T => {
 
 /**
  * Parses the request body from a stream
- * @param stream - The HTTP/2 stream to read from
+ * @param request - The incoming HTTP request to read from
  * @param options - Configuration options
  * @returns Promise that resolves to the parsed body
  */
 export const getBody = async <T = unknown>(
-  stream: ServerHttp2Stream,
+  request: IncomingMessage,
   options: GetBodyOptions<T> = {}
 ): Promise<T> => {
   const {
@@ -61,12 +61,12 @@ export const getBody = async <T = unknown>(
     const chunks: Buffer[] = [];
 
     const cleanup = () => {
-      stream.removeAllListeners("data");
-      stream.removeAllListeners("end");
-      stream.removeAllListeners("error");
+      request.removeAllListeners("data");
+      request.removeAllListeners("end");
+      request.removeAllListeners("error");
     };
 
-    stream.on("data", (chunk: Buffer) => {
+    request.on("data", (chunk: Buffer) => {
       bodyLength += chunk.length;
 
       if (bodyLength > maxSize) {
@@ -80,7 +80,7 @@ export const getBody = async <T = unknown>(
       chunks.push(chunk);
     });
 
-    stream.on("end", () => {
+    request.on("end", () => {
       try {
         const body = Buffer.concat(chunks).toString("utf8");
 
@@ -103,7 +103,7 @@ export const getBody = async <T = unknown>(
       }
     });
 
-    stream.on("error", (error: Error) => {
+    request.on("error", (error: Error) => {
       cleanup();
       reject(new Error(`Stream error: ${error.message}`));
     });

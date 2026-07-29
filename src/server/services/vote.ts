@@ -50,7 +50,7 @@ export class VoteService extends Service {
 
         const poll = await pollService.getPollById(pollId);
 
-        if (!poll || !poll.data.options || !poll.data.options[optionId]) {
+        if (!poll.data || !poll.data.options[optionId]) {
             return {error: "Option not found in the poll", success: false};
         }
 
@@ -114,7 +114,7 @@ export class VoteService extends Service {
         `);
         const row = stmt.get(pollId);
 
-        return Promise.resolve(Number(row.count));
+        return Promise.resolve(Number(row?.count ?? 0));
     }
 
     /**
@@ -139,7 +139,7 @@ export class VoteService extends Service {
         `);
         const row = stmt.get(pollId, optionId);
 
-        return Promise.resolve(Number(row.count));
+        return Promise.resolve(Number(row?.count ?? 0));
     }
 
     /**

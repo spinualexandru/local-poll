@@ -1,5 +1,30 @@
-<div>
-    <h2>About</h2>
-    <p>This is the about page</p>
-    <p>Welcome, {{queryParams.name}}!</p>
-</div>
+<section class="about-page">
+  <div class="about-copy">
+    <p class="page-kicker">Why LocalPoll?</p>
+    <h1>A small poll tool that stays yours.</h1>
+    <p>
+      LocalPoll is a zero-dependency, self-hosted poll system built for quick
+      decisions without another account, tracker, or hosted dashboard.
+    </p>
+    <lp-button variant="primary">
+      <a href="/poll/create">Create a poll <span aria-hidden="true">→</span></a>
+    </lp-button>
+  </div>
+  <div class="about-principles poll-paper">
+    <article>
+      <span>01</span>
+      <h2>Simple by design</h2>
+      <p>Ask, add options, and share one link.</p>
+    </article>
+    <article>
+      <span>02</span>
+      <h2>Your instance</h2>
+      <p>Host it where you choose and keep control of the data.</p>
+    </article>
+    <article>
+      <span>03</span>
+      <h2>Built on Node</h2>
+      <p>No application dependencies hiding beneath the interface.</p>
+    </article>
+  </div>
+</section>

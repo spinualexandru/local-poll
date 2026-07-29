@@ -5,52 +5,60 @@
 .auth-brand {
   position: relative;
   display: flex;
-  flex-direction: column;
   min-height: calc(100vh - 40px);
   min-height: calc(100svh - 40px);
   overflow: hidden;
+  flex-direction: column;
   padding: clamp(28px, 4.4vw, 72px);
-  border-radius: 24px;
+  border: 2px solid var(--lp-color-ink);
+  border-radius: 2px;
   background: var(--lp-color-primary);
   box-shadow: var(--lp-shadow-raised);
 }
 
 .brand-lockup {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  align-self: center;
+  align-self: flex-start;
+  flex-direction: row;
+  gap: 16px;
 }
 
 .brand-mascot {
-  width: clamp(124px, 12vw, 180px);
+  width: clamp(72px, 7vw, 104px);
   height: auto;
   object-fit: contain;
 }
 
 .brand-name {
-  margin: 18px 0 0;
+  margin: 0;
   color: var(--lp-color-ink);
-  font-size: clamp(3.4rem, 5.2vw, 5.8rem);
-  font-weight: 600;
+  font-size: clamp(2.35rem, 3.5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.065em;
   line-height: 0.92;
-  letter-spacing: -0.075em;
 }
 
 .brand-tagline {
+  max-width: 560px;
   margin: clamp(70px, 14vh, 154px) 0 0;
   color: var(--lp-color-ink);
-  font-size: clamp(2rem, 3.1vw, 3.35rem);
+  font-size: clamp(2.4rem, 4vw, 4.8rem);
   font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
 }
 
 .brand-footer {
   margin: auto 0 0;
+  padding-top: 30px;
+  border-top: 1.5px dashed var(--lp-color-ink);
   color: var(--lp-color-ink);
-  font-size: 0.98rem;
+  font-family: "Courier New", monospace;
+  font-size: 0.76rem;
   font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
 .auth-content {
@@ -69,32 +77,35 @@
   margin-bottom: 34px;
 }
 
-.auth-eyebrow {
-  margin: 0 0 14px;
-  color: #8a6200;
-  font-size: 0.75rem;
+.auth-eyebrow,
+.admin-kicker,
+.admin-section-number {
+  margin: 0;
+  color: var(--lp-color-ink);
+  font-family: "Courier New", monospace;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
 }
 
 .auth-intro h1 {
-  margin: 0;
+  margin: 14px 0 0;
   color: var(--lp-color-ink);
   font-size: clamp(3.6rem, 5.4vw, 5.3rem);
   font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.065em;
+  line-height: 0.96;
 }
 
 .auth-intro > p:last-child {
   max-width: 420px;
-  margin: 28px 0 0;
-  color: var(--lp-color-ink);
-  font-size: clamp(1.18rem, 1.55vw, 1.55rem);
-  font-weight: 500;
-  line-height: 1.28;
+  margin: 26px 0 0;
+  color: var(--lp-color-muted);
+  font-size: clamp(1.06rem, 1.4vw, 1.28rem);
+  font-weight: 550;
   letter-spacing: -0.02em;
+  line-height: 1.45;
 }
 
 .auth-form {
@@ -102,7 +113,7 @@
 }
 
 .auth-form lp-text-field > input {
-  min-height: 62px;
+  min-height: 60px;
   padding-inline: 16px;
   font-size: 1.05rem;
 }
@@ -119,87 +130,368 @@
   display: none;
 }
 
+/* Admin shell */
+
 .admin-body {
   overflow: hidden;
   background: var(--lp-color-canvas);
 }
 
+lp-layout[variant="admin"] > main {
+  grid-template-columns: 238px minmax(0, 1fr);
+  padding: 0;
+  gap: 0;
+}
+
+lp-sidebar[variant="admin"] > aside {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 22px 22px 18px;
+  border-right: 4px solid var(--lp-color-ink);
+  border-radius: 0;
+  background: var(--lp-color-primary);
+  box-shadow: none;
+}
+
+lp-sidebar[variant="admin"] .admin-brand {
+  gap: 11px;
+}
+
+lp-sidebar[variant="admin"] .admin-brand img {
+  width: 46px;
+}
+
+lp-sidebar[variant="admin"] .admin-brand-name {
+  font-size: 1.32rem;
+}
+
+lp-sidebar[variant="admin"] .admin-navigation {
+  margin-top: 58px;
+}
+
+lp-sidebar[variant="admin"] .admin-nav-item {
+  min-height: 42px;
+  padding: 7px 8px;
+  border: 1.5px solid transparent;
+  border-radius: 7px;
+  font-size: 0.98rem;
+  font-weight: 650;
+}
+
+lp-sidebar[variant="admin"] a.admin-nav-item:hover,
+lp-sidebar[variant="admin"] a.admin-nav-item[aria-current="page"] {
+  border-color: var(--lp-color-ink);
+  background: var(--lp-color-surface);
+  box-shadow: 3px 3px 0 var(--lp-color-ink);
+  transform: translate(-2px, -2px);
+}
+
+lp-sidebar[variant="admin"] summary.admin-nav-item:hover {
+  background: rgb(255 255 255 / 34%);
+}
+
+lp-sidebar[variant="admin"] .admin-subnavigation {
+  gap: 7px;
+  margin: 4px 0 0 19px;
+  padding: 3px 0 3px 21px;
+  border-left-width: 1.5px;
+  font-size: 0.82rem;
+}
+
+lp-sidebar[variant="admin"] .admin-account > summary {
+  min-height: 40px;
+  padding-inline: 8px;
+  border-radius: 7px;
+}
+
+lp-sidebar[variant="admin"] .admin-account > summary:hover {
+  background: rgb(255 255 255 / 34%);
+}
+
 .admin-content {
   min-width: 0;
-  min-height: calc(100vh - 40px);
-  min-height: calc(100svh - 40px);
+  min-height: 100vh;
+  min-height: 100svh;
   overflow: auto;
-  border: 17px solid var(--lp-color-primary);
-  border-radius: 26px;
+  background: var(--lp-color-canvas);
+}
+
+.admin-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 118px;
+  gap: 30px;
+  padding: 24px clamp(28px, 4vw, 58px);
+  border-bottom: 2px solid var(--lp-color-ink);
+  background: var(--lp-color-surface);
+}
+
+.admin-page-header h1 {
+  margin: 5px 0 0;
+  color: var(--lp-color-ink);
+  font-size: clamp(2.5rem, 3.4vw, 3.8rem);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+.admin-page-header lp-button span {
+  margin-left: 12px;
+}
+
+.branding-header-note {
+  max-width: 310px;
+  margin: 0;
+  color: var(--lp-color-muted);
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.4;
+  text-align: right;
+}
+
+/* Dashboard */
+
+.dashboard-page,
+.branding-page {
+  min-height: 100%;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 24px;
+  padding: clamp(28px, 4vw, 58px);
+}
+
+.dashboard-welcome,
+.admin-card,
+.dashboard-note {
+  border: 2px solid var(--lp-color-ink);
+  border-radius: 2px;
   background: var(--lp-color-surface);
   box-shadow: var(--lp-shadow-raised);
 }
 
-.admin-empty {
-  min-height: 100%;
+.dashboard-welcome {
+  position: relative;
+  display: flex;
+  grid-column: 1 / -1;
+  min-height: 280px;
+  overflow: hidden;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: clamp(30px, 4vw, 54px);
+  background: var(--lp-color-primary);
 }
 
-.branding-page {
-  min-height: 100%;
-  padding: 22px 24px 40px;
+.dashboard-welcome h2 {
+  max-width: 700px;
+  margin: 12px 0 15px;
+  font-size: clamp(2.6rem, 4.5vw, 5rem);
+  letter-spacing: -0.065em;
+  line-height: 0.95;
 }
 
-.branding-page > h1 {
+.dashboard-welcome p:last-child {
+  max-width: 590px;
   margin: 0;
-  color: var(--lp-color-ink);
-  font-size: clamp(2.55rem, 3.3vw, 3.3rem);
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.045em;
+  font-weight: 600;
+  line-height: 1.5;
 }
+
+.dashboard-welcome img {
+  width: clamp(130px, 15vw, 210px);
+  height: auto;
+  filter: drop-shadow(4px 4px 0 var(--lp-color-ink));
+  transform: rotate(3deg);
+}
+
+.admin-card {
+  position: relative;
+  min-height: 235px;
+  overflow: hidden;
+  padding: 30px;
+}
+
+.admin-card h2 {
+  margin: 12px 0 10px;
+  font-size: 1.65rem;
+  letter-spacing: -0.035em;
+}
+
+.admin-card p:not(.admin-kicker) {
+  max-width: 440px;
+  margin: 0;
+  color: var(--lp-color-muted);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.admin-card > a {
+  position: absolute;
+  bottom: 28px;
+  left: 30px;
+  color: var(--lp-color-ink);
+  font-weight: 750;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.admin-card-mark {
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  width: 78px;
+  height: 78px;
+  border: 2px solid var(--lp-color-ink);
+  transform: rotate(14deg);
+}
+
+.admin-card-mark-sky {
+  border-radius: 50%;
+  background: var(--lp-color-sky);
+}
+
+.admin-card-mark-heart {
+  border-radius: 18px 4px 18px 4px;
+  background: var(--lp-color-heart);
+}
+
+.dashboard-note {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 22px;
+  box-shadow: none;
+  font-family: "Courier New", monospace;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.dashboard-note strong {
+  padding-right: 10px;
+  border-right: 1.5px solid var(--lp-color-ink);
+}
+
+/* Branding */
 
 .branding-form {
-  grid-template-columns: minmax(390px, 1.1fr) minmax(380px, 0.9fr);
+  grid-template-columns: minmax(440px, 1.12fr) minmax(380px, 0.88fr);
   align-items: start;
-  gap: clamp(56px, 7.5vw, 126px);
-  margin-top: 28px;
+  gap: clamp(30px, 4vw, 62px);
+  padding: clamp(28px, 4vw, 58px);
+}
+
+.branding-controls,
+.branding-logo-section {
+  border: 2px solid var(--lp-color-ink);
+  border-radius: 2px;
+  background: var(--lp-color-surface);
+  box-shadow: var(--lp-shadow-raised);
 }
 
 .branding-controls {
   display: grid;
-  gap: 38px;
 }
 
-.branding-section h2 {
-  width: fit-content;
+.branding-section {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  padding: clamp(24px, 3vw, 38px);
+}
+
+.branding-section + .branding-section {
+  border-top: 1.5px dashed var(--lp-color-ink);
+}
+
+.branding-section-content {
+  min-width: 0;
+}
+
+.branding-section h2,
+.branding-logo-section h2 {
   margin: 0 0 22px;
   color: var(--lp-color-ink);
-  font-size: 1.42rem;
-  font-weight: 500;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
   line-height: 1;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
 }
 
 .branding-field,
 .branding-page lp-text-field {
   display: grid;
   max-width: 462px;
-  gap: 6px;
+  gap: 7px;
   color: var(--lp-color-ink);
-  font-size: 1rem;
+  font-size: 0.94rem;
   font-weight: 700;
 }
 
-.branding-name-field {
-  max-width: 216px;
+.branding-page lp-text-field.branding-name-field {
+  max-width: 250px;
 }
 
 .branding-name-field > input {
-  min-height: 42px;
+  min-height: 44px;
   padding-inline: 10px;
 }
 
 .branding-color-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(180px, 1fr));
-  gap: 16px 28px;
+  gap: 18px 24px;
+}
+
+.branding-logo-section {
+  display: block;
+  padding: clamp(24px, 3vw, 38px);
+}
+
+.branding-logo-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.branding-logo-heading > div {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+}
+
+.branding-logo-heading h2 {
+  margin: 0;
+}
+
+.branding-logo-heading > p {
+  margin: 0;
+  color: var(--lp-color-muted);
+  font-family: "Courier New", monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.branding-page lp-file-picker > label {
+  grid-template-columns: minmax(120px, 170px) minmax(150px, 1fr);
+  min-height: 290px;
+  border-radius: 2px;
+}
+
+@media (max-width: 1080px) {
+  .branding-form {
+    grid-template-columns: 1fr;
+  }
+
+  .branding-logo-section {
+    max-width: 720px;
+  }
 }
 
 @media (max-width: 880px) {
@@ -208,23 +500,20 @@
     grid-template-columns: auto 1fr;
     align-items: center;
     min-height: auto;
-    padding: 20px 24px;
-    border-radius: 20px;
+    padding: 18px 22px;
   }
 
   .brand-lockup {
-    flex-direction: row;
     justify-self: start;
     gap: 12px;
   }
 
   .brand-mascot {
-    width: 58px;
+    width: 54px;
   }
 
   .brand-name {
-    margin: 0;
-    font-size: 2.3rem;
+    font-size: 2.2rem;
   }
 
   .brand-tagline,
@@ -238,27 +527,58 @@
   }
 
   .admin-content {
-    min-height: calc(100vh - 24px);
-    min-height: calc(100svh - 24px);
-    border-width: 13px;
-    border-radius: 24px;
+    min-height: 100vh;
+    min-height: 100svh;
   }
 
-  .branding-page {
-    padding: 20px 22px 34px;
+  lp-layout[variant="admin"] > main {
+    grid-template-columns: 84px minmax(0, 1fr);
   }
 
+  lp-sidebar[variant="admin"] > aside {
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 14px 10px 12px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-navigation {
+    width: 100%;
+    margin-top: 48px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-settings {
+    position: relative;
+  }
+
+  lp-sidebar[variant="admin"] .admin-subnavigation {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 11px);
+    z-index: 5;
+    display: none;
+    min-width: 168px;
+    margin: 0;
+    padding: 13px 15px;
+    border: 2px solid var(--lp-color-ink);
+    border-radius: 2px;
+    background: var(--lp-color-primary);
+    box-shadow: 4px 4px 0 var(--lp-color-ink);
+  }
+
+  lp-sidebar[variant="admin"]
+    .admin-settings:where(:hover, :focus-within)
+    .admin-subnavigation {
+    display: grid;
+  }
+
+  .dashboard-grid,
   .branding-form {
-    grid-template-columns: 1fr;
-    gap: 42px;
-  }
-
-  .branding-logo-section {
-    max-width: 560px;
+    padding: 28px;
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .auth-content {
     align-items: flex-start;
     padding: 44px 12px 36px;
@@ -278,25 +598,123 @@
   }
 
   .admin-content {
-    min-height: calc(100svh - 112px);
-    border-width: 10px;
-    border-radius: 22px;
+    min-height: calc(100svh - 79px);
   }
 
-  .branding-page {
-    padding: 20px 17px 30px;
+  lp-layout[variant="admin"] > main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 79px minmax(calc(100svh - 79px), 1fr);
   }
 
-  .branding-page > h1 {
-    font-size: 2.35rem;
+  lp-sidebar[variant="admin"] > aside {
+    flex-direction: row;
+    min-height: 79px;
+    padding: 8px 14px;
+    border-right: 0;
+    border-bottom: 3px solid var(--lp-color-ink);
   }
 
+  lp-sidebar[variant="admin"] .admin-navigation {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    width: auto;
+    margin: 0;
+  }
+
+  lp-sidebar[variant="admin"] .admin-nav-item {
+    width: 42px;
+    min-height: 42px;
+    padding: 9px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-settings {
+    margin: 0;
+  }
+
+  lp-sidebar[variant="admin"] .admin-subnavigation {
+    top: calc(100% + 11px);
+    right: 50%;
+    left: auto;
+    transform: translateX(50%);
+  }
+
+  lp-sidebar[variant="admin"] .admin-account {
+    width: 42px;
+    margin-left: auto;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account > summary {
+    min-height: 42px;
+  }
+
+  lp-sidebar[variant="admin"] .admin-account-menu {
+    top: calc(100% + 12px);
+    right: 0;
+    bottom: auto;
+    left: auto;
+  }
+
+  .admin-page-header {
+    align-items: flex-start;
+    min-height: 104px;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .admin-page-header lp-button,
+  .branding-header-note {
+    display: none;
+  }
+
+  .admin-page-header h1 {
+    font-size: 2.55rem;
+  }
+
+  .dashboard-grid,
   .branding-form {
-    margin-top: 28px;
+    grid-template-columns: 1fr;
+    padding: 20px 16px 34px;
+  }
+
+  .dashboard-welcome {
+    align-items: flex-start;
+    min-height: 370px;
+    flex-direction: column;
+  }
+
+  .dashboard-welcome img {
+    position: absolute;
+    right: 24px;
+    bottom: -34px;
+  }
+
+  .dashboard-grid .admin-card {
+    min-height: 245px;
+  }
+
+  .dashboard-note {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dashboard-note strong {
+    padding: 0 0 7px;
+    border-right: 0;
+    border-bottom: 1.5px solid var(--lp-color-ink);
+  }
+
+  .branding-section {
+    grid-template-columns: 34px 1fr;
+    padding: 24px 18px;
   }
 
   .branding-color-grid {
     grid-template-columns: 1fr;
+  }
+
+  .branding-logo-section {
+    padding: 24px 18px;
   }
 
   .branding-page lp-file-picker > label {

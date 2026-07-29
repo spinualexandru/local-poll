@@ -1,19 +1,123 @@
 <section class="landing">
-  <img src="/logo.png" alt="Local Poll" class="landing-logo" width="128" />
-  <h1 class="landing-title">Local Poll</h1>
-  <p class="landing-subtitle">Zero Dependency self-hosted poll system</p>
-  <div class="landing-ctas">
-    <lp-button variant="primary">
-      <a href="/poll/create">Create a poll</a>
-    </lp-button>
-    <lp-button variant="secondary">
-      <a
-        href="https://github.com/spinualexandru/local-poll"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Github
-      </a>
-    </lp-button>
+  <header class="landing-header">
+    <a class="landing-brand" href="/" aria-label="LocalPoll home">
+      <img src="/logo.png" alt="" width="54" />
+      <span>Local Poll</span>
+    </a>
+  </header>
+
+  <div class="landing-panel">
+    <div class="landing-stage">
+      <div class="landing-copy">
+        <p class="landing-kicker">Zero Dependency self-hosted poll system</p>
+        <h1>Create polls.<br />Get <span>real</span> answers.</h1>
+        <p class="landing-subtitle">
+          Local Poll makes it easy to create and share polls within your
+          community. No sign-ups required.
+        </p>
+        <div class="landing-ctas">
+          <lp-button variant="primary" size="large">
+            <a href="/poll/create">
+              Create your first poll
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </lp-button>
+          <lp-button variant="secondary" appearance="outline" size="large">
+            <a
+              href="https://github.com/spinualexandru/local-poll"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="/icons/git.png" alt="" width="20" />
+              GitHub
+            </a>
+          </lp-button>
+        </div>
+
+        <ul class="landing-assurances" aria-label="Local Poll benefits">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3 5 6v5c0 4.7 2.8 8.1 7 10 4.2-1.9 7-5.3 7-10V6l-7-3Z" />
+              <path d="m9.3 12 1.8 1.8 3.9-4" />
+            </svg>
+            Privacy first
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m13 2-7 11h6l-1 9 7-12h-6l1-8Z" />
+            </svg>
+            No registration
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="10" width="14" height="11" rx="2" />
+              <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+            </svg>
+            Open source
+          </li>
+        </ul>
+      </div>
+
+      <div class="landing-visual" aria-hidden="true">
+        <div class="landing-visual-blob"></div>
+        <span class="landing-orbit landing-orbit-one"></span>
+        <span class="landing-orbit landing-orbit-two"></span>
+        <span class="landing-orbit landing-orbit-three"></span>
+        <img src="/logo.png" alt="" width="510" />
+      </div>
+    </div>
+
+    <div class="landing-features">
+      <article>
+        <span class="feature-icon feature-icon-yellow">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        </span>
+        <div>
+          <h2>Easy to use</h2>
+          <p>Create a poll in seconds with a clean, focused flow.</p>
+        </div>
+      </article>
+      <article>
+        <span class="feature-icon feature-icon-blue">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10 13a5 5 0 0 0 7.07.07l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15" />
+            <path d="M14 11a5 5 0 0 0-7.07-.07l-2 2A5 5 0 0 0 12 20l1.15-1.15" />
+          </svg>
+        </span>
+        <div>
+          <h2>Share anywhere</h2>
+          <p>Send one poll link. No accounts or sign-ups needed.</p>
+        </div>
+      </article>
+      <article>
+        <span class="feature-icon feature-icon-pink">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 20V10h4v10H4ZM10 20V4h4v16h-4ZM16 20v-7h4v7h-4Z" />
+          </svg>
+        </span>
+        <div>
+          <h2>Real-time results</h2>
+          <p>Watch the results update as your community votes.</p>
+        </div>
+      </article>
+      <article>
+        <span class="feature-icon feature-icon-navy">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="4" y="10" width="16" height="11" rx="2" />
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+          </svg>
+        </span>
+        <div>
+          <h2>Privacy first</h2>
+          <p>We don’t collect personal data. Your polls stay yours.</p>
+        </div>
+      </article>
+    </div>
   </div>
 </section>

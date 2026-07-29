@@ -1,90 +1,102 @@
 <section class="branding-page">
-  <h1>Branding</h1>
+  <header class="admin-page-header">
+    <div>
+      <p class="admin-kicker">Instance settings</p>
+      <h1>Branding</h1>
+    </div>
+    <p class="branding-header-note">Make LocalPoll feel at home on your network.</p>
+  </header>
 
   <lp-form layout="branding">
     <form class="branding-form" aria-label="Branding settings">
       <div class="branding-controls">
         <section class="branding-section" aria-labelledby="branding-general">
-          <h2 id="branding-general">General</h2>
-          <lp-text-field class="branding-name-field">
-            <label for="brand-name">Brand Name</label>
-            <input
-              id="brand-name"
-              type="text"
-              name="brandName"
-              value="Local Poll"
-            />
-          </lp-text-field>
+          <p class="admin-section-number">01</p>
+          <div class="branding-section-content">
+            <h2 id="branding-general">General</h2>
+            <lp-text-field class="branding-name-field">
+              <label for="brand-name">Brand Name</label>
+              <input
+                id="brand-name"
+                type="text"
+                name="brandName"
+                value="Local Poll"
+              />
+            </lp-text-field>
+          </div>
         </section>
 
         <section class="branding-section" aria-labelledby="branding-theme">
-          <h2 id="branding-theme">Theme</h2>
-          <div class="branding-color-grid">
-            <lp-color-picker>
-              <label class="branding-field">
-                <span>Primary Color</span>
-                <span class="lp-color-picker-control">
-                  <input
-                    data-color-input
-                    type="color"
-                    name="primaryColor"
-                    value="#fcc435"
-                    aria-label="Choose primary color"
-                  />
-                  <input
-                    data-color-text
-                    type="text"
-                    name="primaryColorHex"
-                    value="#fcc435"
-                    aria-label="Primary color hex value"
-                  />
-                </span>
-              </label>
-            </lp-color-picker>
+          <p class="admin-section-number">02</p>
+          <div class="branding-section-content">
+            <h2 id="branding-theme">Theme</h2>
+            <div class="branding-color-grid">
+              <lp-color-picker>
+                <label class="branding-field">
+                  <span>Primary Color</span>
+                  <span class="lp-color-picker-control">
+                    <input
+                      data-color-input
+                      type="color"
+                      name="primaryColor"
+                      value="#fcc435"
+                      aria-label="Choose primary color"
+                    />
+                    <input
+                      data-color-text
+                      type="text"
+                      name="primaryColorHex"
+                      value="#fcc435"
+                      aria-label="Primary color hex value"
+                    />
+                  </span>
+                </label>
+              </lp-color-picker>
 
-            <lp-color-picker>
-              <label class="branding-field">
-                <span>Font Color</span>
-                <span class="lp-color-picker-control">
-                  <input
-                    data-color-input
-                    type="color"
-                    name="fontColor"
-                    value="#121e37"
-                    aria-label="Choose font color"
-                  />
-                  <input
-                    data-color-text
-                    type="text"
-                    name="fontColorHex"
-                    value="#121e37"
-                    aria-label="Font color hex value"
-                  />
-                </span>
-              </label>
-            </lp-color-picker>
+              <lp-color-picker>
+                <label class="branding-field">
+                  <span>Font Color</span>
+                  <span class="lp-color-picker-control">
+                    <input
+                      data-color-input
+                      type="color"
+                      name="fontColor"
+                      value="#121e37"
+                      aria-label="Choose font color"
+                    />
+                    <input
+                      data-color-text
+                      type="text"
+                      name="fontColorHex"
+                      value="#121e37"
+                      aria-label="Font color hex value"
+                    />
+                  </span>
+                </label>
+              </lp-color-picker>
 
-            <lp-color-picker inherit-label="Inherit Font Color" inherited>
-              <label class="branding-field">
-                <span>Shadow Color</span>
-                <span class="lp-color-picker-control">
-                  <input
-                    data-color-input
-                    type="color"
-                    name="shadowColor"
-                    value="#121e37"
-                    aria-label="Choose shadow color"
-                  />
-                  <input
-                    data-color-text
-                    type="text"
-                    name="shadowColorHex"
-                    value="Inherit Font Color"
-                    aria-label="Shadow color value"
-                  />
-                </span>
-              </label>
-            </lp-color-picker>
+              <lp-color-picker inherit-label="Inherit Font Color" inherited>
+                <label class="branding-field">
+                  <span>Shadow Color</span>
+                  <span class="lp-color-picker-control">
+                    <input
+                      data-color-input
+                      type="color"
+                      name="shadowColor"
+                      value="#121e37"
+                      aria-label="Choose shadow color"
+                    />
+                    <input
+                      data-color-text
+                      type="text"
+                      name="shadowColorHex"
+                      value="Inherit Font Color"
+                      aria-label="Shadow color value"
+                    />
+                  </span>
+                </label>
+              </lp-color-picker>
+            </div>
           </div>
         </section>
       </div>
@@ -93,7 +105,13 @@
         class="branding-section branding-logo-section"
         aria-labelledby="branding-logo"
       >
-        <h2 id="branding-logo">Logo</h2>
+        <div class="branding-logo-heading">
+          <div>
+            <p class="admin-section-number">03</p>
+            <h2 id="branding-logo">Logo</h2>
+          </div>
+          <p>PNG, JPG, or WebP</p>
+        </div>
         <lp-file-picker>
           <label>
             <input type="file" name="logo" accept="image/*" />

@@ -1,16 +1,21 @@
 <section class="results-page" data-poll-id="{{dynamicParams.id}}">
-  <h1 id="poll-question">Loading poll…</h1>
-  <p id="total-votes"></p>
-  <div class="results-list" id="results-list"></div>
-  <div class="results-actions">
-    <lp-button variant="secondary" appearance="outline">
-      <button id="refresh-results" type="button">Refresh</button>
-    </lp-button>
-    <lp-button variant="primary">
-      <button id="share-poll" type="button">Share Poll</button>
-    </lp-button>
+  <div class="results-heading">
+    <p class="page-kicker">Results</p>
+    <h1 id="poll-question">Loading poll…</h1>
+    <p id="total-votes"></p>
   </div>
-  <p class="results-status" id="share-status" aria-live="polite"></p>
+  <div class="results-paper poll-paper">
+    <div class="results-list" id="results-list"></div>
+    <div class="results-actions">
+      <lp-button variant="secondary" appearance="outline">
+        <button id="refresh-results" type="button">Refresh</button>
+      </lp-button>
+      <lp-button variant="primary">
+        <button id="share-poll" type="button">Copy poll link</button>
+      </lp-button>
+    </div>
+    <p class="results-status" id="share-status" aria-live="polite"></p>
+  </div>
 </section>
 
 <script type="module" src="/pages/poll-results.mjs"></script>

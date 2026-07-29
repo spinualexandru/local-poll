@@ -14,7 +14,7 @@ lp-button > :where(button, a) {
   justify-content: center;
   min-height: 48px;
   padding: 0 24px;
-  border: 0;
+  border: 2px solid var(--lp-color-ink);
   border-radius: var(--lp-radius-raised);
   font-family: var(--lp-font-family);
   font-size: 1rem;
@@ -79,6 +79,7 @@ lp-button[variant="ghost"] > :where(button, a) {
   padding: 7px 8px;
   border-radius: 6px;
   color: var(--lp-color-ink);
+  border-color: transparent;
   background: transparent;
   box-shadow: none;
 }
@@ -132,7 +133,7 @@ lp-text-field > :where(input:not([type="hidden"]), textarea) {
   width: 100%;
   min-height: 48px;
   padding: 0 12px;
-  border: 1.5px solid var(--lp-color-ink);
+  border: 2px solid var(--lp-color-ink);
   border-radius: var(--lp-radius-control);
   outline: none;
   color: var(--lp-color-ink);
@@ -205,6 +206,7 @@ lp-radio > input {
 
 lp-checkbox > label,
 lp-radio > label {
+  font-weight: 650;
   cursor: pointer;
 }
 
@@ -216,7 +218,7 @@ lp-radio > input:focus-visible {
 
 lp-layout[variant="auth"] lp-button[variant="primary"] > :where(button, a) {
   border-radius: var(--lp-radius-control);
-  box-shadow: none;
+  box-shadow: var(--lp-shadow-raised);
 }
 
 lp-layout[variant="auth"]

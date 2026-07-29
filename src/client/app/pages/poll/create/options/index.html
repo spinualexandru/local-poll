@@ -1,14 +1,18 @@
 <section class="poll-builder-page">
-  <aside class="poll-preview" aria-label="Poll preview">
-    <p>Preview</p>
+  <aside class="poll-preview poll-ticket" aria-label="Poll preview">
+    <p class="page-kicker">Live preview</p>
     <h1>{{escapedQueryParams.question}}</h1>
+    <div class="preview-option" aria-hidden="true"><i></i> Option 1</div>
+    <div class="preview-option" aria-hidden="true"><i></i> Option 2</div>
+    <p class="preview-note">Options update once the poll is created.</p>
   </aside>
 
-  <div class="poll-builder-controls">
+  <div class="poll-builder-controls poll-paper">
     <lp-form layout="stack" id="poll-options-form">
       <form>
-        <h1>Add Poll Options</h1>
-        <p class="poll-builder-help">Enter at least 2 options for your poll</p>
+        <p class="page-kicker">Step 3 of 3 · Answers</p>
+        <h1>Add the options</h1>
+        <p class="poll-builder-help">Enter at least two choices. You can add more at any time.</p>
         <div class="options-list" id="options-list">
           <div class="option-row">
             <lp-text-field>
@@ -46,10 +50,10 @@
             appearance="outline"
             size="small"
           >
-            <button id="add-option" type="button">+ Add Option</button>
+            <button id="add-option" type="button">+ Add option</button>
           </lp-button>
           <lp-button variant="primary">
-            <button type="submit">Finish</button>
+            <button type="submit">Create poll <span aria-hidden="true">→</span></button>
           </lp-button>
         </div>
       </form>

@@ -10,16 +10,16 @@
   --lp-color-sky: #4db5ee;
   --lp-color-heart: #fc4d88;
   --lp-color-surface: #ffffff;
-  --lp-color-canvas: #f7f7f8;
+  --lp-color-canvas: #f1f2f4;
   --lp-color-muted: #5e6676;
   --lp-color-danger: #a4293d;
   --lp-color-danger-bright: #ff4d4d;
   --lp-font-family: "Quicksand", sans-serif;
-  --lp-radius-small: 8px;
-  --lp-radius-control: 13px;
-  --lp-radius-raised: 20px;
-  --lp-radius-panel: 24px;
-  --lp-shadow-raised: 4px 4px 0 var(--lp-color-ink);
+  --lp-radius-small: 6px;
+  --lp-radius-control: 9px;
+  --lp-radius-raised: 10px;
+  --lp-radius-panel: 14px;
+  --lp-shadow-raised: 5px 5px 0 var(--lp-color-ink);
   --lp-focus-ring: 0 0 0 4px rgb(252 196 53 / 45%);
   --lp-motion-fast: 140ms ease;
 

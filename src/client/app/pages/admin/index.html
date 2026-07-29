@@ -1,1 +1,45 @@
-<div class="admin-empty" aria-hidden="true"></div>
+<section class="dashboard-page">
+  <header class="admin-page-header">
+    <div>
+      <p class="admin-kicker">Instance overview</p>
+      <h1>Dashboard</h1>
+    </div>
+    <lp-button variant="primary">
+      <a href="/poll/create">Create a poll <span aria-hidden="true">→</span></a>
+    </lp-button>
+  </header>
+
+  <div class="dashboard-grid">
+    <article class="dashboard-welcome">
+      <div>
+        <p class="admin-kicker">Your LocalPoll</p>
+        <h2>Ready for the next question.</h2>
+        <p>
+          Create a poll, share the unique link, and let LocalPoll keep the count.
+        </p>
+      </div>
+      <img src="/logo.png" alt="" width="160" />
+    </article>
+
+    <article class="admin-card">
+      <span class="admin-card-mark admin-card-mark-sky" aria-hidden="true"></span>
+      <p class="admin-kicker">Public experience</p>
+      <h2>Poll flow</h2>
+      <p>Preview the same three-step flow your participants will use.</p>
+      <a href="/poll/create">Open poll builder <span aria-hidden="true">→</span></a>
+    </article>
+
+    <article class="admin-card">
+      <span class="admin-card-mark admin-card-mark-heart" aria-hidden="true"></span>
+      <p class="admin-kicker">Instance settings</p>
+      <h2>Branding</h2>
+      <p>Keep the name, palette, and logo recognizably yours.</p>
+      <a href="/admin/branding">Edit branding <span aria-hidden="true">→</span></a>
+    </article>
+
+    <aside class="dashboard-note">
+      <strong>Zero dependency</strong>
+      <span>Built directly on Node.js.</span>
+    </aside>
+  </div>
+</section>

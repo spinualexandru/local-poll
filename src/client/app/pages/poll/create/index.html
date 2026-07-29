@@ -1,21 +1,27 @@
 <section class="poll-question-page">
-  <lp-form layout="stack" class="poll-question-form">
-    <form action="/poll/create/configuration" method="get">
-      <h1>What do you want to ask?</h1>
-      <lp-text-field>
-        <label class="visually-hidden" for="poll-input">Poll question</label>
-        <input
-          type="text"
-          id="poll-input"
-          name="question"
-          placeholder="Type your question here..."
-          required
-          autofocus
-        />
-      </lp-text-field>
-      <lp-button variant="primary">
-        <button type="submit">Continue</button>
-      </lp-button>
-    </form>
-  </lp-form>
+  <div class="poll-flow-heading">
+    <p class="page-kicker">Step 1 of 3 · Question</p>
+    <h1>What do you want to ask?</h1>
+    <p>Keep it clear and specific so everyone knows exactly what they’re choosing.</p>
+  </div>
+  <div class="poll-paper">
+    <lp-form layout="stack" class="poll-question-form">
+      <form action="/poll/create/configuration" method="get">
+        <lp-text-field>
+          <label for="poll-input">Your question</label>
+          <input
+            type="text"
+            id="poll-input"
+            name="question"
+            placeholder="Where should we have lunch?"
+            required
+            autofocus
+          />
+        </lp-text-field>
+        <lp-button variant="primary">
+          <button type="submit">Choose poll type <span aria-hidden="true">→</span></button>
+        </lp-button>
+      </form>
+    </lp-form>
+  </div>
 </section>

@@ -1,7 +1,12 @@
 <section class="vote-page" data-poll-id="{{dynamicParams.id}}">
-  <lp-form layout="stack" id="vote-form">
-    <form>
+  <div class="vote-shell poll-ticket">
+    <div class="vote-heading">
+      <p class="page-kicker">Your ballot</p>
       <h1 id="poll-name">Loading poll…</h1>
+      <p>Choose the option that works for you.</p>
+    </div>
+    <lp-form layout="stack" id="vote-form">
+      <form>
       <lp-choice-group id="poll-options">
         <fieldset>
           <legend class="visually-hidden">Poll options</legend>
@@ -10,10 +15,11 @@
       </lp-choice-group>
       <p class="poll-form-error" id="vote-error" role="alert"></p>
       <lp-button variant="primary">
-        <button type="submit" disabled>Vote</button>
+        <button type="submit" disabled>Cast my vote <span aria-hidden="true">→</span></button>
       </lp-button>
-    </form>
-  </lp-form>
+      </form>
+    </lp-form>
+  </div>
 </section>
 
 <script type="module" src="/pages/poll-vote.mjs"></script>

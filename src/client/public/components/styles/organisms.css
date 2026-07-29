@@ -9,21 +9,18 @@ lp-sidebar[variant="public"] {
 }
 
 lp-sidebar[variant="public"] > aside {
-  width: 76px;
-  height: calc(100vh - 24px);
-  height: calc(100svh - 24px);
-  margin: 12px;
-  padding: 12px 0;
-  border-radius: var(--lp-radius-panel);
-  color: var(--lp-color-surface);
+  width: 214px;
+  height: 100vh;
+  height: 100svh;
+  padding: 22px 18px 18px;
+  border-right: 4px solid var(--lp-color-ink);
+  color: var(--lp-color-ink);
   background: var(--lp-color-primary);
-  box-shadow: var(--lp-shadow-raised);
 }
 
 lp-sidebar[variant="public"] nav {
   display: flex;
   flex-direction: column;
-  align-items: center;
   height: 100%;
 }
 
@@ -31,16 +28,33 @@ lp-sidebar[variant="public"] .sidebar-top {
   flex: 0 0 auto;
 }
 
+lp-sidebar[variant="public"] .public-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--lp-color-ink);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  text-decoration: none;
+}
+
+lp-sidebar[variant="public"] .public-brand img {
+  width: 40px;
+  height: 52px;
+  object-fit: contain;
+}
+
 lp-sidebar[variant="public"] .sidebar-middle {
   display: flex;
   flex: 1;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
+  gap: 7px;
+  margin-top: 54px;
 }
 
 lp-sidebar[variant="public"] .sidebar-middle lp-sidebar-item:first-child {
-  margin-top: 32px;
+  margin-top: 0;
 }
 
 lp-sidebar[variant="public"] .sidebar-bottom {
@@ -50,19 +64,46 @@ lp-sidebar[variant="public"] .sidebar-bottom {
 lp-sidebar[variant="public"] lp-sidebar-item > a {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 8px;
-  border-radius: 12px;
-  transition: background-color var(--lp-motion-fast);
+  min-height: 44px;
+  gap: 11px;
+  padding: 8px 10px;
+  border: 1.5px solid transparent;
+  border-radius: 7px;
+  color: var(--lp-color-ink);
+  font-size: 0.96rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition:
+    background-color var(--lp-motion-fast),
+    box-shadow var(--lp-motion-fast),
+    transform var(--lp-motion-fast);
 }
 
 lp-sidebar[variant="public"] lp-sidebar-item > a:hover {
-  background: rgb(0 0 0 / 10%);
+  border-color: var(--lp-color-ink);
+  background: var(--lp-color-surface);
+  box-shadow: 3px 3px 0 var(--lp-color-ink);
+  transform: translate(-2px, -2px);
 }
 
 lp-sidebar[variant="public"] lp-sidebar-item > a:focus-visible {
   outline: 3px solid var(--lp-color-ink);
   outline-offset: 2px;
+}
+
+lp-sidebar[variant="public"] .public-nav-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.9;
+}
+
+lp-sidebar[variant="public"] .sidebar-bottom a {
+  font-size: 0.86rem;
 }
 
 lp-sidebar[variant="admin"] > aside {

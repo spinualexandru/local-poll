@@ -1,10 +1,13 @@
 <section class="poll-builder-page">
-  <aside class="poll-preview" aria-label="Poll preview">
-    <p>Preview</p>
+  <aside class="poll-preview poll-ticket" aria-label="Poll preview">
+    <p class="page-kicker">Live preview</p>
     <h1>{{escapedQueryParams.question}}</h1>
+    <div class="preview-option" aria-hidden="true"><i></i> Your first option</div>
+    <div class="preview-option" aria-hidden="true"><i></i> Another option</div>
+    <p class="preview-note">Your poll will appear here as you build it.</p>
   </aside>
 
-  <div class="poll-builder-controls">
+  <div class="poll-builder-controls poll-paper">
     <lp-form layout="stack">
       <form action="/poll/create/options" method="get">
         <input
@@ -12,10 +15,11 @@
           name="question"
           value="{{escapedQueryParams.question}}"
         />
-        <h1>Configure the poll</h1>
+        <p class="page-kicker">Step 2 of 3 · Format</p>
+        <h1>How should people choose?</h1>
         <lp-choice-group>
           <fieldset>
-            <legend>Choose a poll type</legend>
+            <legend>Select one format</legend>
             <lp-radio>
               <input
                 type="radio"
@@ -24,7 +28,10 @@
                 id="poll-type-single"
                 required
               />
-              <label for="poll-type-single">Single Option</label>
+              <label for="poll-type-single">
+                <strong>One answer</strong>
+                <span>Each person can select one option.</span>
+              </label>
             </lp-radio>
             <lp-radio>
               <input
@@ -34,12 +41,15 @@
                 id="poll-type-multiple"
                 required
               />
-              <label for="poll-type-multiple">Multiple Choice</label>
+              <label for="poll-type-multiple">
+                <strong>Multiple answers</strong>
+                <span>People can select every option that fits.</span>
+              </label>
             </lp-radio>
           </fieldset>
         </lp-choice-group>
         <lp-button variant="primary">
-          <button type="submit">Continue</button>
+          <button type="submit">Add options <span aria-hidden="true">→</span></button>
         </lp-button>
       </form>
     </lp-form>

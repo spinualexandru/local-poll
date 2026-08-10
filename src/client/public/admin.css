@@ -78,8 +78,7 @@
 }
 
 .auth-eyebrow,
-.admin-kicker,
-.admin-section-number {
+.admin-kicker {
   margin: 0;
   color: var(--lp-color-ink);
   font-family: "Courier New", monospace;
@@ -266,8 +265,7 @@ lp-sidebar[variant="admin"] .admin-account > summary:hover {
 }
 
 .dashboard-welcome,
-.admin-card,
-.dashboard-note {
+.admin-card {
   border: 2px solid var(--lp-color-ink);
   border-radius: 2px;
   background: var(--lp-color-surface);
@@ -360,23 +358,6 @@ lp-sidebar[variant="admin"] .admin-account > summary:hover {
   background: var(--lp-color-heart);
 }
 
-.dashboard-note {
-  display: flex;
-  grid-column: 1 / -1;
-  align-items: center;
-  gap: 10px;
-  padding: 18px 22px;
-  box-shadow: none;
-  font-family: "Courier New", monospace;
-  font-size: 0.76rem;
-  text-transform: uppercase;
-}
-
-.dashboard-note strong {
-  padding-right: 10px;
-  border-right: 1.5px solid var(--lp-color-ink);
-}
-
 /* Branding */
 
 .branding-form {
@@ -399,8 +380,6 @@ lp-sidebar[variant="admin"] .admin-account > summary:hover {
 }
 
 .branding-section {
-  display: grid;
-  grid-template-columns: 42px 1fr;
   padding: clamp(24px, 3vw, 38px);
 }
 
@@ -458,11 +437,6 @@ lp-sidebar[variant="admin"] .admin-account > summary:hover {
   justify-content: space-between;
   gap: 18px;
   margin-bottom: 22px;
-}
-
-.branding-logo-heading > div {
-  display: grid;
-  grid-template-columns: 42px 1fr;
 }
 
 .branding-logo-heading h2 {
@@ -693,19 +667,7 @@ lp-sidebar[variant="admin"] .admin-account > summary:hover {
     min-height: 245px;
   }
 
-  .dashboard-note {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .dashboard-note strong {
-    padding: 0 0 7px;
-    border-right: 0;
-    border-bottom: 1.5px solid var(--lp-color-ink);
-  }
-
   .branding-section {
-    grid-template-columns: 34px 1fr;
     padding: 24px 18px;
   }
 

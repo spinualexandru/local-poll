@@ -19,6 +19,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "node --test src/**/*.test.ts",
+    "test:coverage": "node --test --experimental-test-coverage 'src/**/*.test.ts'",
     "typecheck": "tsc --noEmit",
     "dev:components": "node src/client/component-fixture/server.ts",
     "dev:server": "node src/server/index.ts",

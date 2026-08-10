@@ -3,27 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="/logo.png" />
+    <link rel="icon" type="image/x-icon" href="{{brandLogoUrl}}" />
     <link rel="stylesheet" href="/components/index.css" />
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="{{brandThemeUrl}}" />
     <script type="module" src="/components/index.mjs"></script>
-    <title>LocalPoll</title>
+    <title>{{brandName}}</title>
   </head>
   <body>
     <lp-layout variant="{{layoutVariant}}">
       <main>
-        <lp-sidebar variant="public">
-          <aside aria-label="LocalPoll sidebar">
+        <lp-sidebar variant="public" {{sidebarCollapsed}}>
+          <aside id="public-sidebar" aria-label="{{brandName}} sidebar">
             <nav aria-label="Primary navigation">
               <div class="sidebar-top">
-                <a class="public-brand" href="/" aria-label="LocalPoll home">
-                  <img src="/logo.png" alt="" width="48" />
-                  <span>LocalPoll</span>
+                <a
+                  class="public-brand"
+                  href="/"
+                  data-tooltip="{{brandName}}"
+                  aria-label="{{brandName}} home"
+                >
+                  <img src="{{brandLogoUrl}}" alt="" width="48" />
+                  <span>{{brandName}}</span>
                 </a>
+                <button
+                  type="button"
+                  class="sidebar-toggle"
+                  data-sidebar-toggle
+                  data-tooltip="{{sidebarToggleLabel}}"
+                  aria-controls="public-sidebar"
+                  aria-expanded="{{sidebarExpanded}}"
+                  aria-label="{{sidebarToggleLabel}}"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="sidebar-toggle-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect width="18" height="18" x="3" y="3" rx="2" />
+                    <path d="M9 3v18" />
+                  </svg>
+                </button>
               </div>
               <div class="sidebar-middle">
                 <lp-sidebar-item>
-                  <a href="/" title="Home">
+                  <a href="/" data-tooltip="Home">
                     <svg
                       class="public-nav-icon"
                       viewBox="0 0 24 24"
@@ -36,7 +68,7 @@
                   </a>
                 </lp-sidebar-item>
                 <lp-sidebar-item>
-                  <a href="/poll/create" title="New Poll">
+                  <a href="/poll/create" data-tooltip="New poll">
                     <svg
                       class="public-nav-icon"
                       viewBox="0 0 24 24"
@@ -49,12 +81,12 @@
                 </lp-sidebar-item>
               </div>
               <div class="sidebar-bottom">
-                <lp-sidebar-item>
+                <lp-sidebar-item class="sidebar-source" {{githubLinkHidden}}>
                   <a
                     href="https://github.com/spinualexandru/local-poll"
                     target="_blank"
                     rel="noopener noreferrer"
-                    title="GitHub"
+                    data-tooltip="GitHub"
                   >
                     <svg
                       class="public-nav-icon"
@@ -67,6 +99,20 @@
                       <path d="M9 19c-3 .9-3-1.5-4.2-2" />
                     </svg>
                     <span>GitHub</span>
+                  </a>
+                </lp-sidebar-item>
+                <lp-sidebar-item
+                  class="sidebar-attribution"
+                  {{attributionHidden}}
+                >
+                  <a
+                    class="built-with"
+                    href="https://github.com/spinualexandru/local-poll"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="LocalPoll on GitHub"
+                  >
+                    <span>Built with LocalPoll</span>
                   </a>
                 </lp-sidebar-item>
               </div>

@@ -17,8 +17,14 @@ in `.env` to use a different address.
 
 To enable instance customization and the local admin area, set
 `LOCAL_POLL_ENABLE_CUSTOMIZATION=true`. On the next start, LocalPoll creates the
-`users` table and directs the instance to `/admin/setup` until the admin account
-is created.
+`users` and `branding` tables and directs the instance to `/admin/setup` until
+the admin account is created.
+
+From `/admin/branding`, the admin can change the brand name, the theme colors
+(primary, font, and shadow), and the logo, which is stored in the database and
+served from `/branding/logo`. Every page picks the settings up through the
+generated `/branding/theme` stylesheet. With customization disabled, the admin
+area stays hidden and the bundled name, palette, and logo are used.
 
 # Deployment
 

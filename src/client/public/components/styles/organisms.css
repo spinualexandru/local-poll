@@ -4,6 +4,81 @@ lp-sidebar-subitem {
   display: block;
 }
 
+/*
+ * The sidebar paints above the page: its tooltips and flyouts leave the rail,
+ * and the hover transform on a nav item traps their own z-index inside it.
+ */
+lp-sidebar {
+  position: relative;
+  z-index: 1;
+}
+
+/* The control that collapses a sidebar to icons, in either variant. */
+lp-sidebar .sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  margin-left: auto;
+  padding: 0;
+  border: 1.5px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--lp-color-ink);
+  cursor: pointer;
+  transition:
+    background var(--lp-motion-fast),
+    border-color var(--lp-motion-fast);
+}
+
+lp-sidebar .sidebar-toggle:hover {
+  border-color: var(--lp-color-ink);
+  background: rgb(255 255 255 / 34%);
+}
+
+lp-sidebar .sidebar-toggle:focus-visible {
+  outline: 3px solid var(--lp-color-ink);
+  outline-offset: 2px;
+}
+
+lp-sidebar .sidebar-toggle-icon {
+  width: 19px;
+  height: 19px;
+}
+
+/*
+ * Tooltips name what the pointer is over. They only appear once the sidebar is
+ * icon-only — see the collapsed and narrow-viewport blocks per variant — except
+ * on the admin account row, whose email is truncated at any width.
+ */
+lp-sidebar [data-tooltip] {
+  position: relative;
+}
+
+lp-sidebar [data-tooltip]::after {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 12px);
+  z-index: 20;
+  padding: 5px 9px;
+  border: 1.5px solid var(--lp-color-ink);
+  border-radius: 6px;
+  opacity: 0;
+  background: var(--lp-color-surface);
+  box-shadow: 3px 3px 0 var(--lp-color-ink);
+  color: var(--lp-color-ink);
+  content: attr(data-tooltip);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.2;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: opacity var(--lp-motion-fast);
+  white-space: nowrap;
+}
+
 lp-sidebar[variant="public"] {
   flex: 0 0 auto;
 }
@@ -16,6 +91,7 @@ lp-sidebar[variant="public"] > aside {
   border-right: 4px solid var(--lp-color-ink);
   color: var(--lp-color-ink);
   background: var(--lp-color-primary);
+  transition: width var(--lp-motion-fast);
 }
 
 lp-sidebar[variant="public"] nav {
@@ -25,7 +101,10 @@ lp-sidebar[variant="public"] nav {
 }
 
 lp-sidebar[variant="public"] .sidebar-top {
+  display: flex;
+  align-items: center;
   flex: 0 0 auto;
+  gap: 8px;
 }
 
 lp-sidebar[variant="public"] .public-brand {
@@ -106,6 +185,68 @@ lp-sidebar[variant="public"] .sidebar-bottom a {
   font-size: 0.86rem;
 }
 
+/* Shown in place of the source link once the instance carries its own brand. */
+lp-sidebar[variant="public"] .sidebar-bottom .built-with {
+  color: var(--lp-color-faint);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+lp-sidebar[variant="public"] .sidebar-bottom .built-with:hover,
+lp-sidebar[variant="public"] .sidebar-bottom .built-with:focus-visible {
+  color: var(--lp-color-muted);
+}
+
+/*
+ * Icon-only public sidebar. The toggle owns it above 640px; below that the
+ * viewport does, in the narrow block in styles.css — the two carry the same
+ * declarations because CSS cannot share them across a media query.
+ */
+@media (min-width: 641px) {
+  lp-sidebar[variant="public"][collapsed] > aside {
+    width: 76px;
+    padding: 22px 12px 18px;
+  }
+
+  lp-sidebar[variant="public"][collapsed] .sidebar-top {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  lp-sidebar[variant="public"][collapsed] .sidebar-toggle {
+    margin-left: 0;
+  }
+
+  lp-sidebar[variant="public"][collapsed] lp-sidebar-item > a {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  /* Clipped rather than removed, so the icons keep their accessible names. */
+  lp-sidebar[variant="public"][collapsed]
+    :where(.public-brand > span, lp-sidebar-item > a > span) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    margin: -1px;
+    padding: 0;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Text with no icon behind it has nothing to show on a rail this narrow. */
+  lp-sidebar[variant="public"][collapsed] .sidebar-attribution {
+    display: none;
+  }
+
+  lp-sidebar[variant="public"][collapsed]
+    :where([data-tooltip]:hover, [data-tooltip]:focus-visible)::after {
+    opacity: 1;
+  }
+}
+
 lp-sidebar[variant="admin"] > aside {
   display: flex;
   flex-direction: column;
@@ -115,6 +256,22 @@ lp-sidebar[variant="admin"] > aside {
   border-radius: 22px;
   background: var(--lp-color-primary);
   box-shadow: var(--lp-shadow-raised);
+}
+
+lp-sidebar[variant="admin"] .admin-sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+lp-sidebar[variant="admin"] .admin-sidebar-header > lp-sidebar-item {
+  min-width: 0;
+}
+
+lp-sidebar[variant="admin"]
+  .admin-account
+  > summary:where(:hover, :focus-visible)[data-tooltip]::after {
+  opacity: 1;
 }
 
 lp-sidebar[variant="admin"] .admin-brand {
@@ -314,7 +471,88 @@ lp-sidebar[variant="admin"] .admin-account-menu button {
   text-align: left;
 }
 
+/*
+ * Icon-only sidebar. The collapse toggle owns it above 880px; below that the
+ * viewport does, in the narrow block that follows — the two carry the same
+ * declarations because CSS cannot share them across a media query.
+ */
+@media (min-width: 881px) {
+  lp-sidebar[variant="admin"][collapsed] > aside {
+    align-items: center;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .admin-sidebar-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .sidebar-toggle {
+    margin-left: 0;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .admin-navigation {
+    width: 100%;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .admin-nav-item {
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px;
+  }
+
+  /* Clipped rather than removed, so the icons keep their accessible names. */
+  lp-sidebar[variant="admin"][collapsed]
+    :where(.admin-nav-label, .admin-brand-name, .admin-account-email) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    margin: -1px;
+    padding: 0;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  lp-sidebar[variant="admin"][collapsed]
+    :where(.admin-settings-chevron, .admin-subnavigation, .admin-account-chevron) {
+    display: none;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .admin-account {
+    width: 100%;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .admin-account > summary {
+    justify-content: center;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .admin-account-icon {
+    display: block;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .admin-account-menu {
+    right: auto;
+    bottom: 0;
+    left: calc(100% + 10px);
+    width: 112px;
+  }
+
+  lp-sidebar[variant="admin"][collapsed]
+    :where([data-tooltip]:hover, [data-tooltip]:focus-visible)::after {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 880px) {
+  lp-sidebar[variant="admin"] .sidebar-toggle {
+    display: none;
+  }
+
+  lp-sidebar[variant="admin"]
+    :where([data-tooltip]:hover, [data-tooltip]:focus-visible)::after {
+    opacity: 1;
+  }
+
   lp-sidebar[variant="admin"] > aside {
     align-items: center;
     min-height: calc(100vh - 24px);
@@ -333,14 +571,21 @@ lp-sidebar[variant="admin"] .admin-account-menu button {
     padding: 8px;
   }
 
+  /* Clipped rather than removed, so the icons keep their accessible names. */
   lp-sidebar[variant="admin"]
-    :where(
-      .admin-nav-label,
-      .admin-brand-name,
-      .admin-settings-chevron,
-      .admin-subnavigation,
-      .admin-account-email
-    ) {
+    :where(.admin-nav-label, .admin-brand-name, .admin-account-email) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    margin: -1px;
+    padding: 0;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  lp-sidebar[variant="admin"]
+    :where(.admin-settings-chevron, .admin-subnavigation) {
     display: none;
   }
 
@@ -378,6 +623,13 @@ lp-sidebar[variant="admin"] .admin-account-menu button {
     min-height: 76px;
     padding: 8px 15px;
     border-radius: 20px;
+  }
+
+  /* The sidebar is a top bar here, so tooltips hang below their icon. */
+  lp-sidebar[variant="admin"] [data-tooltip]::after {
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   lp-sidebar[variant="admin"] .admin-navigation {

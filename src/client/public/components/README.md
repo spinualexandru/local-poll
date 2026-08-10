@@ -81,11 +81,63 @@ Wrap a native file input, an image marked `data-file-preview`, and visible text
 marked `data-file-label`. Image selections receive a temporary local preview;
 object URLs are revoked when replaced or disconnected.
 
+`default-preview` names the image a reset returns to, and answers whether the
+picker still shows it. Add a hidden input marked `data-file-cleared` to submit
+the removal: it holds `1` after a reset and clears again as soon as another file
+is chosen.
+
+### `lp-reset-button`
+
+Wrap one icon-only `button` and list the ids it restores in `targets`.
+
+```html
+<lp-reset-button targets="brand-name">
+  <button type="button" title="Reset value to default"
+          aria-label="Reset value to default">
+    <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">…</svg>
+  </button>
+</lp-reset-button>
+```
+
+Native controls return to their `data-default-value` and emit `input` and
+`change`, so neighbouring components resynchronize. A target that implements
+`resetToDefault()` is asked to reset itself instead, which is how states that a
+value cannot express — a cleared file input — stay correct. Listing several ids
+resets them together, which is what a section-level reset is.
+
+The button hides itself while every target already holds its default, so render
+it with `hidden` when the server knows that up front. Components report their
+own state through `isAtDefault()`.
+
 ### Sidebar and layout
 
 `lp-sidebar` wraps a real `aside` and `nav`, with `public` and `admin` variants.
 `lp-sidebar-item` and `lp-sidebar-subitem` wrap native anchors or static spans.
 Keep `aria-current="page"` on the server-rendered anchor.
+
+Both variants collapse to icon-only width. `collapsed` on the host is the state;
+a child `button` marked `data-sidebar-toggle` flips it, and the element keeps
+that button's `aria-expanded`, `aria-label`, and tooltip on the action it
+performs. The choice is stored in the `localpoll_sidebar` cookie
+(`organisms/sidebar-state.mjs`) and shared by both sidebars; the server reads it
+through `ViewEngine`, so a refresh renders the sidebar already collapsed instead
+of flashing the full width.
+
+```html
+<lp-sidebar variant="admin" collapsed>
+  <aside id="admin-sidebar">
+    <button type="button" class="sidebar-toggle" data-sidebar-toggle
+            aria-controls="admin-sidebar" aria-expanded="false"
+            aria-label="Expand sidebar" data-tooltip="Expand sidebar">…</button>
+    …
+  </aside>
+</lp-sidebar>
+```
+
+`data-tooltip` names anything whose label is hidden while the sidebar is
+icon-only; the tooltip is a CSS pseudo-element, so it needs no script. Labels
+are clipped rather than removed in that mode, so the icons keep their
+accessible names — do not swap them for `display: none`.
 
 `lp-layout` wraps the semantic `main` element and accepts `public`, `landing`,
 `admin`, and `auth` variants.

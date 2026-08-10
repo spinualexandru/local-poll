@@ -118,6 +118,20 @@ test("first-time setup gates the instance and establishes an admin session", asy
   assert.match(adminHtml, /class="admin-content"/);
   assert.match(adminHtml, />admin@example\.com</);
 
+  assert.match(adminHtml, /<lp-sidebar variant="admin" >/);
+  assert.match(adminHtml, /aria-expanded="true"[\s\S]*?aria-label="Collapse sidebar"/);
+
+  const collapsedAdminPage = await request("/admin", {
+    headers: { cookie: `${loginCookie || ""}; localpoll_sidebar=collapsed` },
+  });
+  assert.strictEqual(collapsedAdminPage.status, 200);
+  const collapsedHtml = await collapsedAdminPage.text();
+  assert.match(collapsedHtml, /<lp-sidebar variant="admin" collapsed>/);
+  assert.match(
+    collapsedHtml,
+    /aria-expanded="false"[\s\S]*?aria-label="Expand sidebar"/,
+  );
+
   const brandingPage = await request("/admin/branding", {
     headers: { cookie: loginCookie || "" },
   });

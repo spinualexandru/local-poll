@@ -123,11 +123,25 @@
                   aria-label="Choose primary color"
                 />
                 <input
+                  id="fixture-primary-color"
                   data-color-text
                   type="text"
                   value="#fcc435"
+                  data-default-value="#fcc435"
                   aria-label="Primary color value"
                 />
+                <lp-reset-button targets="fixture-primary-color">
+                  <button
+                    type="button"
+                    title="Reset value to default"
+                    aria-label="Reset value to default"
+                  >
+                    <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                      <path d="M3 3v5h5" />
+                    </svg>
+                  </button>
+                </lp-reset-button>
               </span>
             </label>
           </lp-color-picker>
@@ -151,13 +165,28 @@
             </label>
           </lp-color-picker>
         </div>
-        <lp-file-picker>
-          <label>
-            <input type="file" accept="image/*" />
-            <img data-file-preview src="/logo.png" alt="" />
-            <span data-file-label>Choose an image</span>
-          </label>
-        </lp-file-picker>
+        <div class="fixture-row">
+          <lp-file-picker id="fixture-file-picker" default-preview="/logo.png">
+            <label>
+              <input type="file" accept="image/*" />
+              <img data-file-preview src="/logo.png" alt="" />
+              <span data-file-label>Choose an image</span>
+            </label>
+            <input type="hidden" value="" data-file-cleared />
+          </lp-file-picker>
+          <lp-reset-button targets="fixture-primary-color fixture-file-picker">
+            <button
+              type="button"
+              title="Reset value to default"
+              aria-label="Reset value to default"
+            >
+              <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                      <path d="M3 3v5h5" />
+                    </svg>
+            </button>
+          </lp-reset-button>
+        </div>
       </section>
 
       <section class="fixture-section">
@@ -190,6 +219,54 @@
               </nav>
             </aside>
           </lp-sidebar>
+          <lp-sidebar variant="public" collapsed>
+            <aside id="fixture-collapsed-public">
+              <nav aria-label="Collapsed public fixture navigation">
+                <div class="sidebar-top">
+                  <button
+                    type="button"
+                    class="sidebar-toggle"
+                    data-sidebar-toggle
+                    data-tooltip="Expand sidebar"
+                    aria-controls="fixture-collapsed-public"
+                    aria-expanded="false"
+                    aria-label="Expand sidebar"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="sidebar-toggle-icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect width="18" height="18" x="3" y="3" rx="2" />
+                      <path d="M9 3v18" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="sidebar-middle">
+                  <lp-sidebar-item>
+                    <a href="#collapsed-public" data-tooltip="New poll">
+                      <svg
+                        class="public-nav-icon"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path d="M12 5v14M5 12h14" />
+                      </svg>
+                      <span>New poll</span>
+                    </a>
+                  </lp-sidebar-item>
+                </div>
+              </nav>
+            </aside>
+          </lp-sidebar>
           <lp-sidebar variant="admin">
             <aside>
               <nav class="admin-navigation" aria-label="Admin fixture navigation">
@@ -203,6 +280,63 @@
                     <a href="#subitem">Subitem</a>
                   </lp-sidebar-subitem>
                 </div>
+              </nav>
+            </aside>
+          </lp-sidebar>
+          <lp-sidebar variant="admin" collapsed>
+            <aside id="fixture-collapsed-sidebar">
+              <div class="admin-sidebar-header">
+                <button
+                  type="button"
+                  class="sidebar-toggle"
+                  data-sidebar-toggle
+                  data-tooltip="Expand sidebar"
+                  aria-controls="fixture-collapsed-sidebar"
+                  aria-expanded="false"
+                  aria-label="Expand sidebar"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="sidebar-toggle-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect width="18" height="18" x="3" y="3" rx="2" />
+                    <path d="M9 3v18" />
+                  </svg>
+                </button>
+              </div>
+              <nav class="admin-navigation" aria-label="Collapsed fixture navigation">
+                <lp-sidebar-item>
+                  <a class="admin-nav-item" href="#collapsed" data-tooltip="Admin item">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="admin-nav-icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                      <path
+                        d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                      />
+                    </svg>
+                    <span class="admin-nav-label">Admin item</span>
+                  </a>
+                </lp-sidebar-item>
               </nav>
             </aside>
           </lp-sidebar>

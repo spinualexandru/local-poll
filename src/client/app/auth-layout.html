@@ -4,25 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="icon" type="image/png" href="{{brandLogoUrl}}" />
     <link rel="stylesheet" href="/components/index.css" />
     <link rel="stylesheet" href="/admin.css" />
+    <link rel="stylesheet" href="{{brandThemeUrl}}" />
     <script type="module" src="/components/index.mjs"></script>
-    <title>LocalPoll admin</title>
+    <title>{{brandName}} admin</title>
   </head>
   <body class="auth-body">
     <lp-layout variant="auth">
       <main>
-        <aside class="auth-brand" aria-label="LocalPoll">
+        <aside class="auth-brand" aria-label="{{brandName}}">
           <div class="brand-lockup">
             <img
               class="brand-mascot"
-              src="/logo.png"
+              src="{{brandLogoUrl}}"
               width="176"
               height="229"
               alt=""
             />
-            <p class="brand-name">localpoll</p>
+            <p class="brand-name">{{brandName}}</p>
           </div>
           <p class="brand-tagline">Zero dependency<br />poll platform.</p>
           <p class="brand-footer">Built with love using Node</p>

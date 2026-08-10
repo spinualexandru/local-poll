@@ -103,6 +103,21 @@ export class Database {
          ON users(role)
          WHERE role = 'admin'`,
       );
+
+      const brandingTable = new Table("branding", this.db);
+      this.tables.push(brandingTable);
+      brandingTable.checkOrCreate(
+        [
+          "brand_name TEXT NOT NULL",
+          "primary_color TEXT NOT NULL",
+          "font_color TEXT NOT NULL",
+          "shadow_color TEXT",
+          "logo BLOB",
+          "logo_mime_type TEXT",
+          "updated_at INTEGER NOT NULL DEFAULT 0",
+        ],
+        ["id INTEGER PRIMARY KEY CHECK (id = 1)"],
+      );
     }
   }
 

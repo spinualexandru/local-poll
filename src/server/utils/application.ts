@@ -248,7 +248,9 @@ export class Application {
     }
 
     // Handle dynamic routes with view engine
-    const viewEngine = new ViewEngine(response, rawPath);
+    const viewEngine = new ViewEngine(response, rawPath, {
+      cookieHeader: request.headers.cookie,
+    });
     // Remove leading slash and use the pathname for template resolution
     const templatePath = pathname.startsWith("/")
       ? pathname.substring(1)

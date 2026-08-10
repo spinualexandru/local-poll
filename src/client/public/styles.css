@@ -968,9 +968,35 @@ lp-layout[variant="public"] .public-content > :where(
 }
 
 @media (max-width: 640px) {
+  /* Clipped rather than removed, so the icons keep their accessible names. */
   lp-sidebar[variant="public"] .public-brand > span,
   lp-sidebar[variant="public"] lp-sidebar-item > a > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    margin: -1px;
+    padding: 0;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* The rail is already icon-only here, so there is nothing to collapse. */
+  lp-sidebar[variant="public"] .sidebar-toggle,
+  lp-sidebar[variant="public"] .sidebar-attribution {
     display: none;
+  }
+
+  lp-sidebar[variant="public"]
+    :where([data-tooltip]:hover, [data-tooltip]:focus-visible)::after {
+    opacity: 1;
+  }
+
+  /* The sidebar is a top bar here, so tooltips hang below their icon. */
+  lp-sidebar[variant="public"] [data-tooltip]::after {
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   lp-sidebar[variant="public"] .public-brand img {

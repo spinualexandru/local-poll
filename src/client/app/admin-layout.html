@@ -4,33 +4,69 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="icon" type="image/png" href="{{brandLogoUrl}}" />
     <link rel="stylesheet" href="/components/index.css" />
     <link rel="stylesheet" href="/admin.css" />
+    <link rel="stylesheet" href="{{brandThemeUrl}}" />
     <script type="module" src="/components/index.mjs"></script>
-    <title>{{pageTitle}} · LocalPoll</title>
+    <title>{{pageTitle}} · {{brandName}}</title>
   </head>
   <body class="admin-body">
     <lp-layout variant="admin">
       <main>
-        <lp-sidebar variant="admin">
-          <aside class="admin-sidebar" aria-label="Admin sidebar">
-            <lp-sidebar-item>
-              <a
-                class="admin-brand"
-                href="/admin"
-                aria-label="LocalPoll admin home"
+        <lp-sidebar variant="admin" {{sidebarCollapsed}}>
+          <aside
+            class="admin-sidebar"
+            id="admin-sidebar"
+            aria-label="Admin sidebar"
+          >
+            <div class="admin-sidebar-header">
+              <lp-sidebar-item>
+                <a
+                  class="admin-brand"
+                  href="/admin"
+                  data-tooltip="{{brandName}}"
+                  aria-label="{{brandName}} admin home"
+                >
+                  <img src="{{brandLogoUrl}}" width="46" height="60" alt="" />
+                  <span class="admin-brand-name">{{brandName}}</span>
+                </a>
+              </lp-sidebar-item>
+
+              <button
+                type="button"
+                class="sidebar-toggle"
+                data-sidebar-toggle
+                data-tooltip="{{sidebarToggleLabel}}"
+                aria-controls="admin-sidebar"
+                aria-expanded="{{sidebarExpanded}}"
+                aria-label="{{sidebarToggleLabel}}"
               >
-                <img src="/logo.png" width="46" height="60" alt="" />
-                <span class="admin-brand-name">Local Poll</span>
-              </a>
-            </lp-sidebar-item>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="sidebar-toggle-icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2" />
+                  <path d="M9 3v18" />
+                </svg>
+              </button>
+            </div>
 
             <nav class="admin-navigation" aria-label="Admin navigation">
               <lp-sidebar-item>
                 <a
                   class="admin-nav-item"
                   href="/admin"
+                  data-tooltip="Dashboard"
                   {{dashboardCurrent}}
                 >
                   <svg
@@ -56,7 +92,10 @@
               </lp-sidebar-item>
 
               <lp-sidebar-item>
-                <span class="admin-nav-item admin-nav-item-static">
+                <span
+                  class="admin-nav-item admin-nav-item-static"
+                  data-tooltip="Users"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="admin-nav-icon"
@@ -80,7 +119,7 @@
               </lp-sidebar-item>
 
               <details class="admin-settings" open>
-                <summary class="admin-nav-item">
+                <summary class="admin-nav-item" data-tooltip="Settings">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="admin-nav-icon"
@@ -121,7 +160,7 @@
             </nav>
 
             <details class="admin-account">
-              <summary title="{{adminEmail}}">
+              <summary data-tooltip="{{adminEmail}}">
                 <svg
                   class="admin-account-icon"
                   viewBox="0 0 24 24"

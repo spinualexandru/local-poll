@@ -105,6 +105,12 @@ lp-color-picker input[type="text"][aria-invalid="true"] {
   color: var(--lp-color-danger);
 }
 
+lp-color-picker .lp-color-picker-control lp-reset-button > button {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+}
+
 lp-file-picker {
   display: block;
 }

@@ -2,8 +2,10 @@ import type { ServerResponse } from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { getBrandingView } from "../services/branding.ts";
 import { escapeHtml } from "./html.ts";
 import { queryParams } from "./request.ts";
+import { getSidebarView } from "./sidebar.ts";
 
 export type LayoutVariant = "public" | "landing" | "admin" | "auth";
 
@@ -11,6 +13,11 @@ export interface RenderOptions {
   layout?: string;
   layoutVariant?: LayoutVariant;
   statusCode?: number;
+}
+
+export interface ViewEngineOptions {
+  /** The request's `Cookie` header, which carries the sidebar preference. */
+  cookieHeader?: string;
 }
 
 export class ViewEngine {
@@ -25,16 +32,23 @@ export class ViewEngine {
 
   private response: ServerResponse;
   private requestUrl: string;
+  private cookieHeader: string | undefined;
 
   /**
    * Creates an instance of the ViewEngine.
    * @description Initializes the ViewEngine with the HTTP response and request URL.
    * @param response - The HTTP response.
    * @param requestUrl - The incoming request URL.
+   * @param options - Request details the layouts need, such as its cookies.
    */
-  constructor(response: ServerResponse, requestUrl: string) {
+  constructor(
+    response: ServerResponse,
+    requestUrl: string,
+    options: ViewEngineOptions = {},
+  ) {
     this.response = response;
     this.requestUrl = requestUrl;
+    this.cookieHeader = options.cookieHeader;
   }
 
   /**
@@ -324,6 +338,9 @@ export class ViewEngine {
       ]),
     );
     const templateData = {
+      ...getBrandingView(),
+      // Every layout carries a sidebar, so its state is a render-wide value.
+      ...getSidebarView(this.cookieHeader),
       ...data,
       dynamicParams,
       queryParams: rawQueryParams,

@@ -1,6 +1,7 @@
 import { LpButtonElement } from "./atoms/button.mjs";
 import { LpCheckboxElement } from "./atoms/checkbox.mjs";
 import { LpRadioElement } from "./atoms/radio.mjs";
+import { LpResetButtonElement } from "./atoms/reset-button.mjs";
 import { LpTextFieldElement } from "./atoms/text-field.mjs";
 import { registerElement } from "./core/register-element.mjs";
 import { LpChoiceGroupElement } from "./molecules/choice-group.mjs";
@@ -16,6 +17,7 @@ registerElement("lp-button", LpButtonElement);
 registerElement("lp-text-field", LpTextFieldElement);
 registerElement("lp-checkbox", LpCheckboxElement);
 registerElement("lp-radio", LpRadioElement);
+registerElement("lp-reset-button", LpResetButtonElement);
 registerElement("lp-form", LpFormElement);
 registerElement("lp-choice-group", LpChoiceGroupElement);
 registerElement("lp-color-picker", LpColorPickerElement);
@@ -34,6 +36,7 @@ export {
   LpFormElement,
   LpLayoutElement,
   LpRadioElement,
+  LpResetButtonElement,
   LpSidebarElement,
   LpSidebarItemElement,
   LpSidebarSubitemElement,

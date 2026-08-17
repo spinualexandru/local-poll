@@ -10,10 +10,43 @@ export class LpFilePickerElement extends LocalPollElement {
     this.input = input;
     this.preview = preview;
     this.label = label;
+    this.clearedFlag = this.querySelector("[data-file-cleared]");
     this.initialPreview = this.initialPreview ?? preview.getAttribute("src");
     this.initialLabel = this.initialLabel ?? label.textContent;
 
     input.addEventListener("change", () => this.updatePreview(), { signal });
+  }
+
+  /**
+   * Reports whether the picker already shows the default file, so a reset can
+   * hide itself.
+   */
+  isAtDefault() {
+    const defaultPreview = this.getAttribute("default-preview");
+    if (!defaultPreview || !this.preview) return true;
+
+    return (
+      !this.input?.files?.length &&
+      this.preview.getAttribute("src") === defaultPreview
+    );
+  }
+
+  /**
+   * Drops the current file and shows the default one named by
+   * `default-preview`, recording the removal for the next submit.
+   */
+  resetToDefault() {
+    if (!this.input) return;
+
+    this.releaseObjectUrl();
+    this.input.value = "";
+    this.preview.src = this.getAttribute("default-preview") || this.initialPreview;
+    this.preview.alt = "";
+    this.label.textContent = this.initialLabel;
+
+    if (this.clearedFlag) {
+      this.clearedFlag.value = "1";
+    }
   }
 
   teardown() {
@@ -23,6 +56,11 @@ export class LpFilePickerElement extends LocalPollElement {
   updatePreview() {
     this.releaseObjectUrl();
     const file = this.input.files?.[0];
+
+    // A newly chosen file supersedes a pending removal.
+    if (this.clearedFlag) {
+      this.clearedFlag.value = "";
+    }
 
     if (!file) {
       this.restoreInitialState();

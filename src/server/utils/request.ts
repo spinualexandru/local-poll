@@ -56,6 +56,38 @@ export const getBody = async <T = unknown>(
     throw new Error(`Unsupported content type. Expected: ${contentType}`);
   }
 
+  const body = (await getRawBody(request, { maxSize })).toString("utf8");
+
+  if (!parseJson) {
+    return body as unknown as T;
+  }
+
+  if (!body.trim()) {
+    return {} as T;
+  }
+
+  try {
+    return JSON.parse(body) as T;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    throw new Error(`Failed to parse request body: ${errorMessage}`);
+  }
+};
+
+/**
+ * Buffers the request body without decoding it, for binary payloads such as
+ * multipart uploads.
+ * @param request - The incoming HTTP request to read from
+ * @param options - Configuration options
+ * @returns Promise that resolves to the raw body buffer
+ */
+export const getRawBody = async (
+  request: IncomingMessage,
+  options: { maxSize?: number } = {}
+): Promise<Buffer> => {
+  const { maxSize = MAX_BODY_SIZE } = options;
+
   return new Promise((resolve, reject) => {
     let bodyLength = 0;
     const chunks: Buffer[] = [];
@@ -81,26 +113,8 @@ export const getBody = async <T = unknown>(
     });
 
     request.on("end", () => {
-      try {
-        const body = Buffer.concat(chunks).toString("utf8");
-
-        if (!parseJson) {
-          return resolve(body as unknown as T);
-        }
-
-        if (!body.trim()) {
-          return resolve({} as T);
-        }
-
-        const result = JSON.parse(body);
-        resolve(result as T);
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : "Unknown error";
-        reject(new Error(`Failed to parse request body: ${errorMessage}`));
-      } finally {
-        cleanup();
-      }
+      cleanup();
+      resolve(Buffer.concat(chunks));
     });
 
     request.on("error", (error: Error) => {

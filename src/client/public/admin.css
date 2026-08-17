@@ -140,6 +140,7 @@ lp-layout[variant="admin"] > main {
   grid-template-columns: 238px minmax(0, 1fr);
   padding: 0;
   gap: 0;
+  transition: grid-template-columns var(--lp-motion-fast);
 }
 
 lp-sidebar[variant="admin"] > aside {
@@ -205,6 +206,58 @@ lp-sidebar[variant="admin"] .admin-account > summary {
 
 lp-sidebar[variant="admin"] .admin-account > summary:hover {
   background: rgb(255 255 255 / 34%);
+}
+
+/*
+ * Collapsed shell. Below 880px the sidebar is already icon-only, so the
+ * toggle's rules stop there and the narrow blocks take over — see the matching
+ * comment in components/styles/organisms.css.
+ */
+@media (min-width: 881px) {
+  lp-layout[variant="admin"]:has(lp-sidebar[collapsed]) > main {
+    grid-template-columns: 84px minmax(0, 1fr);
+  }
+
+  lp-sidebar[variant="admin"][collapsed] > aside {
+    padding: 14px 10px 12px;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .admin-navigation {
+    margin-top: 48px;
+  }
+
+  lp-sidebar[variant="admin"][collapsed] .admin-settings {
+    position: relative;
+  }
+
+  /* The subnavigation has no room inline, so it flies out beside its icon. */
+  lp-sidebar[variant="admin"][collapsed] .admin-subnavigation {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 11px);
+    z-index: 5;
+    display: none;
+    min-width: 168px;
+    margin: 0;
+    padding: 13px 15px;
+    border: 2px solid var(--lp-color-ink);
+    border-radius: 2px;
+    background: var(--lp-color-primary);
+    box-shadow: 4px 4px 0 var(--lp-color-ink);
+  }
+
+  lp-sidebar[variant="admin"][collapsed]
+    .admin-settings:where(:hover, :focus-within)
+    .admin-subnavigation {
+    display: grid;
+  }
+
+  /* The flyout occupies the tooltip's place and names the section itself. */
+  lp-sidebar[variant="admin"][collapsed]
+    .admin-settings
+    > summary[data-tooltip]::after {
+    content: none;
+  }
 }
 
 .admin-content {
@@ -401,6 +454,17 @@ lp-sidebar[variant="admin"] .admin-account > summary:hover {
   line-height: 1;
 }
 
+.branding-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 22px;
+}
+
+.branding-section-title h2 {
+  margin: 0;
+}
+
 .branding-field,
 .branding-page lp-text-field {
   display: grid;
@@ -412,12 +476,19 @@ lp-sidebar[variant="admin"] .admin-account > summary:hover {
 }
 
 .branding-page lp-text-field.branding-name-field {
+  position: relative;
   max-width: 250px;
 }
 
 .branding-name-field > input {
   min-height: 44px;
-  padding-inline: 10px;
+  padding-inline: 10px 44px;
+}
+
+.branding-name-field > lp-reset-button {
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
 }
 
 .branding-color-grid {
@@ -456,6 +527,32 @@ lp-sidebar[variant="admin"] .admin-account > summary:hover {
   grid-template-columns: minmax(120px, 170px) minmax(150px, 1fr);
   min-height: 290px;
   border-radius: 2px;
+}
+
+.branding-actions {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+}
+
+.branding-status {
+  margin: 0 auto 0 0;
+  padding: 10px 16px;
+  border: 2px solid var(--lp-color-ink);
+  border-radius: 2px;
+  background: var(--lp-color-surface);
+  box-shadow: var(--lp-shadow-raised);
+  color: var(--lp-color-ink);
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.branding-status[data-variant="error"] {
+  border-color: var(--lp-color-danger);
+  color: var(--lp-color-danger);
 }
 
 @media (max-width: 1080px) {
@@ -544,6 +641,11 @@ lp-sidebar[variant="admin"] .admin-account > summary:hover {
     .admin-settings:where(:hover, :focus-within)
     .admin-subnavigation {
     display: grid;
+  }
+
+  /* The flyout occupies the tooltip's place and names the section itself. */
+  lp-sidebar[variant="admin"] .admin-settings > summary[data-tooltip]::after {
+    content: none;
   }
 
   .dashboard-grid,

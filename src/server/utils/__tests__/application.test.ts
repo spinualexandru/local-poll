@@ -60,6 +60,19 @@ test("Application serves requests over regular HTTP", async (context) => {
   assert.strictEqual(home.status, 200);
   assert.match(await home.text(), /<lp-layout variant="landing">/);
 
+  const pollCreate = await fetch(`${baseUrl}/poll/create`);
+  assert.strictEqual(pollCreate.status, 200);
+  const pollCreateHtml = await pollCreate.text();
+  assert.match(pollCreateHtml, /<lp-sidebar variant="public" >/);
+  assert.match(pollCreateHtml, /aria-label="Collapse sidebar"/);
+
+  const collapsedPollCreate = await fetch(`${baseUrl}/poll/create`, {
+    headers: { cookie: "localpoll_sidebar=collapsed" },
+  });
+  const collapsedPollCreateHtml = await collapsedPollCreate.text();
+  assert.match(collapsedPollCreateHtml, /<lp-sidebar variant="public" collapsed>/);
+  assert.match(collapsedPollCreateHtml, /aria-label="Expand sidebar"/);
+
   const configuration = await fetch(
     `${baseUrl}/poll/create/configuration?question=${encodeURIComponent("<script>alert(1)</script>")}`,
   );

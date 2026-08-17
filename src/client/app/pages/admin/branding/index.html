@@ -3,30 +3,82 @@
     <div>
       <h1>Branding</h1>
     </div>
-    <p class="branding-header-note">Make LocalPoll feel at home on your network.</p>
+    <p class="branding-header-note">Make {{brandName}} feel at home on your network.</p>
   </header>
 
   <lp-form layout="branding">
-    <form class="branding-form" aria-label="Branding settings">
+    <form
+      class="branding-form"
+      aria-label="Branding settings"
+      action="/admin/branding"
+      method="post"
+      enctype="multipart/form-data"
+    >
       <div class="branding-controls">
         <section class="branding-section" aria-labelledby="branding-general">
           <div class="branding-section-content">
-            <h2 id="branding-general">General</h2>
+            <div class="branding-section-title">
+              <h2 id="branding-general">General</h2>
+              <lp-reset-button targets="brand-name" {{generalResetHidden}}>
+                <button
+                  type="button"
+                  title="Reset value to default"
+                  aria-label="Reset value to default"
+                >
+                  <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <path d="M3 3v5h5" />
+                  </svg>
+                </button>
+              </lp-reset-button>
+            </div>
             <lp-text-field class="branding-name-field">
               <label for="brand-name">Brand Name</label>
               <input
                 id="brand-name"
                 type="text"
                 name="brandName"
-                value="Local Poll"
+                value="{{brandNameValue}}"
+                data-default-value="{{defaultBrandName}}"
+                maxlength="60"
+                required
               />
+              <lp-reset-button targets="brand-name" {{brandNameResetHidden}}>
+                <button
+                  type="button"
+                  title="Reset value to default"
+                  aria-label="Reset value to default"
+                >
+                  <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <path d="M3 3v5h5" />
+                  </svg>
+                </button>
+              </lp-reset-button>
             </lp-text-field>
           </div>
         </section>
 
         <section class="branding-section" aria-labelledby="branding-theme">
           <div class="branding-section-content">
-            <h2 id="branding-theme">Theme</h2>
+            <div class="branding-section-title">
+              <h2 id="branding-theme">Theme</h2>
+              <lp-reset-button
+                targets="primary-color-hex font-color-hex shadow-color-hex"
+                {{themeResetHidden}}
+              >
+                <button
+                  type="button"
+                  title="Reset value to default"
+                  aria-label="Reset value to default"
+                >
+                  <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <path d="M3 3v5h5" />
+                  </svg>
+                </button>
+              </lp-reset-button>
+            </div>
             <div class="branding-color-grid">
               <lp-color-picker>
                 <label class="branding-field">
@@ -36,16 +88,30 @@
                       data-color-input
                       type="color"
                       name="primaryColor"
-                      value="#fcc435"
+                      value="{{primaryColorValue}}"
                       aria-label="Choose primary color"
                     />
                     <input
+                      id="primary-color-hex"
                       data-color-text
                       type="text"
                       name="primaryColorHex"
-                      value="#fcc435"
+                      value="{{primaryColorValue}}"
+                      data-default-value="{{defaultPrimaryColor}}"
                       aria-label="Primary color hex value"
                     />
+                    <lp-reset-button targets="primary-color-hex" {{primaryResetHidden}}>
+                      <button
+                        type="button"
+                        title="Reset value to default"
+                        aria-label="Reset value to default"
+                      >
+                        <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                          <path d="M3 3v5h5" />
+                        </svg>
+                      </button>
+                    </lp-reset-button>
                   </span>
                 </label>
               </lp-color-picker>
@@ -58,21 +124,38 @@
                       data-color-input
                       type="color"
                       name="fontColor"
-                      value="#121e37"
+                      value="{{fontColorValue}}"
                       aria-label="Choose font color"
                     />
                     <input
+                      id="font-color-hex"
                       data-color-text
                       type="text"
                       name="fontColorHex"
-                      value="#121e37"
+                      value="{{fontColorValue}}"
+                      data-default-value="{{defaultFontColor}}"
                       aria-label="Font color hex value"
                     />
+                    <lp-reset-button targets="font-color-hex" {{fontResetHidden}}>
+                      <button
+                        type="button"
+                        title="Reset value to default"
+                        aria-label="Reset value to default"
+                      >
+                        <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                          <path d="M3 3v5h5" />
+                        </svg>
+                      </button>
+                    </lp-reset-button>
                   </span>
                 </label>
               </lp-color-picker>
 
-              <lp-color-picker inherit-label="Inherit Font Color" inherited>
+              <lp-color-picker
+                inherit-label="Inherit Font Color"
+                {{shadowInherited}}
+              >
                 <label class="branding-field">
                   <span>Shadow Color</span>
                   <span class="lp-color-picker-control">
@@ -80,16 +163,30 @@
                       data-color-input
                       type="color"
                       name="shadowColor"
-                      value="#121e37"
+                      value="{{shadowColorValue}}"
                       aria-label="Choose shadow color"
                     />
                     <input
+                      id="shadow-color-hex"
                       data-color-text
                       type="text"
                       name="shadowColorHex"
-                      value="Inherit Font Color"
+                      value="{{shadowColorText}}"
+                      data-default-value="{{defaultShadowColorText}}"
                       aria-label="Shadow color value"
                     />
+                    <lp-reset-button targets="shadow-color-hex" {{shadowResetHidden}}>
+                      <button
+                        type="button"
+                        title="Reset value to default"
+                        aria-label="Reset value to default"
+                      >
+                        <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                          <path d="M3 3v5h5" />
+                        </svg>
+                      </button>
+                    </lp-reset-button>
                   </span>
                 </label>
               </lp-color-picker>
@@ -103,17 +200,49 @@
         aria-labelledby="branding-logo"
       >
         <div class="branding-logo-heading">
-          <h2 id="branding-logo">Logo</h2>
-          <p>PNG, JPG, or WebP</p>
+          <div class="branding-section-title">
+            <h2 id="branding-logo">Logo</h2>
+            <lp-reset-button targets="branding-logo-picker" {{logoResetHidden}}>
+              <button
+                type="button"
+                title="Reset value to default"
+                aria-label="Reset value to default"
+              >
+                <svg class="lp-reset-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+              </button>
+            </lp-reset-button>
+          </div>
+          <p>PNG, JPG, or WebP · Max 512KB</p>
         </div>
-        <lp-file-picker>
+        <lp-file-picker
+          id="branding-logo-picker"
+          default-preview="{{defaultLogoUrl}}"
+        >
           <label>
-            <input type="file" name="logo" accept="image/*" />
-            <img data-file-preview src="/logo.png" alt="" />
+            <input type="file" name="logo" accept="image/png,image/jpeg,image/webp" />
+            <img data-file-preview src="{{logoPreviewUrl}}" alt="" />
             <span data-file-label>Choose a new one</span>
           </label>
+          <input type="hidden" name="removeLogo" value="" data-file-cleared />
         </lp-file-picker>
       </section>
+
+      <div class="branding-actions">
+        <p
+          class="branding-status"
+          data-variant="{{statusVariant}}"
+          role="status"
+          {{statusHidden}}
+        >
+          {{statusMessage}}
+        </p>
+        <lp-button variant="primary">
+          <button type="submit">Save branding</button>
+        </lp-button>
+      </div>
     </form>
   </lp-form>
 </section>

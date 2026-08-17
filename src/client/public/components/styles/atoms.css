@@ -185,6 +185,52 @@ lp-text-field [data-error] {
   line-height: 1.4;
 }
 
+lp-reset-button {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+lp-reset-button > button {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  color: var(--lp-color-muted);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    color var(--lp-motion-fast),
+    border-color var(--lp-motion-fast),
+    background-color var(--lp-motion-fast);
+}
+
+lp-reset-button > button:hover {
+  border-color: var(--lp-color-ink);
+  color: var(--lp-color-ink);
+  background: var(--lp-color-canvas);
+}
+
+lp-reset-button > button:focus-visible {
+  border-color: var(--lp-color-ink);
+  color: var(--lp-color-ink);
+  outline: none;
+  box-shadow: var(--lp-focus-ring);
+}
+
+lp-reset-button .lp-reset-icon {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
 lp-checkbox,
 lp-radio {
   display: flex;
